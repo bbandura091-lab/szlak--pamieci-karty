@@ -182,11 +182,7 @@ const wyprawy = [
 let map;
 let markerObjects = [];
 
-function startMap() {
-  const token = document.getElementById('tokenInput').value.trim();
-  if (!token) { alert('Wklej Mapbox access token.'); return; }
-  mapboxgl.accessToken = token;
-  document.getElementById('tokenGate').style.display = 'none';
+mapboxgl.accessToken = pk.eyJ1Ijoic3psYWtwYW1pZWNpIiwiYSI6ImNtcG9mbnc2NzAyejMycXF3YzBmejUxaWgifQ.IzEorkORB8T0RbT6N-WCLg; 
 
   map = new mapboxgl.Map({
     container: 'map',
