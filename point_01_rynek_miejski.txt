@@ -1,0 +1,3 @@
+ID: IMG_027 | DESC: Portrait por. Bolesław Mucharski | FORMAT: Lossless Archival Scan
+ID: IMG_028 | DESC: Portrait Zbigniew Bartków | FORMAT: Lossless Archival Scan
+ID: AUD_GUIDE_FULL | DESC: Lossless Narrative Audio Guide | FORMAT: WAV 96kHz/24bit
