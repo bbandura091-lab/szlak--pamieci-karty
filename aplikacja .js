@@ -3,7 +3,7 @@ mapboxgl.accessToken = pk.eyJ1Ijoic3psYWtwYW1pZWNpIiwiYSI6ImNtcG9mbnc2NzAyejMycX
 
 // 🔥 Inicjalizacja mapy
 const map = new mapboxgl.Map({
-  container: 'map',
+  container: 'mapa',
   style: 'mapbox://styles/mapbox/light-v11',
   center: [22.609, 51.460], // Lubartów
   zoom: 12
