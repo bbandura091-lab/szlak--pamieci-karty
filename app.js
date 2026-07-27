@@ -1,5 +1,5 @@
 // 🔥 Wstaw swój token Mapbox
-mapboxgl.accessToken = 'TU_WSTAW_SWÓJ_TOKEN';
+mapboxgl.accessToken = pk.eyJ1Ijoic3psYWtwYW1pZWNpIiwiYSI6ImNtcG9mbnc2NzAyejMycXF3YzBmejUxaWgifQ.IzEorkORB8T0RbT6N-WCLg
 
 // 🔥 Inicjalizacja mapy
 const map = new mapboxgl.Map({
