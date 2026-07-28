@@ -1,0 +1,116 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [22.6078, 51.4622]
+      },
+      "properties": {
+        "id": "PUNK-001",
+        "slug": "kino-lubartow",
+        "nazwa_punktu": "Kino Lubartów (Corso / Oaza / Lewart)",
+        "kategoria": "Kultura i Społeczność",
+        "okres_historyczny": "1926–2026",
+        "adres": "Rynek II 1, 21-100 Lubartów",
+        "miejsce_opis": "Siedziba Lubartowskiego Ośrodka Kultury (dawna hala targowa)",
+        "status_weryfikacji": "potwierdzony",
+        "opis_krotki": "Sto lat historii lubartowskiej kultury filmowej — od pierwszych seansów w 'Corso' po współczesne Muzeum Kina Lewart.",
+        "media": {
+          "karta_html": "cards/p001_kino_lubartow.html",
+          "audio_guide_mp3": "audio/p001_100_lat_kina.mp3",
+          "canva_embed_url": "https://www.canva.com/design/DAHQI6Z-zSE/view?embed"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [22.6065, 51.4615]
+      },
+      "properties": {
+        "id": "PUNK-002",
+        "slug": "kaplani-niezlomni",
+        "nazwa_punktu": "Kapłani Niezłomni Lubartowa",
+        "kategoria": "Duchowieństwo i Opór",
+        "okres_historyczny": "1939–1989",
+        "adres": "ul. Jana Pawła II 1, 21-100 Lubartów",
+        "miejsce_opis": "Bazylika św. Anny w Lubartowie / Panteon Pamięci",
+        "status_weryfikacji": "potwierdzony",
+        "opis_krotki": "Upamiętnienie duchownych związanych z Ziemią Lubartowską, którzy nie ugięli się wobec reżimu hitlerowskiego i komunistycznego.",
+        "media": {
+          "karta_html": "cards/p002_kaplani_niezlomni.html",
+          "audio_guide_mp3": "audio/p002_swiadectwo_wiary.mp3"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [22.6120, 51.4650]
+      },
+      "properties": {
+        "id": "PUNK-003",
+        "slug": "mural-27-wdp-ak",
+        "nazwa_punktu": "Mural 27 Wołyńskiej Dywizji Piechoty AK",
+        "kategoria": "Wojskowość i Edukacja",
+        "okres_historyczny": "1944 / Współczesność",
+        "adres": "ul. 1 Maja 82, 21-100 Lubartów",
+        "miejsce_opis": "Elewacja budynku RCEZ (Regionalne Centrum Edukacji Zawodowej w Lubartowie)",
+        "status_weryfikacji": "potwierdzony",
+        "opis_krotki": "Wielkoformatowe dzieło pamięci upamiętniające epopeję żołnierzy 27 WDP AK i ich związki z ziemią lubartowską.",
+        "media": {
+          "karta_html": "cards/p003_mural_rcez.html",
+          "audio_guide_mp3": "audio/p003_szlak_27wdp.mp3"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [22.6070, 51.4630]
+      },
+      "properties": {
+        "id": "PUNK-004",
+        "slug": "wyzwolenie-lubartowa-1944",
+        "nazwa_punktu": "Wyzwolenie Lubartowa (Lipiec 1944)",
+        "kategoria": "Wydarzenia Przełomowe",
+        "okres_historyczny": "1944",
+        "adres": "Centrum Miasta / Rynek I, 21-100 Lubartów",
+        "miejsce_opis": "Punkty historycznych walk i opanowania miasta w ramach Akcji 'Burza'",
+        "status_weryfikacji": "potwierdzony",
+        "opis_krotki": "Kluczowe dni lipca i sierpnia 1944 roku: walki podziemne, wycofanie wojsk niemieckich i zorganizowanie pierwszych władz cywilnych.",
+        "media": {
+          "karta_html": "cards/p004_wyzwolenie_1944.html",
+          "audio_guide_mp3": "audio/p004_lipiec_1944.mp3"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [22.6010, 51.4580]
+      },
+      "properties": {
+        "id": "PUNK-005",
+        "slug": "panteon-bohaterow",
+        "nazwa_punktu": "Panteon Bohaterów i Obrońców Lubartowa",
+        "kategoria": "Biogramy i Postacie",
+        "okres_historyczny": "1939–1956",
+        "adres": "ul. Cmentarna, 21-100 Lubartów",
+        "miejsce_opis": "Cmentarz Parafialny / Kwatery Wojskowe i Miejsca Pamięci",
+        "status_weryfikacji": "w_trakcie_uzupelniania",
+        "opis_krotki": "Zbiorczy wykaz i biogramy żołnierzy Armii Krajowej, Wojska Polskiego oraz cywilnych bohaterów oporu Ziemi Lubartowskiej.",
+        "media": {
+          "karta_html": "cards/p005_panteon_bohaterow.html",
+          "audio_guide_mp3": "audio/p005_pamiec_o_bohaterach.mp3"
+        }
+      }
+    }
+  ]
+}
