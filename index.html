@@ -1,148 +1,241 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <title>Lubartowski Szlak Pamięci — 26 Punktów (wersja docelowa)</title>
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-    <link href="https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.css" rel="stylesheet">
-    <script src="https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.js"></script>
-    <style>
-        * { box-sizing: border-box; }
-        html, body { margin: 0; padding: 0; height: 100%; font-family: 'Georgia', serif; background: #14120f; color: #e0d8cc; }
-        #map { position: absolute; inset: 0; }
-        
-        /* Token Input Overlay */
-        #tokenGate {
-            position: fixed; inset: 0; z-index: 100; background: #14120f;
-            display: flex; align-items: center; justify-content: center;
-            flex-direction: column; gap: 12px; text-align: center; padding: 20px;
-        }
-        #tokenGate h1 { font-size: 20px; color: #d8b878; margin: 0; }
-        #tokenGate p { max-width: 420px; font-size: 13px; color: #bbb; line-height: 1.6; margin: 0; }
-        #tokenGate input { width: 320px; padding: 10px; border-radius: 4px; border: 1px solid #d8b878; background: #221f1a; color: #fff; text-align: center; font-family: monospace; }
-        #tokenGate button { padding: 10px 20px; border: none; background: #d8b878; color: #14120f; font-weight: bold; border-radius: 4px; cursor: pointer; }
-        
-        /* Left Sidebar & UI Elements */
-        .sidebar {
-            position: absolute; top: 15px; left: 15px; z-index: 10;
-            background: rgba(20, 18, 15, 0.92); border: 1px solid rgba(216, 184, 120, 0.4);
-            border-radius: 8px; padding: 16px; width: 280px; backdrop-filter: blur(8px);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-        }
-        .sidebar h2 { font-size: 16px; color: #d8b878; margin: 0 0 4px 0; font-family: 'Georgia', serif; }
-        .sidebar p.subtitle { font-size: 11px; color: #a09585; margin: 0 0 12px 0; }
-        
-        .filter-group { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
-        .filter-title { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-top: 8px; font-weight: bold; }
-        .filter-item { display: flex; align-items: center; gap: 8px; font-size: 12px; cursor: pointer; color: #ccc; }
-        .filter-item input { accent-color: #d8b878; cursor: pointer; }
+<meta charset="UTF-8">
+<title>Szlak Pamięci — Lubartów | Scrollytelling</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.js"></script>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; font-family: 'Georgia', 'Times New Roman', serif; background: #14120f; color: #eee; }
 
-        /* Mapbox Popup Custom Styling */
-        .mapboxgl-popup-content {
-            background: #faf8f5 !important; border-radius: 6px !important; padding: 16px !important;
-            box-shadow: 0 4px 25px rgba(0,0,0,0.4) !important; color: #222 !important; max-width: 300px;
-        }
-        .mapboxgl-popup-tip { border-top-color: #faf8f5 !important; border-bottom-color: #faf8f5 !important; }
-        .popup-category { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #8c734b; font-weight: bold; }
-        .popup-title { font-size: 15px; color: #1f1a14; margin: 4px 0 6px 0; font-weight: bold; }
-        .popup-address { font-size: 11px; color: #666; margin-bottom: 8px; }
-        .popup-desc { font-size: 12px; color: #444; line-height: 1.4; margin-bottom: 10px; }
-        .popup-audio { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #8c734b; font-weight: bold; }
-    </style>
+  /* Token gate */
+  #tokenGate { position: fixed; inset: 0; z-index: 100; background: #14120f; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 14px; text-align: center; padding: 20px; }
+  #tokenGate h1 { font-size: 22px; letter-spacing: 1px; margin: 0; color: #d8b878; }
+  #tokenGate p { max-width: 420px; font-size: 14px; color: #bbb; line-height: 1.6; margin: 0; }
+  #tokenGate input { width: 320px; max-width: 80vw; padding: 10px 12px; border-radius: 6px; border: 1px solid #555; background: #221f1a; color: #eee; font-size: 13px; }
+  #tokenGate button { padding: 10px 22px; border: none; border-radius: 6px; background: #b08d57; color: #fff; font-size: 14px; cursor: pointer; }
+
+  /* Map */
+  #map { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 1; }
+
+  /* Scrollytelling layout */
+  .hero { position: relative; z-index: 2; height: 100vh; display:flex; align-items:center; justify-content:center; flex-direction:column; text-align:center; padding:20px; background: linear-gradient(180deg, rgba(10,9,7,0.55) 0%, rgba(10,9,7,0.2) 40%, rgba(10,9,7,0.7) 100%); pointer-events:none; }
+  .hero h1{ font-size:clamp(28px,5vw,48px); color:#f4e9d8; margin:0 0 12px 0; }
+
+  .story-container { position: relative; z-index: 2; }
+  .step { min-height: 100vh; display:flex; align-items:center; padding:8vh 6vw; }
+  .step-card { max-width:420px; background: rgba(18,16,13,0.86); border-left: 3px solid #b08d57; border-radius:8px; padding:26px 28px; box-shadow:0 10px 40px rgba(0,0,0,0.5); backdrop-filter: blur(2px); opacity:0.25; transform: translateY(24px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .step-card.is-active{ opacity:1; transform: translateY(0); }
+  .step-card h2{ font-size:22px; margin:0 0 6px 0; color:#f4e9d8; }
+  .step-years{ font-size:13px; color:#8a6d3b; margin-bottom:14px; font-style:italic; }
+
+  /* Markers */
+  .marker { width:22px; height:22px; border-radius:50%; background:#b08d57; border:2px solid #fff; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:bold; }
+  .marker.is-active { transform: scale(1.4); background:#e8c07d; }
+
+  /* Popup styles */
+  .mapboxgl-popup-content { background: #f4efe6; color: #2b2b2b; border-radius:6px; padding:12px 14px; max-width:320px; font-family: 'Georgia', serif; }
+  .mapboxgl-popup-content h3 { margin:0 0 6px 0; font-size:15px; color:#6b4b23; }
+  .popup-category{ font-size:11px; text-transform:uppercase; color:#8a6d3b; margin-bottom:6px; }
+  .popup-title{ font-size:15px; margin:2px 0 6px 0; color:#2b2b2b; font-weight:bold; }
+  .popup-address{ font-size:12px; color:#666; margin-bottom:8px; }
+  .popup-desc{ font-size:13px; color:#444; line-height:1.4; margin-bottom:8px; }
+  .popup-image{ width:100%; height:auto; display:block; margin:8px 0; border-radius:4px; }
+  .popup-audio{ width:100%; margin-top:6px; }
+
+  /* Legend & controls */
+  #legend{ position: fixed; bottom:18px; right:18px; z-index:5; background: rgba(20,18,15,0.85); border-radius:6px; padding:10px 14px; color:#ddd; }
+
+  @media (max-width:700px){ .step { padding:6vh 5vw; justify-content:center !important; } .step-card{ max-width:100%; } }
+
+</style>
 </head>
 <body>
 
 <div id="tokenGate">
-    <h1>Lubartowski Szlak Pamięci</h1>
-    <p>Wprowadź swój publiczny klucz Mapbox Token (Access Token), aby uruchomić mapę:</p>
-    <input type="text" id="tokenInput" placeholder="pk.eyJ1Ijo..." value="">
-    <button onclick="initMap()">Uruchom Mapę</button>
+  <h1>Szlak Pamięci — Lubartów</h1>
+  <p>Wklej własny Mapbox Access Token (https://account.mapbox.com), aby wczytać mapę.</p>
+  <input id="tokenInput" type="text" placeholder="pk.eyJ1Ijoi...">
+  <button onclick="startExperience()">Rozpocznij opowieść</button>
 </div>
 
-<div id="map"></div>
-
-<div class="sidebar" id="sidebarUI" style="display:none;">
-    <h2>Lubartowski Szlak Pamięci</h2>
-    <p class="subtitle">26 punktów docelowych w mieście + 4 wyjazdowe</p>
-    
-    <div class="filter-title">ERA</div>
-    <div class="filter-group">
-        <label class="filter-item"><input type="checkbox" checked value="powstania"> POWSTANIA</label>
-        <label class="filter-item"><input type="checkbox" checked value="i_wojna"> I WOJNA / LEGIONY</label>
-        <label class="filter-item"><input type="checkbox" checked value="wojna_1920"> WOJNA 1920</label>
-        <label class="filter-item"><input type="checkbox" checked value="ii_wojna"> II WOJNA ŚWIATOWA</label>
-        <label class="filter-item"><input type="checkbox" checked value="podziemie"> PODZIEMIE ANTYKOMUNISTYCZNE</label>
+<div id="app" style="display:none;">
+  <div id="map"></div>
+  <div class="story-container">
+    <div class="hero">
+      <div class="subtitle">Lubartów pamięta</div>
+      <h1>Szlak Pamięci mieszkańców Lubartowa</h1>
+      <p>Przewiń w dół, aby wyruszyć w drogę.</p>
     </div>
-
-    <div class="filter-title">TYP OBIEKTU</div>
-    <div class="filter-group">
-        <label class="filter-item"><input type="checkbox" checked value="pomnik"> MIEJSCE PAMIĘCI / POMNIK</label>
-        <label class="filter-item"><input type="checkbox" checked value="architektura"> OBIEKT HISTORYCZNY / ARCHITEKTURA</label>
-        <label class="filter-item"><input type="checkbox" checked value="nekropolia"> NEKROPOLIA / MOGIŁA</label>
-    </div>
+    <div id="steps"></div>
+  </div>
 </div>
 
 <script>
-    function initMap() {
-        const token = document.getElementById('tokenInput').value.trim() || mapboxgl.accessToken;
-        if (!token) {
-            alert("Proszę podać prawidłowy Mapbox Access Token!");
-            return;
-        }
-        
-        mapboxgl.accessToken = token;
-        document.getElementById('tokenGate').style.display = 'none';
-        document.getElementById('sidebarUI').style.display = 'block';
+const LUBARTOW_CENTER = [22.6033, 51.4611];
 
-        const map = new mapboxgl.Map({
-            container: 'map',
-            style: 'mapbox://styles/mapbox/dark-v11',
-            center: [22.605885, 51.458407],
-            zoom: 13.5
-        });
+// Uzupełnione dane punktów: dopuszczalne pola: category, title/name, address, desc, image, audio, years
+const points = [
+  {
+    id: 1,
+    title: "Pomnik Powstańców 1863",
+    years: "23 stycznia 1863",
+    coords: [22.6040, 51.4615],
+    align: "step-left",
+    zoom: 16.5, pitch: 45, bearing: -20,
+    category: "POWSTANIA • MIEJSCE PAMIĘCI",
+    address: "Rynek Miejski",
+    desc: "W nocy z 22 na 23 stycznia 1863 r. pod Lubartowem starło się 400 powstańców...",
+    image: "images/pomnik_1863.jpg",
+    audio: "audio/pomnik_1863.mp3"
+  },
+  {
+    id: 2,
+    title: "Kwatera wojenna z 1915 roku",
+    years: "sierpień 1915",
+    coords: [22.6055, 51.4600],
+    align: "step-right",
+    zoom: 17, pitch: 55, bearing: 15,
+    category: "I WOJNA ŚWIATOWA • NEKROPOLIA",
+    address: "Cmentarz parafialny",
+    desc: "Na cmentarzu parafialnym spoczywa wspólnie ponad sto żołnierzy poległych w sierpniu 1915 r...",
+    image: "images/kwatera_1915.jpg",
+    audio: ""
+  }
+  // ... dodaj kolejne punkty w analogicznej strukturze
+];
 
-        map.addControl(new mapboxgl.NavigationControl(), 'top-right');
+const landmarks = [
+  { name: "Pałac Sanguszków", years: "XVI–XVIII w.", coords: [22.6018, 51.4608], desc: "Barokowa rezydencja..." }
+];
 
-        const points = [
-            {
-                id: 1,
-                title: "Biblioteka Macierzy Szkolnej",
-                address: "ul. Kościuszki",
-                category: "II WOJNA ŚWIATOWA • OBIEKT HISTORYCZNY / ARCHITEKTURA",
-                desc: "Legalnie działająca czytelnia będąca w rzeczywistości centralną skrzynką kontaktową Obwodu.",
-                audio: "audio_macierz_szkolna.mp3",
-                coords: [22.6062, 51.4585]
-            },
-            {
-                id: 2,
-                title: "Kino Lubartów (Corso)",
-                address: "Rynek II 1",
-                category: "II WOJNA ŚWIATOWA • OBIEKT HISTORYCZNY",
-                desc: "Historyczne miejsce kulturalne i punkt zborny konspiracji w latach 1926–2026.",
-                audio: "audio_kino_lubartow.mp3",
-                coords: [22.6080, 51.4590]
-            }
-        ];
+let map;
+let markers = [];
+let landmarkMarkers = [];
 
-        map.on('load', () => {
-            points.forEach(pt => {
-                const popupHTML = `
-                    <div class="popup-category">${pt.category}</div>
-                    <div class="popup-title">${pt.title}</div>
-                    <div class="popup-address">📍 ${pt.address}</div>
-                    <div class="popup-desc">${pt.desc}</div>
-                    ${pt.audio ? `<div class="popup-audio">🔊 ${pt.audio}</div>` : ''}
-                `;
+function startExperience(){
+  const token = document.getElementById('tokenInput').value.trim();
+  if(!token){ alert('Wklej Mapbox access token — do wygenerowania na account.mapbox.com'); return; }
+  mapboxgl.accessToken = token;
+  document.getElementById('tokenGate').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
 
-                const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(popupHTML);
+  buildSteps();
+  initMap();
+  initScrollObserver();
+}
 
-                new mapboxgl.Marker({ color: '#d8b878' })
-                    .setLngLat(pt.coords)
-                    .setPopup(popup)
-                    .addTo(map);
-            });
-        });
-    }
+function buildSteps(){
+  const container = document.getElementById('steps');
+  points.forEach((p,i)=>{
+    const step = document.createElement('div');
+    step.className = `step ${p.align}`;
+    step.dataset.index = i;
+    step.innerHTML = `
+      <div class="step-card" id="card-${i}">
+        <div class="step-index">Punkt ${i+1} / ${points.length}</div>
+        <h2>${p.title}</h2>
+        <div class="step-years">${p.years || ''}</div>
+        <div class="step-address">${p.address || ''}</div>
+        <p>${p.desc || ''}</p>
+      </div>
+    `;
+    container.appendChild(step);
+
+    const nav = document.getElementById('stepNav');
+    // optional nav dots if needed
+  });
+}
+
+function initMap(){
+  map = new mapboxgl.Map({ container: 'map', style: 'mapbox://styles/mapbox/dark-v11', center: LUBARTOW_CENTER, zoom: 14, pitch: 20, bearing:0, interactive: false });
+
+  map.on('load', ()=>{
+    // route placeholder
+    map.addSource('route', { type: 'geojson', data: { type: 'Feature', geometry: { type: 'LineString', coordinates: points.map(p=>p.coords) } } });
+    map.addLayer({ id: 'route-line', type: 'line', source: 'route', layout: {'line-cap':'round','line-join':'round'}, paint: {'line-color':'#b08d57','line-width':3.5}});
+
+    // punktory - markery z popupami zawierającymi category, title, address, desc, image, audio
+    points.forEach((p,i)=>{
+      const el = document.createElement('div');
+      el.className = 'marker';
+      el.innerText = i+1;
+
+      const popupHTML = `
+        <div class="popup-category">${p.category || ''}</div>
+        <div class="popup-title">${p.title || ''}</div>
+        <div class="popup-address">📍 ${p.address || ''}</div>
+        <div class="popup-desc">${p.desc || ''}</div>
+        ${p.image ? `<img class="popup-image" src="${p.image}" alt="${p.title || ''} archiwalne zdjęcie" />` : ''}
+        ${p.audio ? `<audio class="popup-audio" controls src="${p.audio}">Twój przeglądarka nie obsługuje odtwarzania audio.</audio>` : ''}
+      `;
+
+      const popup = new mapboxgl.Popup({ offset: 16, maxWidth: '320px' }).setHTML(popupHTML);
+
+      const marker = new mapboxgl.Marker(el).setLngLat(p.coords).setPopup(popup).addTo(map);
+      markers.push(marker);
+    });
+
+    // landmarks
+    landmarks.forEach(l=>{
+      const el = document.createElement('div'); el.className = 'landmark-marker';
+      const popup = new mapboxgl.Popup({ offset: 16 }).setHTML(`<h3>${l.name}</h3><p>${l.desc}</p><span class="years">${l.years||''}</span>`);
+      const marker = new mapboxgl.Marker(el).setLngLat(l.coords).setPopup(popup).addTo(map);
+      landmarkMarkers.push(marker);
+    });
+
+    buildLegend();
+    fetchWalkingRoute();
+  });
+}
+
+function buildLegend(){
+  const legend = document.createElement('div'); legend.id = 'legend';
+  legend.innerHTML = `<div><strong>Szlak Pamięci</strong></div><div style="font-size:12px;margin-top:6px;">Punkty historyczne (numerowane)</div>`;
+  document.body.appendChild(legend);
+}
+
+async function fetchWalkingRoute(){
+  try{
+    const coordsStr = points.map(p=>p.coords.join(',')).join(';');
+    const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${coordsStr}?geometries=geojson&overview=full&access_token=${mapboxgl.accessToken}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if(!data.routes || !data.routes.length) return;
+    const route = data.routes[0];
+    map.getSource('route').setData({ type:'Feature', geometry: route.geometry });
+
+    const km = (route.distance/1000).toFixed(1);
+    const min = Math.round(route.duration/60);
+    const info = document.createElement('div'); info.id = 'routeInfo'; info.style = 'position:fixed;bottom:18px;left:18px;z-index:5;background:rgba(20,18,15,0.85);padding:8px 12px;border-radius:6px;color:#d8b878;font-size:13px;';
+    info.innerHTML = `Trasa piesza: <strong>${km} km</strong> · ok. <strong>${min} min</strong>`;
+    document.body.appendChild(info);
+  }catch(err){ console.warn('Directions API error', err); }
+}
+
+function initScrollObserver(){
+  const cards = document.querySelectorAll('.step-card');
+  const observer = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      const card = entry.target; const idx = parseInt(card.id.split('-')[1],10);
+      if(entry.isIntersecting && entry.intersectionRatio > 0.5){
+        card.classList.add('is-active');
+        flyToStep(idx);
+      } else { card.classList.remove('is-active'); }
+    });
+  }, { threshold: [0, 0.5, 1] });
+  cards.forEach(c=>observer.observe(c));
+}
+
+function flyToStep(i){
+  const p = points[i];
+  if(!p) return;
+  map.flyTo({ center: p.coords, zoom: p.zoom || 15, pitch: p.pitch || 30, bearing: p.bearing || 0, duration: 1400, essential:true });
+  markers.forEach((m,idx)=>{ m.getElement().classList.toggle('is-active', idx===i); });
+}
+
 </script>
 </body>
 </html>
