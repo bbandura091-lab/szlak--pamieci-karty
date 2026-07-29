@@ -1,0 +1,238 @@
+[
+  {
+    "id": "PUNK-001",
+    "slug": "kino-lubartow",
+    "nazwa_punktu": "Kino Lubartów (Corso / Oaza / Lewart)",
+    "kategoria": "Kultura i Społeczność",
+    "okres_historyczny": "1926–2026",
+    "lokalizacja": {
+      "adres": "Rynek II 1",
+      "kod_pocztowy": "21-100",
+      "miasto": "Lubartów",
+      "miejsce_opis": "Siedziba Lubartowskiego Ośrodka Kultury (dawna hala targowa)",
+      "wspolrzedne": {
+        "lat": 51.4622,
+        "lng": 22.6078
+      }
+    },
+    "status_weryfikacji": "potwierdzony",
+    "opis_krotki": "Sto lat historii lubartowskiej kultury filmowej — od pierwszych seansów w 'Corso' po współczesne Muzeum Kina Lewart.",
+    "media": {
+      "karta_html": "cards/p001_kino_lubartow.html",
+      "audio_guide_mp3": "audio/p001_100_lat_kina.mp3",
+      "canva_embed_url": "https://www.canva.com/design/DAHQI6Z-zSE/view?embed",
+      "galeria_zdjec": [
+        "images/kino_hala_targowa_1930.jpg",
+        "images/afisz_golgota_1939.jpg",
+        "images/projektor_ap5_muzeum.jpg"
+      ]
+    },
+    "chronologia": [
+      {
+        "rok": "1926",
+        "wydarzenie": "Otwarcie pierwszego kina w Lubartowie pod nazwą 'Corso'."
+      },
+      {
+        "rok": "1931",
+        "wydarzenie": "Przeniesienie kina do nowej hali targowej przy Rynek II i zmiana nazwy na 'Oaza'."
+      },
+      {
+        "rok": "lata 30. XX w.",
+        "wydarzenie": "Kino funkcjonuje jako 'Lewart' — staje się centrum życia kulturalnego i społecznego miasta."
+      },
+      {
+        "rok": "1939",
+        "wydarzenie": "Remont aparatury projekcyjnej. Wyświetlanie ostatnich przedwojennych afiszy ('Golgota', 'Granica')."
+      },
+      {
+        "rok": "1940-1943",
+        "wydarzenie": "Okres okupacji niemieckiej. Wyburzenie budynku Corso, funkcjonowanie getta w sąsiedztwie Lewarta."
+      },
+      {
+        "rok": "1944-08-20",
+        "wydarzenie": "Zaledwie miesiąc po wyzwoleniu sala kina staje się miejscem pierwszych powojennych zajęć szkolnych."
+      },
+      {
+        "rok": "2021",
+        "wydarzenie": "Inicjatywa utworzenia Muzeum Kina Lewart w Lubartowskim Ośrodku Kultury."
+      },
+      {
+        "rok": "2026",
+        "wydarzenie": "Jubileusz 100-lecia ruchu filmowego i pamięci kina w Lubartowie."
+      }
+    ],
+    "audioprzewodnik": {
+      "czas_trwania_min": "18-22",
+      "liczba_rozdzialow": 10,
+      "efekty_sfx": ["stary_projektor", "szelest_afiszy", "syrena_alarmowa", "odglosy_stolarzy"]
+    }
+  },
+  {
+    "id": "PUNK-002",
+    "slug": "kaplani-niezlomni",
+    "nazwa_punktu": "Kapłani Niezłomni Lubartowa",
+    "kategoria": "Duchowieństwo i Opór",
+    "okres_historyczny": "1939–1989",
+    "lokalizacja": {
+      "adres": "ul. Jana Pawła II 1",
+      "kod_pocztowy": "21-100",
+      "miasto": "Lubartów",
+      "miejsce_opis": "Bazylika św. Anny w Lubartowie / Panteon Pamięci",
+      "wspolrzedne": {
+        "lat": 51.4615,
+        "lng": 22.6065
+      }
+    },
+    "status_weryfikacji": "potwierdzony",
+    "opis_krotki": "Upamiętnienie duchownych związanych z Ziemią Lubartowską, którzy nie ugięli się wobec reżimu hitlerowskiego i komunistycznego.",
+    "media": {
+      "karta_html": "cards/p002_kaplani_niezlomni.html",
+      "audio_guide_mp3": "audio/p002_swiadectwo_wiary.mp3",
+      "galeria_zdjec": [
+        "images/kosciol_sw_anny_archiwalne.jpg",
+        "images/portrety_kaplanow.jpg"
+      ]
+    },
+    "chronologia": [
+      {
+        "rok": "1939-1945",
+        "wydarzenie": "Tajne nauczanie i pomoc charytatywna niesiona mieszkańcom oraz poszkodowanym przez okupanta."
+      },
+      {
+        "rok": "1945-1956",
+        "wydarzenie": "Inwigilacja i represje ze strony Urzędu Bezpieczeństwa wobec lokalnych duszpasterzy."
+      }
+    ],
+    "audioprzewodnik": {
+      "czas_trwania_min": "12-15",
+      "liczba_rozdzialow": 5,
+      "efekty_sfx": ["dzwony_koscielne", "echo_posadzki", "cichy_choral"]
+    }
+  },
+  {
+    "id": "PUNK-003",
+    "slug": "mural-27-wdp-ak",
+    "nazwa_punktu": "Mural 27 Wołyńskiej Dywizji Piechoty AK",
+    "kategoria": "Wojskowość i Edukacja",
+    "okres_historyczny": "1944 / Współczesność",
+    "lokalizacja": {
+      "adres": "ul. 1 Maja 82",
+      "kod_pocztowy": "21-100",
+      "miasto": "Lubartów",
+      "miejsce_opis": "Elewacja budynku RCEZ (Regionalne Centrum Edukacji Zawodowej w Lubartowie)",
+      "wspolrzedne": {
+        "lat": 51.4650,
+        "lng": 22.6120
+      }
+    },
+    "status_weryfikacji": "potwierdzony",
+    "opis_krotki": "Wielkoformatowe dzieło pamięci upamiętniające epopeję żołnierzy 27 WDP AK i ich związki z ziemią lubartowską.",
+    "media": {
+      "karta_html": "cards/p003_mural_rcez.html",
+      "audio_guide_mp3": "audio/p003_szlak_27wdp.mp3",
+      "galeria_zdjec": [
+        "images/mural_rcez_lubartow.jpg",
+        "images/odznaka_27_wdp_ak.jpg"
+      ]
+    },
+    "chronologia": [
+      {
+        "rok": "1944-07",
+        "wydarzenie": "Przejście jednostek 27 Wołyńskiej Dywizji Piechoty AK przez Lasy Kozłowieckie i rejony Lubartowa."
+      },
+      {
+        "rok": "Współczesność",
+        "wydarzenie": "Uroczyste odsłonięcie muralu na ścianie RCEZ w Lubartowie jako żywej lekcji historii."
+      }
+    ],
+    "audioprzewodnik": {
+      "czas_trwania_min": "8-10",
+      "liczba_rozdzialow": 3,
+      "efekty_sfx": ["odglosy_marszu", "szum_lasu_kozlowieckiego", "werble"]
+    }
+  },
+  {
+    "id": "PUNK-004",
+    "slug": "wyzwolenie-lubartowa-1944",
+    "nazwa_punktu": "Wyzwolenie Lubartowa (Lipiec 1944)",
+    "kategoria": "Wydarzenia Przełomowe",
+    "okres_historyczny": "1944",
+    "lokalizacja": {
+      "adres": "Centrum Miasta / Rynek I",
+      "kod_pocztowy": "21-100",
+      "miasto": "Lubartów",
+      "miejsce_opis": "Punkty historycznych walk i opanowania miasta w ramach Akcji 'Burza'",
+      "wspolrzedne": {
+        "lat": 51.4630,
+        "lng": 22.6070
+      }
+    },
+    "status_weryfikacji": "potwierdzony",
+    "opis_krotki": "Kluczowe dni lipca i sierpnia 1944 roku: walki podziemne, wycofanie wojsk niemieckich i zorganizowanie pierwszych władz cywilnych.",
+    "media": {
+      "karta_html": "cards/p004_wyzwolenie_1944.html",
+      "audio_guide_mp3": "audio/p004_lipiec_1944.mp3",
+      "galeria_zdjec": [
+        "images/lubartow_lipiec_1944.jpg",
+        "images/zebranie_obywatelskie_sierpien.jpg"
+      ]
+    },
+    "chronologia": [
+      {
+        "rok": "1944-07-22",
+        "wydarzenie": "Ostatnie starcia i próby opanowania strategicznych punktów miasta w ramach Akcji 'Burza'."
+      },
+      {
+        "rok": "1944-08-20",
+        "wydarzenie": "Organizowanie struktury cywilnej, szkolnictwa i życia społecznego w wyzwolonym mieście."
+      }
+    ],
+    "audioprzewodnik": {
+      "czas_trwania_min": "10-12",
+      "liczba_rozdzialow": 4,
+      "efekty_sfx": ["strzaly_odlegle", "komunikaty_radiowe", "gwar_rynku"]
+    }
+  },
+  {
+    "id": "PUNK-005",
+    "slug": "panteon-bohaterow",
+    "nazwa_punktu": "Panteon Bohaterów i Obrońców Lubartowa",
+    "kategoria": "Biogramy i Postacie",
+    "okres_historyczny": "1939–1956",
+    "lokalizacja": {
+      "adres": "ul. Cmentarna",
+      "kod_pocztowy": "21-100",
+      "miasto": "Lubartów",
+      "miejsce_opis": "Cmentarz Parafialny / Kwatery Wojskowe i Miejsca Pamięci",
+      "wspolrzedne": {
+        "lat": 51.4580,
+        "lng": 22.6010
+      }
+    },
+    "status_weryfikacji": "w_trakcie_uzupelniania",
+    "opis_krotki": "Zbiorczy wykaz i biogramy żołnierzy Armii Krajowej, Wojska Polskiego oraz cywilnych bohaterów oporu Ziemi Lubartowskiej.",
+    "media": {
+      "karta_html": "cards/p005_panteon_bohaterow.html",
+      "audio_guide_mp3": "audio/p005_pamiec_o_bohaterach.mp3",
+      "galeria_zdjec": [
+        "images/kwatera_wojskowa_lubartow.jpg",
+        "images/legitymacje_ak.jpg"
+      ]
+    },
+    "chronologia": [
+      {
+        "rok": "1939-1945",
+        "wydarzenie": "Służba w strukturach ZWZ-AK, BCh i innych formacjach niepodległościowych."
+      },
+      {
+        "rok": "1945+",
+        "wydarzenie": "Działalność w powojennym podziemiu niepodległościowym (m.in. Zdzisław Broński 'Uskok', Jan Szatowski 'Kowal')."
+      }
+    ],
+    "audioprzewodnik": {
+      "czas_trwania_min": "15-18",
+      "liczba_rozdzialow": 6,
+      "efekty_sfx": ["cisza_i_wiatr", "samotna_trabka", "stukanie_maszyny_pisania"]
+    }
+  }
+]
