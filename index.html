@@ -20,7 +20,7 @@
             color: #eee; 
         }
 
-        /* Panel startowy dla Tokenu Mapbox */
+        /* Panel startowy */
         #tokenGate { 
             position: fixed; 
             inset: 0; 
@@ -67,45 +67,85 @@
             height: 100vh; 
             z-index: 1; 
         }
+
+        /* Przycisk resetu tokenu (mały w rogu) */
+        #resetTokenBtn {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            z-index: 10;
+            background: rgba(20, 18, 15, 0.8);
+            color: #aaa;
+            border: 1px solid #444;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            display: none;
+        }
+        #resetTokenBtn:hover { color: #fff; border-color: #888; }
     </style>
 </head>
 <body>
 
-    <!-- Panel wywołania mapy -->
+    <!-- Panel startowy -->
     <div id="tokenGate">
         <h1>Szlak Pamięci Lubartów</h1>
         <p>Wklej swój publiczny klucz Mapbox (Access Token), aby wczytać styl mapy <strong>Monochromia</strong>.</p>
         <input type="text" id="mapboxTokenInput" placeholder="pk.eyJ1I..." />
-        <button onclick="startMap()">Uruchom mapę Monochromia</button>
+        <button onclick="saveAndStartMap()">Uruchom mapę Monochromia</button>
     </div>
 
     <!-- Kontener mapy -->
     <div id="map"></div>
 
+    <!-- Przycisk zmiana tokenu -->
+    <button id="resetTokenBtn" onclick="resetToken()">Zmień klucz Mapbox</button>
+
     <script>
-        function startMap() {
+        const STORED_KEY = 'szlak_mapbox_token';
+
+        // Sprawdź przy ładowaniu strony czy token jest już zapamiętany
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedToken = localStorage.getItem(STORED_KEY);
+            if (savedToken && savedToken.startsWith('pk.')) {
+                initMap(savedToken);
+            }
+        });
+
+        function saveAndStartMap() {
             const tokenInput = document.getElementById('mapboxTokenInput').value.trim();
-            if (!tokenInput) {
-                alert('Proszę wprowadzić prawidłowy token Mapbox.');
+            if (!tokenInput || !tokenInput.startsWith('pk.')) {
+                alert('Proszę wprowadzić prawidłowy token Mapbox zaczynający się od "pk."');
                 return;
             }
 
-            mapboxgl.accessToken = tokenInput;
+            // Zapisz do pamięci przeglądarki
+            localStorage.setItem(STORED_KEY, tokenInput);
+            initMap(tokenInput);
+        }
 
-            // Ukryj panel startowy
+        function initMap(token) {
+            mapboxgl.accessToken = token;
+
+            // Ukryj panel startowy, pokaż przycisk resetu
             document.getElementById('tokenGate').style.display = 'none';
+            document.getElementById('resetTokenBtn').style.display = 'block';
 
-            // Inicjalizacja Twojego dedykowanego stylu Monochromia
+            // Uruchomienie Twojego stylu Monochromia
             const map = new mapboxgl.Map({
                 container: 'map',
-                // Twój unikalny styl z Mapbox Studio:
                 style: 'mapbox://styles/v1/szlak_pamieci/Monochromia', 
-                center: [22.6072, 51.4619], // Współrzędne centrum Lubartowa
+                center: [22.6072, 51.4619],
                 zoom: 14.5
             });
 
-            // Przyciski nawigacji (+ / - / kompas)
             map.addControl(new mapboxgl.NavigationControl());
+        }
+
+        function resetToken() {
+            localStorage.removeItem(STORED_KEY);
+            location.reload();
         }
     </script>
 </body>
