@@ -20,7 +20,7 @@
             color: #eee; 
         }
 
-        /* Bramka tokenu / Ekran startowy */
+        /* Panel startowy dla Tokenu Mapbox */
         #tokenGate { 
             position: fixed; 
             inset: 0; 
@@ -34,25 +34,27 @@
             text-align: center;
         }
         #tokenGate h1 { font-size: 22px; letter-spacing: 1px; margin: 0 0 10px 0; color: #d8b878; }
-        #tokenGate p { max-width: 420px; font-size: 14px; color: #bbb; line-height: 1.5; margin: 0 0 15px 0; }
+        #tokenGate p { max-width: 440px; font-size: 14px; color: #bbb; line-height: 1.5; margin: 0 0 15px 0; }
         #tokenGate input { 
-            width: 320px; 
-            max-width: 80vw; 
+            width: 340px; 
+            max-width: 85vw; 
             padding: 10px 12px; 
             border-radius: 6px; 
             border: 1px solid #555; 
             background: #221f1a; 
             color: #fff;
             margin-bottom: 12px;
+            font-family: monospace;
         }
         #tokenGate button { 
-            padding: 10px 22px; 
+            padding: 10px 24px; 
             border: none; 
             border-radius: 6px; 
             background: #b08d57; 
             color: #fff; 
             font-size: 14px; 
             cursor: pointer; 
+            font-weight: bold;
         }
         #tokenGate button:hover { background: #c49e68; }
 
@@ -69,15 +71,15 @@
 </head>
 <body>
 
-    <!-- Ekran startowy z prośbą o token (jeśli wymagany) -->
+    <!-- Panel wywołania mapy -->
     <div id="tokenGate">
         <h1>Szlak Pamięci Lubartów</h1>
-        <p>Wprowadź swój publiczny klucz (token) Mapbox, aby uruchomić interaktywną mapę szlaku.</p>
+        <p>Wklej swój publiczny klucz Mapbox (Access Token), aby wczytać styl mapy <strong>Monochromia</strong>.</p>
         <input type="text" id="mapboxTokenInput" placeholder="pk.eyJ1I..." />
-        <button onclick="startMap()">Uruchom mapę</button>
+        <button onclick="startMap()">Uruchom mapę Monochromia</button>
     </div>
 
-    <!-- Główna kontener mapy -->
+    <!-- Kontener mapy -->
     <div id="map"></div>
 
     <script>
@@ -90,18 +92,19 @@
 
             mapboxgl.accessToken = tokenInput;
 
-            // Ukryj ekran podawania tokenu
+            // Ukryj panel startowy
             document.getElementById('tokenGate').style.display = 'none';
 
-            // Inicjalizacja mapy z widokiem na Lubartów
+            // Inicjalizacja Twojego dedykowanego stylu Monochromia
             const map = new mapboxgl.Map({
                 container: 'map',
-                style: 'mapbox://styles/mapbox/dark-v11', // Ciemny styl mapy pasujący do szlaku
-                center: [22.6072, 51.4619], // Współrzędne Lubartowa (długość, szerokość)
-                zoom: 14
+                // Twój unikalny styl z Mapbox Studio:
+                style: 'mapbox://styles/v1/szlak_pamieci/Monochromia', 
+                center: [22.6072, 51.4619], // Współrzędne centrum Lubartowa
+                zoom: 14.5
             });
 
-            // Dodanie nawigacji (przybliżanie / oddalanie)
+            // Przyciski nawigacji (+ / - / kompas)
             map.addControl(new mapboxgl.NavigationControl());
         }
     </script>
