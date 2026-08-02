@@ -1,149 +1,41 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <title>Szlak Pamięci – Lubartów</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    <!-- Biblioteka Mapbox GL JS -->
-    <link href="https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.css" rel="stylesheet">
-    <script src="https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.js"></script>
-    
-    <style>
-        * { box-sizing: border-box; }
-        html, body { 
-            margin: 0; 
-            padding: 0; 
-            height: 100%; 
-            font-family: 'Georgia', 'Times New Roman', serif; 
-            background: #14120f; 
-            color: #eee; 
-        }
-
-        /* Panel startowy */
-        #tokenGate { 
-            position: fixed; 
-            inset: 0; 
-            z-index: 100; 
-            background: #14120f; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            flex-direction: column;
-            padding: 20px;
-            text-align: center;
-        }
-        #tokenGate h1 { font-size: 22px; letter-spacing: 1px; margin: 0 0 10px 0; color: #d8b878; }
-        #tokenGate p { max-width: 440px; font-size: 14px; color: #bbb; line-height: 1.5; margin: 0 0 15px 0; }
-        #tokenGate input { 
-            width: 340px; 
-            max-width: 85vw; 
-            padding: 10px 12px; 
-            border-radius: 6px; 
-            border: 1px solid #555; 
-            background: #221f1a; 
-            color: #fff;
-            margin-bottom: 12px;
-            font-family: monospace;
-        }
-        #tokenGate button { 
-            padding: 10px 24px; 
-            border: none; 
-            border-radius: 6px; 
-            background: #b08d57; 
-            color: #fff; 
-            font-size: 14px; 
-            cursor: pointer; 
-            font-weight: bold;
-        }
-        #tokenGate button:hover { background: #c49e68; }
-
-        /* Pojemnik na mapę */
-        #map { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100vh; 
-            z-index: 1; 
-        }
-
-        /* Przycisk resetu tokenu */
-        #resetTokenBtn {
-            position: fixed;
-            bottom: 10px;
-            left: 10px;
-            z-index: 10;
-            background: rgba(20, 18, 15, 0.8);
-            color: #aaa;
-            border: 1px solid #444;
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 11px;
-            cursor: pointer;
-            display: none;
-        }
-        #resetTokenBtn:hover { color: #fff; border-color: #888; }
-    </style>
+<meta charset="UTF-8">
+<title>Szlak Pamięci – Lubartów</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="refresh" content="0; url=mapa.html">
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0; height: 100%;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: #14120f; color: #eee;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .redirect-box { text-align: center; padding: 20px; }
+  h1 { font-size: 20px; color: #d8b878; margin: 0 0 10px 0; letter-spacing: 0.5px; }
+  p { font-size: 13px; color: #999; margin: 0 0 16px 0; }
+  a { color: #d8b878; font-size: 13px; }
+  .spinner {
+    width: 28px; height: 28px; margin: 0 auto 16px auto;
+    border: 3px solid #333; border-top-color: #b08d57;
+    border-radius: 50%; animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+<script>
+  // Przekierowanie JS jako zapasowe, na wypadek gdyby meta-refresh
+  // zostało zablokowane przez przeglądarkę.
+  window.location.replace('mapa.html');
+</script>
 </head>
 <body>
-
-    <!-- Panel startowy -->
-    <div id="tokenGate">
-        <h1>Szlak Pamięci Lubartów</h1>
-        <p>Wklej swój publiczny klucz Mapbox (Access Token), aby wczytać styl mapy <strong>Monochromia</strong>.</p>
-        <input type="text" id="mapboxTokenInput" placeholder="pk.eyJ1I..." />
-        <button onclick="saveAndStartMap()">Uruchom mapę Monochromia</button>
-    </div>
-
-    <!-- Kontener mapy -->
-    <div id="map"></div>
-
-    <!-- Przycisk zmiana tokenu -->
-    <button id="resetTokenBtn" onclick="resetToken()">Zmień klucz Mapbox</button>
-
-    <script>
-        const STORED_KEY = 'szlak_mapbox_token';
-
-        // Sprawdź przy ładowaniu strony czy token jest już zapamiętany
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedToken = localStorage.getItem(STORED_KEY);
-            if (savedToken && savedToken.startsWith('pk.')) {
-                initMap(savedToken);
-            }
-        });
-
-        function saveAndStartMap() {
-            const tokenInput = document.getElementById('mapboxTokenInput').value.trim();
-            if (!tokenInput || !tokenInput.startsWith('pk.')) {
-                alert('Proszę wprowadzić prawidłowy token Mapbox zaczynający się od "pk."');
-                return;
-            }
-
-            localStorage.setItem(STORED_KEY, tokenInput);
-            initMap(tokenInput);
-        }
-
-        function initMap(token) {
-            mapboxgl.accessToken = token;
-
-            document.getElementById('tokenGate').style.display = 'none';
-            document.getElementById('resetTokenBtn').style.display = 'block';
-
-            const map = new mapboxgl.Map({
-                container: 'map',
-           style: 'mapbox://styles/mapbox/light-v11',     
-                center: [22.6072, 51.4619],
-                zoom: 14.5
-            });
-
-            map.addControl(new mapboxgl.NavigationControl());
-        }
-
-        function resetToken() {
-            localStorage.removeItem(STORED_KEY);
-            location.reload();
-        }
-    </script>
+  <div class="redirect-box">
+    <div class="spinner"></div>
+    <h1>Szlak Pamięci Lubartów</h1>
+    <p>Przekierowuję do mapy…</p>
+    <a href="mapa.html">Kliknij tutaj, jeśli nie nastąpiło automatyczne przekierowanie</a>
+  </div>
 </body>
 </html>
