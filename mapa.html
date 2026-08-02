@@ -10,19 +10,17 @@
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; height: 100%; font-family: 'Georgia', serif; background: #14120f; }
   #map { position: absolute; inset: 0; }
-
   #tokenGate {
-display:none!important;
     position: fixed; inset: 0; z-index: 100; background: #14120f;
-    display: flex; align-items: center; justify-content: center;
+    display: none; align-items: center; justify-content: center;
     flex-direction: column; gap: 12px; text-align: center; padding: 20px;
   }
+  #tokenGate.visible { display: flex; }
   #tokenGate h1 { font-size: 20px; color: #d8b878; margin: 0; }
   #tokenGate p { max-width: 420px; font-size: 13px; color: #bbb; line-height: 1.6; margin: 0; }
   #tokenGate input { width: 300px; padding: 9px 12px; border-radius: 6px; border: 1px solid #555; background: #221f1a; color: #eee; font-size: 13px; }
   #tokenGate button { padding: 9px 20px; border: none; border-radius: 6px; background: #b08d57; color: #fff; font-size: 13px; cursor: pointer; }
   #tokenGate a { color: #d8b878; }
-
   #panel {
     position: absolute; top: 16px; left: 16px; z-index: 5;
     background: rgba(20,18,15,0.92); color: #eee;
@@ -33,7 +31,6 @@ display:none!important;
   #panel p { font-size: 12px; line-height: 1.5; color: #bbb; margin: 6px 0 0 0; }
   #panel .count { color: #d8b878; font-weight: bold; }
   #panel a { color: #d8b878; }
-
   #legend {
     position: absolute; bottom: 16px; left: 16px; z-index: 5;
     background: rgba(20,18,15,0.92); border-radius: 8px;
@@ -51,7 +48,6 @@ display:none!important;
   #legend .swatch.round { border-radius: 50%; }
   #legend .swatch.diamond { transform: rotate(45deg); }
   #legend .swatch.square { border-radius: 2px; }
-
   .mapboxgl-popup-content {
     background: #f4efe6; color: #2b2b2b; border-radius: 6px;
     padding: 14px 16px; max-width: 280px; font-family: 'Georgia', serif;
@@ -60,7 +56,6 @@ display:none!important;
   .mapboxgl-popup-content .meta { font-family: Arial, sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: #8a6d3b; margin-bottom: 8px; display: block; }
   .mapboxgl-popup-content p { margin: 0 0 8px 0; font-size: 13px; line-height: 1.5; }
   .mapboxgl-popup-content .audio { font-family: Arial, sans-serif; font-size: 10px; color: #9a8a6a; border-top: 1px dashed #ccc; padding-top: 6px; margin-top: 6px; }
-
   .marker {
     width: 18px; height: 18px;
     border: 2px solid #fff; box-shadow: 0 0 6px rgba(0,0,0,0.6); cursor: pointer;
@@ -74,7 +69,6 @@ display:none!important;
     color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.9);
   }
   .marker.shape-diamond .marker-number { transform: rotate(-45deg); }
-
   #routeInfo {
     position: absolute; bottom: 16px; right: 16px; z-index: 5;
     background: rgba(20,18,15,0.92); border-radius: 8px;
@@ -91,73 +85,70 @@ display:none!important;
   <p>Wersja docelowa — 26 punktów miejskich + 4 punkty wyjazdowe. Wklej własny darmowy token z
   <a href="https://account.mapbox.com" target="_blank">account.mapbox.com</a>.</p>
   <input id="tokenInput" type="text" placeholder="pk.eyJ1Ijoi...">
-  <button onclick="startMap()">Wczytaj mapę</button>
+  <button onclick="startMapWithInputToken()">Wczytaj mapę</button>
 </div>
-
 <div id="map"></div>
 
 <script>
 /* ======================================================================
    TAKSONOMIA: dwa niezależne parametry filtrowania na punkt
-   - era:  epoka historyczna
+   - era: epoka historyczna
    - type: rodzaj obiektu
    ====================================================================== */
 const ERAS = {
-  "POWSTANIA":                      { color: "#8a5a3a" },
-  "I WOJNA / LEGIONY":              { color: "#6b7c93" },
-  "WOJNA 1920":                     { color: "#9b7cb6" },
-  "II WOJNA ŚWIATOWA":              { color: "#b08d57" },
-  "PODZIEMIE ANTYKOMUNISTYCZNE":    { color: "#e03c3c" }
+  "POWSTANIA": { color: "#8a5a3a" },
+  "I WOJNA / LEGIONY": { color: "#6b7c93" },
+  "WOJNA 1920": { color: "#9b7cb6" },
+  "II WOJNA ŚWIATOWA": { color: "#b08d57" },
+  "PODZIEMIE ANTYKOMUNISTYCZNE": { color: "#e03c3c" }
 };
-
 const TYPES = {
-  "MIEJSCE PAMIĘCI / POMNIK":         { shape: "diamond" },
+  "MIEJSCE PAMIĘCI / POMNIK": { shape: "diamond" },
   "OBIEKT HISTORYCZNY / ARCHITEKTURA": { shape: "round" },
-  "NEKROPOLIA / MOGIŁA":              { shape: "square" }
+  "NEKROPOLIA / MOGIŁA": { shape: "square" }
 };
 
 /* ======================================================================
    26 PUNKTÓW DOCELOWYCH — baza miejska
-   Uwaga dot. rekonstrukcji: 4 punkty przy Cmentarzu Parafialnym miały
-   wcześniej identyczne współrzędne (nakładające się znaczniki). Poniżej
-   każdy ma osobne, mikroskopijnie przesunięte współrzędne (rząd 0.0002),
-   żeby wszystkie były klikalne. Żeby baza zamknęła się dokładnie na 26,
-   "Plac Wolności" i "Dom Żołnierza" zostały scalone jako notatki w opisie
-   punktów Rynek i Siedziba Sztabu AK — zaznaczone w treści popupu.
+   POPRAWKI WZGLĘDEM ORYGINAŁU (zob. wiadomość w czacie z pełną listą):
+   1. Usunięto zduplikowany, starszy zestaw 4 punktów cmentarnych
+      (dawne id 23-26 "(Cmentarz)") — zachowany został tylko nowszy
+      zestaw (id 5,6,7,8) z poprawnymi, nienachodzącymi się współrzędnymi.
+   2. Naprawiono odwrócone współrzędne [lat,lng] -> [lng,lat] przy
+      "Miejsce Męczeństwa".
+   3. Naprawiono brakujący przecinek w [lng lat] przy dawnym duplikacie
+      "Kwatera Wrześniowa 1939" (ten wpis usunięty jako duplikat).
+   4. Wszystkie ID są teraz unikalne w obrębie tablicy `points`.
    order_route = kolejność w pętli spacerowej (wyliczona geograficznie,
    nie wg numeracji ID), używana WYŁĄCZNIE do rysowania żółtej linii.
    ====================================================================== */
 const points = [
   { id: 1, order_route: 1, name: "Sztab Marszałka Piłsudskiego (1920)", era: "WOJNA 1920", type: "OBIEKT HISTORYCZNY / ARCHITEKTURA", coords: [22.60789, 51.46234], addr: "Rynek II / Gmach Starostwa", desc: "17 sierpnia 1920 r. w gmachu starostwa odbyła się narada z udziałem Józefa Piłsudskiego, gdzie kwaterował dowódca Frontu Środkowego gen. Rydz-Śmigły. Stąd wyszły plany kontrofensywy znad Wieprza. [Źródło: kalendarium Muzeum Ziemi Lubartowskiej — data i miejsce skorygowane względem wcześniejszej wersji „15-16 sierpnia, Rynek II”]", audio: "audio_sztab_pilsudskiego.mp3" },
-  { id: 23, order_route: 2, name: "Magazyn Uzbrojenia Kedywu", era: "II WOJNA ŚWIATOWA", type: "OBIEKT HISTORYCZNY / ARCHITEKTURA", coords: [22.60760, 51.46280], addr: "Rynek", desc: "Zakonspirowany punkt dystrybucji granatów 'filipinek' oraz broni maszynowej ze zrzutów.", audio: "audio_magazyn_kedywu.mp3" },
-  { id: 19, order_route: 3, name: "Magistrat (Legalizacja AK)", era: "II WOJNA ŚWIATOWA", type: "OBIEKT HISTORYCZNY / ARCHITEKTURA", coords: [22.60740, 51.46380], addr: "Rynek", desc: "Wydział fałszowania tożsamości. Urzędnicy podziemia masowo wystawiali tu lewe kennkarty.", audio: "audio_magistrat_legalizacja.mp3" },
-  { id: 25, order_route: 4, name: "Plac Wolności — Rejon Mobilizacji", era: "II WOJNA ŚWIATOWA", type: "MIEJSCE PAMIĘCI / POMNIK", coords: [22.60810, 51.46410], addr: "Plac Wolności", desc: "Miejsce koncentracji oddziałów miejskich AK tuż przed jawnym wystąpieniem zbrojnym.", audio: "audio_plac_mobilizacji.mp3" },
-  { id: 10, order_route: 5, name: "Bitwa pod Lubartowem 1831", era: "POWSTANIA", type: "MIEJSCE PAMIĘCI / POMNIK", coords: [22.60890, 51.46450], addr: "ul. Mickiewicza", desc: "Starcie korpusu gen. Wojciecha Chrzanowskiego z oddziałami rosyjskimi. Wojsku polskiemu udało się wycofać — punktem oporu osłaniającym odwrót był klasztor Kapucynów, gdzie obroną dowodził kpt. Józef Leśniowski. [Skorygowano: to była osłona odwrotu, nie „zwycięskie starcie”; dokładna data dzienna niepotwierdzona]", audio: "audio_bitwa_1831.mp3" },
-{ id: 5, order_route: 5, name: "Miejsce Męczeństwa", era: "PODZIEMIE ANTYKOMUNISTYCZNE", type: "MIEJSCE PAMIĘCI / POMNIK", coords: [51.45950, 22.59320], addr: "ul. Lubelska", desc: "Dawne miejsce martyrologii i aresztu. Upamiętnienie ofiar systemu totalitarnego na Ziemi Lubartowskiej.", audio: "audio_miejsce_meczenstwa.mp3" },
-{ id: 14, order_route: 7, name: "Dawny Szpital Powiatowy (Tajna Służba Medyczna)", era: "II WOJNA ŚWIATOWA", type: "OBIEKT HISTORYCZNY / ARCHITEKTURA", coords: [22.59250, 51.46330], addr: "róg ul. Lipowej i Słowackiego (obecnie PMDK)", desc: "Konspiracyjny punkt leczniczy i sanitarny Obwodu ZWZ-AK. W podziemiach i na oddziałach udzielano pomocy rannym partyzantom oraz zabezpieczano leki i materiały opatrunkowe.", audio: "audio_szpital_medycyna.mp3" },
-    { id: 22, order_route: 8, name: "Sąd Grodzki (Komórka Kontrwywiadu)", era: "II WOJNA ŚWIATOWA", type: "OBIEKT HISTORYCZNY / ARCHITEKTURA", coords: [22.60680, 51.46210], addr: "Słowackiego", desc: "Legalne zaplecze sądownicze wykorzystywane do niszczenia kartotek i spowalniania śledztw.", audio: "audio_sad_kontrwywiad.mp3" },
-  { id: 11, order_route: 9, name: "Kościół św. Anny — Oparcie Konspiracji", era: "II WOJNA ŚWIATOWA", type: "OBIEKT HISTORYCZNY / ARCHITEKTURA", coords: [22.60750, 51.46080], addr: "Słowackiego", desc: "Ośrodek wsparcia duchowego i materialnego dla rodzin aresztowanych oraz miejsce tajnego nauczania.", audio: "audio_kosciol_sw_anny_opor.mp3" },
-  { id: 20, order_route: 10, name: "Kino 'Echo' — Sabotaż Szarych Szeregów", era: "II WOJNA ŚWIATOWA", type: "OBIEKT HISTORYCZNY / ARCHITEKTURA", coords: [22.60650, 51.46150], addr: "Lubelska", desc: "Teren akcji ulotkowych i gazowych wymierzonych w propagandowe seanse kinowe okupanta.", audio: "audio_kino_echo_sabotaz.mp3" },
-  { id: 16, order_route: 11, name: "Gimnazjum i Liceum (Tajne Komplety)", era: "II WOJNA ŚWIATOWA", type: "OBIEKT HISTORYCZNY / ARCHITEKTURA", coords: [22.60680, 51.46290], addr: "Lubelska", desc: "Kuźnia kadr Polskiego Państwa Podziemnego. Miejsce tajnej edukacji młodzieży w warunkach okupacyjnych.", audio: "audio_tajne_komplety.mp3" },
-  { id: 18, order_route: 12, name: "Stara Poczta (Komórka Przechwytu)", era: "II WOJNA ŚWIATOWA", type: "OBIEKT HISTORYCZNY / ARCHITEKTURA", coords: [22.60850, 51.46320], addr: "Lubelska", desc: "Przechwytywanie listów donosowych do władz niemieckich. Kluczowe ogniwo wczesnego ostrzegania.", audio: "audio_stara_poczta.mp3" },
-  { id: 12, order_route: 13, name: "Klasztor OO. Kapucynów (Punkt Kontaktowy)", era: "II WOJNA ŚWIATOWA", type: "OBIEKT HISTORYCZNY / ARCHITEKTURA", coords: [22.61050, 51.46380], addr: "Lubelska", desc: "Zakonspirowana baza kurierska Obwodu AK, schronienie dla ściganych oficerów podziemia.", audio: "audio_klasztor_kapucynow.mp3" },
-  { id: 24, order_route: 14, name: "Rampa Deportacyjna (Torowisko)", era: "II WOJNA ŚWIATOWA", type: "MIEJSCE PAMIĘCI / POMNIK", coords: [22.60280, 51.46350], addr: "Kolejowa", desc: "Miejsce koncentracji i masowych wywózek mieszkańców do obozów koncentracyjnych i zagłady.", audio: "audio_rampa_deportacyjna.mp3" },
-  { id: 15, order_route: 15, name: "Dworzec PKP — Wywiad Kolejowy", era: "II WOJNA ŚWIATOWA", type: "OBIEKT HISTORYCZNY / ARCHITEKTURA", coords: [22.60310, 51.46290], addr: "Kolejowa", desc: "Punkt obserwacyjny wywiadu AK monitorujący transporty Wehrmachtu na linii Lublin-Siedlce.", audio: "audio_dworzec_wywiad.mp3" },
-  { id: 3, order_route: 16, name: "Obrona Węzła Kolejowego 1920", era: "WOJNA 1920", type: "MIEJSCE PAMIĘCI / POMNIK", coords: [22.60810, 51.46180], addr: "ul. Kolejowa", desc: "Heroiczne walki o tory i łączność armii prowadzone przez 21. Dywizję Piechoty Górskiej w sierpniu 1920 roku.", audio: "audio_obrona_kolei.mp3" },
-  { id: 17, order_route: 17, name: "Dawna Elektrownia Miejska", era: "II WOJNA ŚWIATOWA", type: "OBIEKT HISTORYCZNY / ARCHITEKTURA", coords: [22.60420, 51.46190], addr: "1 Maja", desc: "Miejsce sabotażu technicznego robotników zrzeszonych w strukturach ruchu oporu.", audio: "audio_elektrownia.mp3" },
-  { id: 26, order_route: 18, name: "Biblioteka Macierzy Szkolnej", era: "II WOJNA ŚWIATOWA", type: "OBIEKT HISTORYCZNY / ARCHITEKTURA", coords: [22.60590, 51.46020], addr: "Kościuszki", desc: "Legalnie działająca czytelnia będąca w rzeczywistości centralną skrzynką kontaktową Obwodu.", audio: "audio_macierz_szkolna.mp3" },
-  { id: 21, order_route: 19, name: "Tajna Drukarnia Podziemna", era: "II WOJNA ŚWIATOWA", type: "OBIEKT HISTORYCZNY / ARCHITEKTURA", coords: [22.60510, 51.45990], addr: "Kościuszki", desc: "Ośrodek wydawniczy wolnego słowa, drukujący komunikaty radiowe z nasłuchu alianckiego.", audio: "audio_tajna_drukarnia.mp3" },
-  { id: 13, order_route: 20, name: "Pałac Sanguszków — Punkt Strategiczny", era: "II WOJNA ŚWIATOWA", type: "OBIEKT HISTORYCZNY / ARCHITEKTURA", coords: [22.60150, 51.46650], addr: "Park Miejski", desc: "Świadek krwawych walk w lipcu 1944 roku w trakcie realizacji założeń akcji planu mobilizacyjnego 'Burza'.", audio: "audio_palac_sanguszkow.mp3" },
-  { id: 9, order_route: 21, name: "Krzyż Wolności", era: "POWSTANIA", type: "MIEJSCE PAMIĘCI / POMNIK", coords: [22.60250, 51.45880], addr: "ul. Lipowa / 3 Maja", desc: "Historyczny symbol niezłomności mieszkańców. Miejsce manifestacji w okresach braku suwerenności.", audio: "audio_krzyz_wolnosci.mp3" },
-  { id: 22, order_route: 22, name: "Cmentarz Wojenny 1915-18", era: "I WOJNA / LEGIONY", type: "NEKROPOLIA / MOGIŁA", coords: [22.60155, 51.45865], addr: "ul. Lipowa (Cmentarz)", desc: "Miejsce spoczynku ok. 1000 żołnierzy różnych narodowości, w tym wielu Polaków.", audio: "audio_cmentarz_wojenny.mp3" },
-{ id: 23, order_route: 23, name: "Kwatera Wrześniowa 1939 (Cmentarz)", era: "II WOJNA ŚWIATOWA", type: "NEKROPOLIA / MOGIŁA", coords: [22.60120, 51.45810], addr: "Cmentarz Parafialny", desc: "Mogiła żołnierzy Wojska Polskiego poległych w obronie rejonu Lubartowa we wrześniu 1939 r.", audio: "audio_kwatera_wrzesniowa.mp3" },
-{ id: 24, order_route: 24, name: "Nagrobek Legionistów (Cmentarz)", era: "I WOJNA / LEGIONY", type: "NEKROPOLIA / MOGIŁA", coords: [22.60135, 51.45785], addr: "Cmentarz Parafialny", desc: "Upamiętnienie żołnierzy Legionów Polskich poległych w 1915 roku w starciach o niepodległość.", audio: "audio_nagrobek_legionistow.mp3" },
-{ id: 25, order_route: 25, name: "Pomnik Zwycięstwa 1920 (Cmentarz)", era: "WOJNA 1920", type: "MIEJSCE PAMIĘCI / POMNIK", coords: [22.60160, 51.45770], addr: "Cmentarz Parafialny", desc: "Wzniesiony ku czci obrońców Ojczyzny przed najazdem bolszewickim.", audio: "audio_pomnik_1920.mp3" },
-{ id: 26, order_route: 26, name: "Symboliczny Grób kpt. 'Uskoka' (Cmentarz)", era: "PODZIEMIE ANTYKOMUNISTYCZNE", type: "MIEJSCE PAMIĘCI / POMNIK", coords: [22.60180, 51.45820], addr: "Cmentarz Parafialny", desc: "Upamiętnienie kpt. Zdzisława Brońskiego (1912-1949), legendarnego dowódcy partyzanckiego AK-WiN.", audio: "audio_pomnik_uskoka.mp3" }
-  { id: 8, order_route: 23, name: "Kwatera Wrześniowa 1939", era: "II WOJNA ŚWIATOWA", type: "NEKROPOLIA / MOGIŁA", coords: [ 51.45660 22.59690], addr: "Cmentarz Parafialny", desc: "Mogiła żołnierzy Wojska Polskiego poległych w obronie rejonu Lubartowa przed agresją niemiecką we wrześniu 1939 r.", audio: "audio_kwatera_wrzesniowa.mp3" },
-  { id: 5, order_route: 24, name: "Nagrobek Legionistów", era: "I WOJNA / LEGIONY", type: "NEKROPOLIA / MOGIŁA", coords: [22.59710, 51.45640], addr: "Cmentarz Parafialny", desc: "Upamiętnienie żołnierzy Legionów Polskich poległych w 1915 roku w starciach o niepodległą Polskę.", audio: "audio_nagrobek_legionistow.mp3" },
-  { id: 6, order_route: 25, name: "Pomnik Zwycięstwa 1920", era: "WOJNA 1920", type: "MIEJSCE PAMIĘCI / POMNIK", coords: [22.59730, 51.45620], addr: "Cmentarz Parafialny", desc: "Wzniesiony ku czci obrońców Ojczyzny przed najazdem bolszewickim. Tradycyjne miejsce obchodów patriotycznych.", audio: "audio_pomnik_1920.mp3" },
-  { id: 7, order_route: 26, name: "Symboliczny Grób kpt. 'Uskoka'", era: "PODZIEMIE ANTYKOMUNISTYCZNE", type: "MIEJSCE PAMIĘCI / POMNIK", coords: [22.59750, 51.45680], addr: "Cmentarz Parafialny", desc: "Upamiętnienie kpt. Zdzisława Brońskiego (1912-1949), legendarnego dowódcy partyzanckiego AK-WiN na Ziemi Lubartowskiej.", audio: "audio_pomnik_uskoka.mp3" }
+  { id: 2, order_route: 2, name: "Magazyn Uzbrojenia Kedywu", era: "II WOJNA ŚWIATOWA", type: "OBIEKT HISTORYCZNY / ARCHITEKTURA", coords: [22.60760, 51.46280], addr: "Rynek", desc: "Zakonspirowany punkt dystrybucji granatów 'filipinek' oraz broni maszynowej ze zrzutów.", audio: "audio_magazyn_kedywu.mp3" },
+  { id: 3, order_route: 3, name: "Magistrat (Legalizacja AK)", era: "II WOJNA ŚWIATOWA", type: "OBIEKT HISTORYCZNY / ARCHITEKTURA", coords: [22.60740, 51.46380], addr: "Rynek", desc: "Wydział fałszowania tożsamości. Urzędnicy podziemia masowo wystawiali tu lewe kennkarty.", audio: "audio_magistrat_legalizacja.mp3" },
+  { id: 4, order_route: 4, name: "Plac Wolności — Rejon Mobilizacji", era: "II WOJNA ŚWIATOWA", type: "MIEJSCE PAMIĘCI / POMNIK", coords: [22.60810, 51.46410], addr: "Plac Wolności", desc: "Miejsce koncentracji oddziałów miejskich AK tuż przed jawnym wystąpieniem zbrojnym.", audio: "audio_plac_mobilizacji.mp3" },
+  { id: 9, order_route: 5, name: "Bitwa pod Lubartowem 1831", era: "POWSTANIA", type: "MIEJSCE PAMIĘCI / POMNIK", coords: [22.60890, 51.46450], addr: "ul. Mickiewicza", desc: "Starcie korpusu gen. Wojciecha Chrzanowskiego z oddziałami rosyjskimi. Wojsku polskiemu udało się wycofać — punktem oporu osłaniającym odwrót był klasztor Kapucynów, gdzie obroną dowodził kpt. Józef Leśniowski. [Skorygowano: to była osłona odwrotu, nie „zwycięskie starcie”; dokładna data dzienna niepotwierdzona]", audio: "audio_bitwa_1831.mp3" },
+  { id: 10, order_route: 6, name: "Miejsce Męczeństwa", era: "PODZIEMIE ANTYKOMUNISTYCZNE", type: "MIEJSCE PAMIĘCI / POMNIK", coords: [22.59320, 51.45950], addr: "ul. Lubelska", desc: "Dawne miejsce martyrologii i aresztu. Upamiętnienie ofiar systemu totalitarnego na Ziemi Lubartowskiej.", audio: "audio_miejsce_meczenstwa.mp3" },
+  { id: 11, order_route: 7, name: "Dawny Szpital Powiatowy (Tajna Służba Medyczna)", era: "II WOJNA ŚWIATOWA", type: "OBIEKT HISTORYCZNY / ARCHITEKTURA", coords: [22.59250, 51.46330], addr: "róg ul. Lipowej i Słowackiego (obecnie PMDK)", desc: "Konspiracyjny punkt leczniczy i sanitarny Obwodu ZWZ-AK. W podziemiach i na oddziałach udzielano pomocy rannym partyzantom oraz zabezpieczano leki i materiały opatrunkowe.", audio: "audio_szpital_medycyna.mp3" },
+  { id: 12, order_route: 8, name: "Sąd Grodzki (Komórka Kontrwywiadu)", era: "II WOJNA ŚWIATOWA", type: "OBIEKT HISTORYCZNY / ARCHITEKTURA", coords: [22.60680, 51.46210], addr: "Słowackiego", desc: "Legalne zaplecze sądownicze wykorzystywane do niszczenia kartotek i spowalniania śledztw.", audio: "audio_sad_kontrwywiad.mp3" },
+  { id: 13, order_route: 9, name: "Kościół św. Anny — Oparcie Konspiracji", era: "II WOJNA ŚWIATOWA", type: "OBIEKT HISTORYCZNY / ARCHITEKTURA", coords: [22.60750, 51.46080], addr: "Słowackiego", desc: "Ośrodek wsparcia duchowego i materialnego dla rodzin aresztowanych oraz miejsce tajnego nauczania.", audio: "audio_kosciol_sw_anny_opor.mp3" },
+  { id: 14, order_route: 10, name: "Kino 'Echo' — Sabotaż Szarych Szeregów", era: "II WOJNA ŚWIATOWA", type: "OBIEKT HISTORYCZNY / ARCHITEKTURA", coords: [22.60650, 51.46150], addr: "Lubelska", desc: "Teren akcji ulotkowych i gazowych wymierzonych w propagandowe seanse kinowe okupanta.", audio: "audio_kino_echo_sabotaz.mp3" },
+  { id: 15, order_route: 11, name: "Gimnazjum i Liceum (Tajne Komplety)", era: "II WOJNA ŚWIATOWA", type: "OBIEKT HISTORYCZNY / ARCHITEKTURA", coords: [22.60680, 51.46290], addr: "Lubelska", desc: "Kuźnia kadr Polskiego Państwa Podziemnego. Miejsce tajnej edukacji młodzieży w warunkach okupacyjnych.", audio: "audio_tajne_komplety.mp3" },
+  { id: 16, order_route: 12, name: "Stara Poczta (Komórka Przechwytu)", era: "II WOJNA ŚWIATOWA", type: "OBIEKT HISTORYCZNY / ARCHITEKTURA", coords: [22.60850, 51.46320], addr: "Lubelska", desc: "Przechwytywanie listów donosowych do władz niemieckich. Kluczowe ogniwo wczesnego ostrzegania.", audio: "audio_stara_poczta.mp3" },
+  { id: 17, order_route: 13, name: "Klasztor OO. Kapucynów (Punkt Kontaktowy)", era: "II WOJNA ŚWIATOWA", type: "OBIEKT HISTORYCZNY / ARCHITEKTURA", coords: [22.61050, 51.46380], addr: "Lubelska", desc: "Zakonspirowana baza kurierska Obwodu AK, schronienie dla ściganych oficerów podziemia.", audio: "audio_klasztor_kapucynow.mp3" },
+  { id: 18, order_route: 14, name: "Rampa Deportacyjna (Torowisko)", era: "II WOJNA ŚWIATOWA", type: "MIEJSCE PAMIĘCI / POMNIK", coords: [22.60280, 51.46350], addr: "Kolejowa", desc: "Miejsce koncentracji i masowych wywózek mieszkańców do obozów koncentracyjnych i zagłady.", audio: "audio_rampa_deportacyjna.mp3" },
+  { id: 19, order_route: 15, name: "Dworzec PKP — Wywiad Kolejowy", era: "II WOJNA ŚWIATOWA", type: "OBIEKT HISTORYCZNY / ARCHITEKTURA", coords: [22.60310, 51.46290], addr: "Kolejowa", desc: "Punkt obserwacyjny wywiadu AK monitorujący transporty Wehrmachtu na linii Lublin-Siedlce.", audio: "audio_dworzec_wywiad.mp3" },
+  { id: 20, order_route: 16, name: "Obrona Węzła Kolejowego 1920", era: "WOJNA 1920", type: "MIEJSCE PAMIĘCI / POMNIK", coords: [22.60810, 51.46180], addr: "ul. Kolejowa", desc: "Walki o tory i łączność armii prowadzone przez 21. Dywizję Piechoty Górskiej w sierpniu 1920 roku.", audio: "audio_obrona_kolei.mp3" },
+  { id: 21, order_route: 17, name: "Dawna Elektrownia Miejska", era: "II WOJNA ŚWIATOWA", type: "OBIEKT HISTORYCZNY / ARCHITEKTURA", coords: [22.60420, 51.46190], addr: "1 Maja", desc: "Miejsce sabotażu technicznego robotników zrzeszonych w strukturach ruchu oporu.", audio: "audio_elektrownia.mp3" },
+  { id: 22, order_route: 18, name: "Biblioteka Macierzy Szkolnej", era: "II WOJNA ŚWIATOWA", type: "OBIEKT HISTORYCZNY / ARCHITEKTURA", coords: [22.60590, 51.46020], addr: "Kościuszki", desc: "Legalnie działająca czytelnia będąca w rzeczywistości centralną skrzynką kontaktową Obwodu.", audio: "audio_macierz_szkolna.mp3" },
+  { id: 23, order_route: 19, name: "Tajna Drukarnia Podziemna", era: "II WOJNA ŚWIATOWA", type: "OBIEKT HISTORYCZNY / ARCHITEKTURA", coords: [22.60510, 51.45990], addr: "Kościuszki", desc: "Ośrodek wydawniczy wolnego słowa, drukujący komunikaty radiowe z nasłuchu alianckiego.", audio: "audio_tajna_drukarnia.mp3" },
+  { id: 24, order_route: 20, name: "Pałac Sanguszków — Punkt Strategiczny", era: "II WOJNA ŚWIATOWA", type: "OBIEKT HISTORYCZNY / ARCHITEKTURA", coords: [22.60150, 51.46650], addr: "Park Miejski", desc: "Świadek walk w lipcu 1944 roku w trakcie realizacji założeń Akcji „Burza”.", audio: "audio_palac_sanguszkow.mp3" },
+  { id: 25, order_route: 21, name: "Krzyż Wolności", era: "POWSTANIA", type: "MIEJSCE PAMIĘCI / POMNIK", coords: [22.60250, 51.45880], addr: "ul. Lipowa / 3 Maja", desc: "Historyczny symbol niezłomności mieszkańców. Miejsce manifestacji w okresach braku suwerenności.", audio: "audio_krzyz_wolnosci.mp3" },
+  { id: 26, order_route: 22, name: "Cmentarz Wojenny 1915-18", era: "I WOJNA / LEGIONY", type: "NEKROPOLIA / MOGIŁA", coords: [22.60155, 51.45865], addr: "ul. Lipowa (Cmentarz)", desc: "Miejsce spoczynku ok. 1000 żołnierzy różnych narodowości, w tym wielu Polaków.", audio: "audio_cmentarz_wojenny.mp3" },
+  { id: 5, order_route: 23, name: "Kwatera Wrześniowa 1939", era: "II WOJNA ŚWIATOWA", type: "NEKROPOLIA / MOGIŁA", coords: [22.59690, 51.45660], addr: "Cmentarz Parafialny", desc: "Mogiła żołnierzy Wojska Polskiego poległych w obronie rejonu Lubartowa przed agresją niemiecką we wrześniu 1939 r.", audio: "audio_kwatera_wrzesniowa.mp3" },
+  { id: 6, order_route: 24, name: "Nagrobek Legionistów", era: "I WOJNA / LEGIONY", type: "NEKROPOLIA / MOGIŁA", coords: [22.59710, 51.45640], addr: "Cmentarz Parafialny", desc: "Upamiętnienie żołnierzy Legionów Polskich poległych w 1915 roku w starciach o niepodległą Polskę.", audio: "audio_nagrobek_legionistow.mp3" },
+  { id: 7, order_route: 25, name: "Pomnik Zwycięstwa 1920", era: "WOJNA 1920", type: "MIEJSCE PAMIĘCI / POMNIK", coords: [22.59730, 51.45620], addr: "Cmentarz Parafialny", desc: "Wzniesiony ku czci obrońców Ojczyzny przed najazdem bolszewickim. Tradycyjne miejsce obchodów patriotycznych.", audio: "audio_pomnik_1920.mp3" },
+  { id: 8, order_route: 26, name: "Symboliczny Grób kpt. 'Uskoka'", era: "PODZIEMIE ANTYKOMUNISTYCZNE", type: "MIEJSCE PAMIĘCI / POMNIK", coords: [22.59750, 51.45680], addr: "Cmentarz Parafialny", desc: "Upamiętnienie kpt. Zdzisława Brońskiego (1912-1949), legendarnego dowódcy partyzanckiego AK-WiN na Ziemi Lubartowskiej.", audio: "audio_pomnik_uskoka.mp3" }
 ];
 
 /* ======================================================================
@@ -182,7 +173,13 @@ const wyprawy = [
 let map;
 let markerObjects = [];
 
-mapboxgl.accessToken = pk.eyJ1Ijoic3psYWtwYW1pZWNpIiwiYSI6ImNtcG9mbnc2NzAyejMycXF3YzBmejUxaWgifQ.IzEorkORB8T0RbT6N-WCLg; 
+// Token wbudowany na sztywno — działa od razu, bez potrzeby wpisywania go ręcznie.
+// Jeśli kiedyś przestanie działać (limit/wygaśnięcie), #tokenGate pokaże się
+// automatycznie jako fallback (patrz initMap()).
+const DEFAULT_TOKEN = 'pk.eyJ1Ijoic3psYWtwYW1pZWNpIiwiYSI6ImNtcG9mbnc2NzAyejMycXF3YzBmejUxaWgifQ.IzEorkORB8T0RbT6N-WCLg';
+
+function initMap(token) {
+  mapboxgl.accessToken = token;
 
   map = new mapboxgl.Map({
     container: 'map',
@@ -192,14 +189,25 @@ mapboxgl.accessToken = pk.eyJ1Ijoic3psYWtwYW1pZWNpIiwiYSI6ImNtcG9mbnc2NzAyejMycX
     pitch: 15
   });
 
+  map.on('error', (e) => {
+    console.error('Błąd Mapbox (prawdopodobnie zły/wygasły token):', e);
+    document.getElementById('tokenGate').classList.add('visible');
+  });
+
   map.on('load', () => {
     points.forEach(p => addMarker(p, false));
     wyprawy.forEach(p => addMarker(p, true));
-
     buildPanel();
     buildLegend();
     drawNarrativeRoute();
   });
+}
+
+function startMapWithInputToken() {
+  const val = document.getElementById('tokenInput').value.trim();
+  if (!val) return;
+  document.getElementById('tokenGate').classList.remove('visible');
+  initMap(val);
 }
 
 function addMarker(p, isWyprawa) {
@@ -271,7 +279,6 @@ function buildLegend() {
 function applyFilters() {
   const eraChecked = [...document.querySelectorAll('input[data-filter="era"]:checked')].map(i => i.value);
   const typeChecked = [...document.querySelectorAll('input[data-filter="type"]:checked')].map(i => i.value);
-
   markerObjects.forEach(m => {
     const visible = eraChecked.includes(m.era) && typeChecked.includes(m.type);
     m.el.style.display = visible ? 'flex' : 'none';
@@ -347,6 +354,10 @@ async function fetchRouteChunk(coordsArray) {
   if (!data.routes || !data.routes.length) return null;
   return data.routes[0];
 }
+
+// Start mapy z wbudowanym tokenem. Jeśli token zawiedzie, map.on('error', ...)
+// powyżej automatycznie pokaże panel do wpisania własnego tokenu.
+initMap(DEFAULT_TOKEN);
 </script>
 </body>
 </html>
