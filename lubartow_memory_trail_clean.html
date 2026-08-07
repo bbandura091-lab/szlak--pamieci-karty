@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lubartów Memory Trail — baza finalna (23 punkty, lekka wersja)</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin:0; padding:24px 12px; background:#0d0c0a; font-family:'Libre Franklin', Arial, sans-serif; }
+  .grid { display:flex; flex-wrap:wrap; gap:26px; justify-content:center; max-width:1450px; margin:0 auto; }
+  .gallery-title { width:100%; text-align:center; font-family:'Source Serif 4', Georgia, serif; color:#d1c5b0; margin-bottom:8px; font-size:26px; }
+  .gallery-sub { width:100%; text-align:center; color:#665d4c; font-family:'JetBrains Mono', monospace; font-size:12px; margin-bottom:32px; letter-spacing:0.5px; }
+  .card { width:330px; background:#eee1cb; border-radius:0.5rem; overflow:hidden; box-shadow:0 0 20px rgba(102,93,76,0.2); border:1px solid #c6c6cb; }
+  .card.flag-conflict { border:2px solid #ba1a1a; }
+  .card.flag-partial { border:2px dashed #8a6d1f; }
+  .card.flag-verified { border:2px solid #2e5c3e; }
+  .portrait-wrap { position:relative; width:100%; aspect-ratio:4/3; background:#1a1c21; overflow:hidden; }
+  .matzevah-arch { clip-path: ellipse(52% 100% at 50% 100%); width:100%; height:100%; overflow:hidden; position:relative; }
+  .poi-photo { width:100%; height:100%; object-fit:cover; display:block; }
+  .placeholder-arch { width:100%; height:100%; align-items:center; justify-content:center; background:#26221c; color:#665d4c; font-family:'JetBrains Mono',monospace; font-size:10.5px; text-align:center; padding:16px; line-height:1.5; position:absolute; inset:0; }
+  .id-tag { position:absolute; top:10px; left:10px; background:#0a0a0a; color:#e8d9b5; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; padding:4px 9px; border-radius:3px; z-index:2; }
+  .flag-tag { position:absolute; top:10px; right:10px; font-family:'JetBrains Mono',monospace; font-size:9px; font-weight:700; text-transform:uppercase; padding:4px 8px; border-radius:3px; z-index:2; }
+  .flag-conflict .flag-tag { background:#ba1a1a; color:#fff; }
+  .flag-partial .flag-tag { background:#8a6d1f; color:#fff3d0; }
+  .flag-verified .flag-tag { background:#2e5c3e; color:#d6f5e0; }
+  .flag-ok .flag-tag { background:#2e5c3e; color:#d6f5e0; }
+  .info { padding:16px 16px 18px 16px; }
+  .info h3 { font-family:'Source Serif 4', Georgia, serif; font-size:16px; color:#1a1c21; margin:0 0 6px 0; line-height:1.3; }
+  .info .addr { font-family:'JetBrains Mono',monospace; font-size:10px; color:#76777b; margin:0 0 10px 0; }
+  .bio { font-size:12px; line-height:1.55; color:#1a1c1c; margin:0 0 10px 0; }
+  .heroes { font-family:'JetBrains Mono',monospace; font-size:10px; color:#665d4c; border-top:1px dashed #c6c6cb; padding-top:8px; margin-top:8px; }
+  .warn { font-family:'JetBrains Mono',monospace; font-size:10px; line-height:1.5; padding:8px 9px; border-radius:4px; margin-top:8px; }
+  .warn-conflict { background:#fdeaea; color:#8a1414; border:1px dashed #ba1a1a; }
+  .warn-other { background:#f3f4f3; color:#45474b; border:1px dashed #76777b; }
+</style>
+</head>
+<body>
+<h1 class="gallery-title">Lubartów Memory Trail — baza finalna</h1>
+<p class="gallery-sub">23 punkty · zdjęcia jako ścieżki plików (folder images/), nie base64 · brakujący plik = czytelny placeholder zamiast złamanego obrazka</p>
+<div class="grid">
+
+    <div class="card flag-ok">
+      <div class="portrait-wrap">
+        <span class="id-tag">#1</span>
+        <span class="flag-tag">✓ OK</span>
+        <div class="matzevah-arch">
+          <img class="poi-photo" src="images/01_rynek_i.jpg" alt="Rynek I"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="placeholder-arch" style="display:none;">BRAK PLIKU<br>images/01_rynek_i.jpg<br>ID: 1</div>
+        </div>
+      </div>
+      <div class="info">
+        <h3>Rynek I</h3>
+        <p class="addr">📍 Rynek I</p>
+        <p class="bio">Główny punkt zborny i historyczne serce administracyjne miasta.</p>
+        <div class="heroes">👤 por. rez. Czesław Gregorowicz ps. „Jaromir”</div>
+        
+      </div>
+    </div>
+
+    <div class="card flag-ok">
+      <div class="portrait-wrap">
+        <span class="id-tag">#10</span>
+        <span class="flag-tag">✓ OK</span>
+        <div class="matzevah-arch">
+          <img class="poi-photo" src="images/10_ul_lubelska.jpg" alt="ul. Lubelska"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="placeholder-arch" style="display:none;">BRAK PLIKU<br>images/10_ul_lubelska.jpg<br>ID: 10</div>
+        </div>
+      </div>
+      <div class="info">
+        <h3>ul. Lubelska</h3>
+        <p class="addr">📍 ul. Lubelska</p>
+        <p class="bio">Miejsce zaciętych walk i osłony odwrotu wojsk polskich w 1831 roku.</p>
+        <div class="heroes">👤 ppłk Jan Kiwerski ps. "Oliwa"</div>
+        
+      </div>
+    </div>
+
+    <div class="card flag-ok">
+      <div class="portrait-wrap">
+        <span class="id-tag">#11</span>
+        <span class="flag-tag">✓ OK</span>
+        <div class="matzevah-arch">
+          <img class="poi-photo" src="images/11_ul_szaniawskiego.jpg" alt="ul. Szaniawskiego"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="placeholder-arch" style="display:none;">BRAK PLIKU<br>images/11_ul_szaniawskiego.jpg<br>ID: 11</div>
+        </div>
+      </div>
+      <div class="info">
+        <h3>ul. Szaniawskiego</h3>
+        <p class="addr">📍 ul. Szaniawskiego</p>
+        <p class="bio">Miejsce pamięci poświęcone żołnierzom i działaniom obronnym regionu.</p>
+        <div class="heroes">👤 por. rez. Roman Jezior ps. „Okoń”</div>
+        
+      </div>
+    </div>
+
+    <div class="card flag-partial">
+      <div class="portrait-wrap">
+        <span class="id-tag">#12</span>
+        <span class="flag-tag">◐ Częściowe</span>
+        <div class="matzevah-arch">
+          <img class="poi-photo" src="images/12_plac_wolnosci.jpg" alt="Plac Wolności"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="placeholder-arch" style="display:none;">BRAK PLIKU<br>images/12_plac_wolnosci.jpg<br>ID: 12</div>
+        </div>
+      </div>
+      <div class="info">
+        <h3>Plac Wolności</h3>
+        <p class="addr">📍 Plac Wolności</p>
+        <p class="bio">Tradycyjne miejsce manifestacji patriotycznych w okresach braku suwerenności.</p>
+        <div class="heroes">👤 kpt. Adam Domaradzki ps. „Don”</div>
+        <div class="warn warn-other">ℹ Stopień: por. rez. / kpt. Adam Domaradzki (stopień z okresu Akcji „Burza” vs. późniejszy awans).</div>
+      </div>
+    </div>
+
+    <div class="card flag-ok">
+      <div class="portrait-wrap">
+        <span class="id-tag">#13</span>
+        <span class="flag-tag">✓ OK</span>
+        <div class="matzevah-arch">
+          <img class="poi-photo" src="images/13_ul_jana_pawla_ii.jpg" alt="ul. Jana Pawła II"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="placeholder-arch" style="display:none;">BRAK PLIKU<br>images/13_ul_jana_pawla_ii.jpg<br>ID: 13</div>
+        </div>
+      </div>
+      <div class="info">
+        <h3>ul. Jana Pawła II</h3>
+        <p class="addr">📍 ul. Jana Pawła II</p>
+        <p class="bio">Centralny punkt przekazywania rozkazów i meldunków konspiracyjnych.</p>
+        <div class="heroes">👤 por. Józef Jurałomski ps. „Jur”</div>
+        
+      </div>
+    </div>
+
+    <div class="card flag-ok">
+      <div class="portrait-wrap">
+        <span class="id-tag">#14</span>
+        <span class="flag-tag">✓ OK</span>
+        <div class="matzevah-arch">
+          <img class="poi-photo" src="images/14_pmdk.jpg" alt="róg ul. Lipowej i Słowackiego (obecnie PMDK)"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="placeholder-arch" style="display:none;">BRAK PLIKU<br>images/14_pmdk.jpg<br>ID: 14</div>
+        </div>
+      </div>
+      <div class="info">
+        <h3>róg ul. Lipowej i Słowackiego (obecnie PMDK)</h3>
+        <p class="addr">📍 róg ul. Lipowej i Słowackiego (obecnie PMDK)</p>
+        <p class="bio">Konspiracyjny punkt leczniczy i sanitarny Obwodu ZWZ-AK. W podziemiach i na oddziałach udzielano pomocy rannym partyzantom.</p>
+        <div class="heroes">👤 ks. kapelan rez. Aleksander Szulc ps. „Ina”</div>
+        
+      </div>
+    </div>
+
+    <div class="card flag-ok">
+      <div class="portrait-wrap">
+        <span class="id-tag">#16</span>
+        <span class="flag-tag">✓ OK</span>
+        <div class="matzevah-arch">
+          <img class="poi-photo" src="images/16_ul_waska.jpg" alt="ul. Wąska"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="placeholder-arch" style="display:none;">BRAK PLIKU<br>images/16_ul_waska.jpg<br>ID: 16</div>
+        </div>
+      </div>
+      <div class="info">
+        <h3>ul. Wąska</h3>
+        <p class="addr">📍 ul. Wąska</p>
+        <p class="bio">Miejsce wydawania i składania podziemnej prasy oraz ulotek informacyjnych.</p>
+        <div class="heroes">👤 sierż. rez. Karol Skaruch ps. „Warta”</div>
+        
+      </div>
+    </div>
+
+    <div class="card flag-ok">
+      <div class="portrait-wrap">
+        <span class="id-tag">#17</span>
+        <span class="flag-tag">✓ OK</span>
+        <div class="matzevah-arch">
+          <img class="poi-photo" src="images/17_ul_partyzancka.jpg" alt="ul. Partyzancka"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="placeholder-arch" style="display:none;">BRAK PLIKU<br>images/17_ul_partyzancka.jpg<br>ID: 17</div>
+        </div>
+      </div>
+      <div class="info">
+        <h3>ul. Partyzancka</h3>
+        <p class="addr">📍 ul. Partyzancka</p>
+        <p class="bio">Tymczasowy punkt medyczny zorganizowany na potrzeby rannych w Akcji Burza.</p>
+        <div class="heroes">👤 por. Tadeusz Pośpiech ps. „Brzechwa”</div>
+        
+      </div>
+    </div>
+
+    <div class="card flag-ok">
+      <div class="portrait-wrap">
+        <span class="id-tag">#18</span>
+        <span class="flag-tag">✓ OK</span>
+        <div class="matzevah-arch">
+          <img class="poi-photo" src="images/18_ul_lubelska_wylot.jpg" alt="ul. Lubelska (wylot)"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="placeholder-arch" style="display:none;">BRAK PLIKU<br>images/18_ul_lubelska_wylot.jpg<br>ID: 18</div>
+        </div>
+      </div>
+      <div class="info">
+        <h3>ul. Lubelska (wylot)</h3>
+        <p class="addr">📍 ul. Lubelska (wylot)</p>
+        <p class="bio">Pozycja obronna Wojska Polskiego stawiająca opór wkraczającym oddziałom niemieckim.</p>
+        <div class="heroes">👤 por. Zdzisław Broński ps. „Uskok”</div>
+        
+      </div>
+    </div>
+
+    <div class="card flag-ok">
+      <div class="portrait-wrap">
+        <span class="id-tag">#19</span>
+        <span class="flag-tag">✓ OK</span>
+        <div class="matzevah-arch">
+          <img class="poi-photo" src="images/19_ul_lubelska.jpg" alt="ul. Lubelska"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="placeholder-arch" style="display:none;">BRAK PLIKU<br>images/19_ul_lubelska.jpg<br>ID: 19</div>
+        </div>
+      </div>
+      <div class="info">
+        <h3>ul. Lubelska</h3>
+        <p class="addr">📍 ul. Lubelska</p>
+        <p class="bio">Obiekt administracji powojennej będący celem rozpoznania i akcji podziemia.</p>
+        <div class="heroes">👤 por. Zdzisław Broński ps. „Uskok”</div>
+        
+      </div>
+    </div>
+
+    <div class="card flag-ok">
+      <div class="portrait-wrap">
+        <span class="id-tag">#2</span>
+        <span class="flag-tag">✓ OK</span>
+        <div class="matzevah-arch">
+          <img class="poi-photo" src="images/02_gmach_starostwa.jpg" alt="Gmach Starostwa"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="placeholder-arch" style="display:none;">BRAK PLIKU<br>images/02_gmach_starostwa.jpg<br>ID: 2</div>
+        </div>
+      </div>
+      <div class="info">
+        <h3>Gmach Starostwa</h3>
+        <p class="addr">📍 Gmach Starostwa</p>
+        <p class="bio">Miejsce stacjonowania sztabu dowodzenia podczas uderzenia znad Wieprza.</p>
+        <div class="heroes">👤 por. Józef Jurałomski ps. „Jur”</div>
+        
+      </div>
+    </div>
+
+    <div class="card flag-verified">
+      <div class="portrait-wrap">
+        <span class="id-tag">#20</span>
+        <span class="flag-tag">✓ Potwierdzone</span>
+        <div class="matzevah-arch">
+          <img class="poi-photo" src="images/20_ul_1_maja.jpg" alt="kpt. Władysław Czermiński „Jastrząb” (upamiętnienie)"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="placeholder-arch" style="display:none;">BRAK PLIKU<br>images/20_ul_1_maja.jpg<br>ID: 20</div>
+        </div>
+      </div>
+      <div class="info">
+        <h3>kpt. Władysław Czermiński „Jastrząb” (upamiętnienie)</h3>
+        <p class="addr">📍 ul. 1 Maja</p>
+        <p class="bio">kpt. Władysław Czermiński ps. „Jastrząb” — dowódca II Batalionu 50. Pułku Piechoty 27. WDP AK. Po walkach na Wołyniu i przekroczeniu Bugu (czerwiec 1944) dotarł z oddziałem w rejon Lasów Kozłowieckich. 25 lipca 1944 r. przeprowadził ostatnią zbiórkę batalionu przed przymusowym rozbrojeniem przez wojska sovietyckie w rejonie Skrobów/Stary Tartak. W maju 1945 r. odtwarzał struktury podziemne (Batalion Kadrowy 27 DP). Upamiętniony na pobliskim Muralu 27 WDP AK.</p>
+        <div class="heroes">👤 por. rez. pieś. Władysław Czermiński ps. “Jastrząb”</div>
+        <div class="warn warn-other">ℹ kpt. Władysław Czermiński ps. „Jastrząb” (awans na kpt. 3 maja 1944). Dowódca II/50 pp 27 WDP AK. 25 lipca 1944 r. przeprowadził ostatnią zbiórkę batalionu przed rozbrojeniem przez wojska sowieckie w rejonie Skrobów/Stary Tartak. Upamiętniony na Muralu 27 WDP AK (ul. 1 Maja) — stąd powiązanie z tym adresem, mimo że fizycznie stacjonował w Lasach Kozłowieckich. Źródła: J. Turowski „Pożoga” (1990); L. Karłowicz „Od Zasmyk do Skrobowa” (potwierdzone niezależnie); IPN Gdańsk.</div>
+      </div>
+    </div>
+
+    <div class="card flag-ok">
+      <div class="portrait-wrap">
+        <span class="id-tag">#21</span>
+        <span class="flag-tag">✓ OK</span>
+        <div class="matzevah-arch">
+          <img class="poi-photo" src="images/21_rynek.jpg" alt="Rynek"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="placeholder-arch" style="display:none;">BRAK PLIKU<br>images/21_rynek.jpg<br>ID: 21</div>
+        </div>
+      </div>
+      <div class="info">
+        <h3>Rynek</h3>
+        <p class="addr">📍 Rynek</p>
+        <p class="bio">Monument upamiętniający powrót Lubartowa do macierzy i czyn legionowy.</p>
+        <div class="heroes">👤 mjr Jan Szatowski ps. "Kowal"</div>
+        
+      </div>
+    </div>
+
+    <div class="card flag-ok">
+      <div class="portrait-wrap">
+        <span class="id-tag">#27</span>
+        <span class="flag-tag">✓ OK</span>
+        <div class="matzevah-arch">
+          <img class="poi-photo" src="images/27_dworzec_pkp.jpg" alt="Dworzec PKP"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="placeholder-arch" style="display:none;">BRAK PLIKU<br>images/27_dworzec_pkp.jpg<br>ID: 27</div>
+        </div>
+      </div>
+      <div class="info">
+        <h3>Dworzec PKP</h3>
+        <p class="addr">📍 Dworzec PKP, ul. Dworcowa 1 , 21-100 Lubartów</p>
+        <p class="bio">Kluczowy punkt strategiczny podczas oswobadzania miasta w lipcu 1944 roku. Stacja kolejowa służyła jako węzeł wywiadu AK monitorującego transporty na front wschodni, a w dniach 22-23 lipca 1944 r. stała się miejscem koncentracji i odprawy oddziałów partyzanckich przed wkroczeniem do miasta.</p>
+        <div class="heroes">👤 mjr Tadeusz Sztumberk-Rychter ps. „Żegota”</div>
+        
+      </div>
+    </div>
+
+    <div class="card flag-ok">
+      <div class="portrait-wrap">
+        <span class="id-tag">#28</span>
+        <span class="flag-tag">✓ OK</span>
+        <div class="matzevah-arch">
+          <img class="poi-photo" src="images/28_mural_27wdp.jpg" alt="Mural 27. WDP AK"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="placeholder-arch" style="display:none;">BRAK PLIKU<br>images/28_mural_27wdp.jpg<br>ID: 28</div>
+        </div>
+      </div>
+      <div class="info">
+        <h3>Mural 27. WDP AK</h3>
+        <p class="addr">📍 ul. 1 Maja 82 (RCEZ)</p>
+        <p class="bio">Współczesne upamiętnienie wielkoformatowe na budynku Regionalnego Centrum Edukacji Zawodowej, dedykowane żołnierzom 27. Wołyńskiej Dywizji Piechoty Armii Krajowej. Mural powstał z inicjatywy lokalnej społeczności i uwiecznia twarze bohaterów, którzy w lipcu 1944 r. wkroczyli do Lubartowa jako wyzwoliciele.</p>
+        <div class="heroes">👤 ppłk Jan Kiwerski ps. "Oliwa"</div>
+        
+      </div>
+    </div>
+
+    <div class="card flag-partial">
+      <div class="portrait-wrap">
+        <span class="id-tag">#3</span>
+        <span class="flag-tag">◐ Częściowe</span>
+        <div class="matzevah-arch">
+          <img class="poi-photo" src="images/03_sad_grodzki.jpg" alt="Sąd Grodzki"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="placeholder-arch" style="display:none;">BRAK PLIKU<br>images/03_sad_grodzki.jpg<br>ID: 3</div>
+        </div>
+      </div>
+      <div class="info">
+        <h3>Sąd Grodzki</h3>
+        <p class="addr">📍 ul. Słowackiego</p>
+        <p class="bio">Legalne zaplecze sądownicze wykorzystywane do niszczenia kartotek i spowalniania śledztw.</p>
+        <div class="heroes">👤 kpt. Adam Domaradzki ps. „Don”</div>
+        <div class="warn warn-other">ℹ Stopień: por. rez. / kpt. Adam Domaradzki (stopień z okresu Akcji „Burza” vs. późniejszy awans).</div>
+      </div>
+    </div>
+
+    <div class="card flag-ok">
+      <div class="portrait-wrap">
+        <span class="id-tag">#4</span>
+        <span class="flag-tag">✓ OK</span>
+        <div class="matzevah-arch">
+          <img class="poi-photo" src="images/04_ul_lubelska.jpg" alt="ul. Lubelska"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="placeholder-arch" style="display:none;">BRAK PLIKU<br>images/04_ul_lubelska.jpg<br>ID: 4</div>
+        </div>
+      </div>
+      <div class="info">
+        <h3>ul. Lubelska</h3>
+        <p class="addr">📍 ul. Lubelska</p>
+        <p class="bio">Miejsce akcji małego sabotażu i rozprowadzania ulotek przez harcerzy.</p>
+        <div class="heroes">👤 sierż. rez. Karol Skaruch ps. „Warta”</div>
+        
+      </div>
+    </div>
+
+    <div class="card flag-ok">
+      <div class="portrait-wrap">
+        <span class="id-tag">#5</span>
+        <span class="flag-tag">✓ OK</span>
+        <div class="matzevah-arch">
+          <img class="poi-photo" src="images/05_dawne_gimnazjum.jpg" alt="ul. Lubelska (dawne gimnazjum)"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="placeholder-arch" style="display:none;">BRAK PLIKU<br>images/05_dawne_gimnazjum.jpg<br>ID: 5</div>
+        </div>
+      </div>
+      <div class="info">
+        <h3>ul. Lubelska (dawne gimnazjum)</h3>
+        <p class="addr">📍 ul. Lubelska (dawne gimnazjum)</p>
+        <p class="bio">Dawne miejsce martyrologii i aresztu. Upamiętnienie ofiar systemu totalitarnego na Ziemi Lubartowskiej.</p>
+        <div class="heroes">👤 por. rez. Roman Jezior ps. „Okoń”</div>
+        
+      </div>
+    </div>
+
+    <div class="card flag-ok">
+      <div class="portrait-wrap">
+        <span class="id-tag">#6</span>
+        <span class="flag-tag">✓ OK</span>
+        <div class="matzevah-arch">
+          <img class="poi-photo" src="images/06_ul_kolejowa.jpg" alt="ul. Kolejowa"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="placeholder-arch" style="display:none;">BRAK PLIKU<br>images/06_ul_kolejowa.jpg<br>ID: 6</div>
+        </div>
+      </div>
+      <div class="info">
+        <h3>ul. Kolejowa</h3>
+        <p class="addr">📍 ul. Kolejowa</p>
+        <p class="bio">Punkt obserwacyjny wywiadu kolejowego AK monitorujący transporty na front.</p>
+        <div class="heroes">👤 plut. rez. Stefan Rafalski</div>
+        
+      </div>
+    </div>
+
+    <div class="card flag-ok">
+      <div class="portrait-wrap">
+        <span class="id-tag">#7</span>
+        <span class="flag-tag">✓ OK</span>
+        <div class="matzevah-arch">
+          <img class="poi-photo" src="images/07_torowisko_stacja.jpg" alt="Torowisko przy stacji"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="placeholder-arch" style="display:none;">BRAK PLIKU<br>images/07_torowisko_stacja.jpg<br>ID: 7</div>
+        </div>
+      </div>
+      <div class="info">
+        <h3>Torowisko przy stacji</h3>
+        <p class="addr">📍 Torowisko przy stacji</p>
+        <p class="bio">Miejsce koncentracji i masowych wywózek ludności do obozów zagłady.</p>
+        <div class="heroes">👤 ks. kapelan rez. Aleksander Szulc ps. „Ina”</div>
+        
+      </div>
+    </div>
+
+    <div class="card flag-ok">
+      <div class="portrait-wrap">
+        <span class="id-tag">#8</span>
+        <span class="flag-tag">✓ OK</span>
+        <div class="matzevah-arch">
+          <img class="poi-photo" src="images/08_park_miejski.jpg" alt="Park Miejski"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="placeholder-arch" style="display:none;">BRAK PLIKU<br>images/08_park_miejski.jpg<br>ID: 8</div>
+        </div>
+      </div>
+      <div class="info">
+        <h3>Park Miejski</h3>
+        <p class="addr">📍 Park Miejski</p>
+        <p class="bio">Strategicznym punkt obrony przechodzący z rąk do rąk podczas Akcji Burza.</p>
+        <div class="heroes">👤 por. Tadeusz Pośpiech ps. „Brzechwa”</div>
+        
+      </div>
+    </div>
+
+    <div class="card flag-ok">
+      <div class="portrait-wrap">
+        <span class="id-tag">#9</span>
+        <span class="flag-tag">✓ OK</span>
+        <div class="matzevah-arch">
+          <img class="poi-photo" src="images/09_ul_slowackiego.jpg" alt="ul. Słowackiego"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="placeholder-arch" style="display:none;">BRAK PLIKU<br>images/09_ul_slowackiego.jpg<br>ID: 9</div>
+        </div>
+      </div>
+      <div class="info">
+        <h3>ul. Słowackiego</h3>
+        <p class="addr">📍 ul. Słowackiego</p>
+        <p class="bio">Ośrodek wsparcia duchowego, patriotycznego oraz oporu cywilnego mieszkańców.</p>
+        <div class="heroes">👤 ks. kapelan rez. Aleksander Szulc ps. „Ina”</div>
+        
+      </div>
+    </div>
+
+    <div class="card flag-ok">
+      <div class="portrait-wrap">
+        <span class="id-tag">#22-26</span>
+        <span class="flag-tag">✓ OK</span>
+        <div class="matzevah-arch">
+          <img class="poi-photo" src="images/22-26_cmentarz_parafialny.jpg" alt="Cmentarz Parafialny (ul. Szaniawskiego)"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="placeholder-arch" style="display:none;">BRAK PLIKU<br>images/22-26_cmentarz_parafialny.jpg<br>ID: 22-26</div>
+        </div>
+      </div>
+      <div class="info">
+        <h3>Cmentarz Parafialny (ul. Szaniawskiego)</h3>
+        <p class="addr">📍 Cmentarz Parafialny (ul. Szaniawskiego)</p>
+        <p class="bio">Miejsce spoczynku ok. 1000 żołnierzy różnych narodowości, w tym wielu Polaków. Mogiła żołnierzy Wojska Polskiego poległych w obronie rejonu Lubartowa we września 1939 r. Upamiętnienie żołnierzy Legionów Polskich poległych w 1915 roku w starciach o niepodległość. Wzniesiony ku czci obrońców Ojczyzny przed najazdem bolszewickim. Upamiętnienie kpt. Zdzisława Brońskiego (1912-1949), legendarnego dowódcy partyzanckiego AK-WiN.</p>
+        <div class="heroes">👤 Józef Szymula ps. „Jordan”, mjr Tadeusz Sztumberk-Rychter ps. „Żegota”, por. Zdzisław Broński ps. „Uskok”, por. rez. pieś. Władysław Czermiński ps. “Jastrząb”, ppłk Jan Kiwerski ps. "Oliwa"</div>
+        
+      </div>
+    </div>
+</div>
+</body>
+</html>
