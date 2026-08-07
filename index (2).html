@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Szlak Pamięci Lubartowa — Strona Główna</title>
+    <!-- Mapbox GL JS -->
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-dark: #121316;
+            --bg-card: #eadecc;
+            --text-dark: #221f1d;
+            --accent-gold: #c29b38;
+            --accent-red: #8b1e0f;
+            --border-color: #333;
+            --font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #ece6da;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(180deg, #090a0c 0%, var(--bg-dark) 100%);
+            padding: 40px 20px 20px 20px;
+            text-align: center;
+            border-bottom: 2px solid var(--accent-gold);
+        }
+
+        header h1 {
+            font-family: var(--font-family);
+            font-size: 2.4rem;
+            color: #f7f3eb;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            font-size: 1.05rem;
+            color: #b0a898;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Sekcja Mapy */
+        .map-section {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .map-title {
+            font-family: var(--font-family);
+            font-size: 1.5rem;
+            color: var(--accent-gold);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #map {
+            width: 100%;
+            height: 480px;
+            border-radius: 12px;
+            border: 2px solid #2a2d32;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+        }
+
+        /* Sekcja Panteonu Bohaterów */
+        .panteon-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .section-header {
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-family);
+            font-size: 1.8rem;
+            color: #f7f3eb;
+        }
+
+        .section-header p {
+            color: #999;
+            font-size: 0.95rem;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        /* Karty Archiwalne */
+        .card {
+            background-color: var(--bg-card);
+            color: var(--text-dark);
+            border-radius: 14px;
+            padding: 16px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            font-family: var(--font-family);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .badge-id {
+            background-color: #000;
+            color: #fff;
+            font-family: monospace;
+            font-size: 0.75rem;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .badge-status {
+            font-size: 0.8rem;
+            color: #2b5d2b;
+            font-weight: bold;
+        }
+
+        .arch-frame {
+            position: relative;
+            width: 100%;
+            height: 380px;
+            background-color: #2b2825;
+            border-top-left-radius: 120px;
+            border-top-right-radius: 120px;
+            overflow: hidden;
+            border: 3px solid #bcad96;
+            margin-bottom: 15px;
+        }
+
+        .arch-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: sepia(0.15) contrast(1.05);
+        }
+
+        .stamp-tag {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(234, 222, 204, 0.85);
+            border: 1px solid #776a58;
+            padding: 2px 6px;
+            font-family: monospace;
+            font-size: 0.65rem;
+            color: #333;
+            border-radius: 2px;
+        }
+
+        .card-name {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #1a1715;
+            margin-bottom: 2px;
+            line-height: 1.2;
+        }
+
+        .card-pseudonym {
+            color: var(--accent-red);
+            font-size: 0.95rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .card-role {
+            font-size: 0.88rem;
+            color: #4a443e;
+            border-top: 1px dashed #b5a590;
+            padding-top: 8px;
+            margin-top: auto;
+        }
+
+        .card-location {
+            margin-top: 8px;
+            font-size: 0.75rem;
+            color: #736758;
+            font-family: monospace;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            font-size: 0.85rem;
+            border-top: 1px solid #222;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.8rem; }
+            #map { height: 350px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Szlak Pamięci Lubartowa</h1>
+        <p>Interaktywna mapa historyczna i Panteon Bohaterów walczących o niepodległość w rejonie Lubartowa</p>
+    </header>
+
+    <!-- SEKJA MAPY -->
+    <section class="map-section">
+        <div class="map-title">
+            📍 Interaktywna Mapa Lubartowa
+        </div>
+        <div id="map"></div>
+    </section>
+
+    <!-- SEKCJA PANTEONU BOHATERÓW -->
+    <section class="panteon-section">
+        <div class="section-header">
+            <h2>Panteon Bohaterów</h2>
+            <p>Karty postaci dowódców i żołnierzy związanych z Lubartowszczyzną oraz 27. Wołyńską Dywizją Piechoty AK</p>
+        </div>
+
+        <div class="cards-grid">
+
+            <!-- POS_007 -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="badge-id">POS_007</span>
+                    <span class="badge-status">✓ ZERYFIKOWANE</span>
+                </div>
+                <div class="arch-frame">
+                    <img src="images/POS_007_juralomski.jpg" alt="por. Józef Jurałomski" onerror="this.onerror=null; this.parentElement.innerHTML='<div style='color:#aaa;text-align:center;padding-top:160px;font-family:monospace;font-size:0.8rem;'>BRAK ZDJĘCIA<br>images/POS_007_juralomski.jpg</div>';">
+                    <div class="stamp-tag">J. JURAŁOMSKI / II REJON AK</div>
+                </div>
+                <div class="card-name">por. Józef Jurałomski</div>
+                <div class="card-pseudonym">ps. „Jur” (ur. 1906, zm. 1978)</div>
+                <div class="card-role">Oficer KOP i dowódca II Rejonu AK (miasto Lubartów)</div>
+                <div class="card-location">📍 Lubartów, woj. lubelskie</div>
+            </div>
+
+            <!-- POS_008 -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="badge-id">POS_008</span>
+                    <span class="badge-status">✓ ZERYFIKOWANE</span>
+                </div>
+                <div class="arch-frame">
+                    <img src="images/POS_008_kiwerski.jpg" alt="ppłk dypl. Jan Wojciech Kiwerski" onerror="this.onerror=null; this.parentElement.innerHTML='<div style='color:#aaa;text-align:center;padding-top:160px;font-family:monospace;font-size:0.8rem;'>BRAK ZDJĘCIA<br>images/POS_008_kiwerski.jpg</div>';">
+                    <div class="stamp-tag">J. KIWERSKI / 27 WDP AK</div>
+                </div>
+                <div class="card-name">ppłk dypl. Jan Wojciech Kiwerski</div>
+                <div class="card-pseudonym">ps. „Oliwa” (ur. 1910, zm. 1944)</div>
+                <div class="card-role">Pierwszy dowódca 27. Wołyńskiej Dywizji Piechoty AK</div>
+                <div class="card-location">📍 Lubartów, woj. lubelskie</div>
+            </div>
+
+            <!-- POS_009 -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="badge-id">POS_009</span>
+                    <span class="badge-status">✓ ZERYFIKOWANE</span>
+                </div>
+                <div class="arch-frame">
+                    <img src="images/POS_009_szatowski.jpg" alt="mjr Jan Szatowski" onerror="this.onerror=null; this.parentElement.innerHTML='<div style='color:#aaa;text-align:center;padding-top:160px;font-family:monospace;font-size:0.8rem;'>BRAK ZDJĘCIA<br>images/POS_009_szatowski.jpg</div>';">
+                    <div class="stamp-tag">J. SZATOWSKI / 27 WDP AK</div>
+                </div>
+                <div class="card-name">mjr Jan Szatowski</div>
+                <div class="card-pseudonym">ps. „Kowal” (ur. 1907, zm. 1988)</div>
+                <div class="card-role">Dowódca 27. Wołyńskiej Dywizji Piechoty AK po śmierci „Oliwy”</div>
+                <div class="card-location">📍 Lubartów, woj. lubelskie</div>
+            </div>
+
+            <!-- POS_010 -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="badge-id">POS_010</span>
+                    <span class="badge-status">✓ ZERYFIKOWANE</span>
+                </div>
+                <div class="arch-frame">
+                    <img src="images/POS_010_kotowicz.jpg" alt="płk Jan Kotowicz" onerror="this.onerror=null; this.parentElement.innerHTML='<div style='color:#aaa;text-align:center;padding-top:160px;font-family:monospace;font-size:0.8rem;'>BRAK ZDJĘCIA<br>images/POS_010_kotowicz.jpg</div>';">
+                    <div class="stamp-tag">J. KOTOWICZ / 27 WDP AK</div>
+                </div>
+                <div class="card-name">płk Jan Kotowicz</div>
+                <div class="card-pseudonym">ps. „Twardy”</div>
+                <div class="card-role">Ostatni dowódca 27. Wołyńskiej Dywizji Piechoty AK</div>
+                <div class="card-location">📍 Lubartów, woj. lubelskie</div>
+            </div>
+
+            <!-- POS_011 -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="badge-id">POS_011</span>
+                    <span class="badge-status">✓ ZERYFIKOWANE</span>
+                </div>
+                <div class="arch-frame">
+                    <img src="images/POS_011_sztumberk_rychter.jpg" alt="mjr Tadeusz Sztumberk-Rychter" onerror="this.onerror=null; this.parentElement.innerHTML='<div style='color:#aaa;text-align:center;padding-top:160px;font-family:monospace;font-size:0.8rem;'>BRAK ZDJĘCIA<br>images/POS_011_sztumberk_rychter.jpg</div>';">
+                    <div class="stamp-tag">T. SZTUMBERK-RYCHTER / 27 WDP AK</div>
+                </div>
+                <div class="card-name">mjr Tadeusz Sztumberk-Rychter</div>
+                <div class="card-pseudonym">ps. „Żegota” (ur. 1907, zm. 1972)</div>
+                <div class="card-role">Szef sztabu 27. Wołyńskiej Dywizji Piechoty AK</div>
+                <div class="card-location">📍 Lubartów, woj. lubelskie</div>
+            </div>
+
+            <!-- POS_012 -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="badge-id">POS_012</span>
+                    <span class="badge-status">✓ ZERYFIKOWANE</span>
+                </div>
+                <div class="arch-frame">
+                    <img src="images/POS_012_bronski.jpg" alt="por. Zdzisław Broński" onerror="this.onerror=null; this.parentElement.innerHTML='<div style='color:#aaa;text-align:center;padding-top:160px;font-family:monospace;font-size:0.8rem;'>BRAK ZDJĘCIA<br>images/POS_012_bronski.jpg</div>';">
+                    <div class="stamp-tag">Z. BROŃSKI / OP USKOK</div>
+                </div>
+                <div class="card-name">por. Zdzisław Broński</div>
+                <div class="card-pseudonym">ps. „Uskok” (ur. 1912, zm. 1949)</div>
+                <div class="card-role">Dowódca Oddziału Partyzanckiego i szef dywersji</div>
+                <div class="card-location">📍 Lubartów, woj. lubelskie</div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>Autorski projekt historyczno-edukacyjny: Szlak Pamięci Lubartowa © 2026</p>
+    </footer>
+
+    <!-- Skrypt Mapbox GL JS -->
+    <script>
+        // Domyślny publiczny token Mapbox (lub można wstawić własny)
+        mapboxgl.accessToken = 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.1f2f8l--STh8e76fI3XcaA';
+        
+        const map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/dark-v11',
+            center: [22.6072, 51.4623], // Współrzędne Lubartowa
+            zoom: 13.5
+        });
+
+        // Kontrolki nawigacji
+        map.addControl(new mapboxgl.NavigationControl());
+
+        // Punkty historyczne na mapie Lubartowa
+        const points = [
+            { lng: 22.6072, lat: 51.4623, title: "Rynek I — Serce Szlaku", desc: "Główny punkt zbiorczy i sztab rejonu" },
+            { lng: 22.6030, lat: 51.4650, title: "Szkoła Podstawowa nr 1", desc: "Miejsce stacjonowania oddziałów" },
+            { lng: 22.6120, lat: 51.4610, title: "Mural 27 WDP AK", desc: "Pamiątkowy mural dywizyjny" }
+        ];
+
+        points.forEach(pt => {
+            const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+                `<h3 style="color:#000;font-size:1rem;margin-bottom:4px;">${pt.title}</h3><p style="color:#444;font-size:0.85rem;">${pt.desc}</p>`
+            );
+
+            new mapboxgl.Marker({ color: '#c29b38' })
+                .setLngLat([pt.lng, pt.lat])
+                .setPopup(popup)
+                .addTo(map);
+        });
+    </script>
+</body>
+</html>
