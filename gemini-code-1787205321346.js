@@ -336,5 +336,55 @@ const points = [
     "audio": "audio_pomnik_uskoka.mp3",
     "bohater_naglowek": "por. Zdzisław Broński ps. „Uskok”",
     "bohater_kafelek": "Legenda lubartowskich lasów - dowódca i obrońca, który z sześćdziesięcioma świetnie uzbrojonymi żołnierzami osłaniał ludność przed terrorem i w godzinie 'Burzy' zamienił słowa przysięgi w czyn."
+    {{
+    "id": 27,
+    "era": "II WOJNA ŚWIATOWA",
+    "type": "MIEJSCE PAMIĘCI / TABLICA",
+    "order_route": 27,
+    "coords": [22.6074, 51.4552],
+    "addr": "ul. Lubelska 97 A, Kościół MBNP",
+    "name": "Tablica por. Bolesława Mucharskiego ps. „Lekarz”",
+    "desc": "Tablica pamiątkowa w hołdzie dowódcy oddziału partyzanckiego AK Obwodu Lubartów, zamordowanemu na Zamku Lubelskim 12.04.1945 r.",
+    "audio": "audio_por_mucharski.mp3",
+    "bohater_naglowek": "por. Bolesław Mucharski ps. „Lekarz”",
+    "bohater_kafelek": "Dowódca oddziału partyzanckiego AK Obwodu Lubartów, zamordowany na Zamku Lubelskim."
+  },
+  {
+    "id": 28,
+    "era": "II WOJNA ŚWIATOWA / POWOJENNE",
+    "type": "MIEJSCE PAMIĘCI / TABLICA",
+    "order_route": 28,
+    "coords": [22.6033, 51.4678],
+    "addr": "ul. Cicha 14, Szpital Powiatowy",
+    "name": "Tablica kpt. dr. Zbigniewa Bartkowa",
+    "desc": "Tablica pamiątkowa ku czci kpt. dr. Zbigniewa Bartkowa - żołnierza AK, harcmistrza ZHP oraz zasłużonego lekarza okulisty lubartowskiego szpitala.",
+    "audio": "audio_zbigniew_bartkow.mp3",
+    "bohater_naglowek": "kpt. dr Zbigniew Bartków",
+    "bohater_kafelek": "Żołnierz Armii Krajowej, harcmistrz ZHP oraz powojenny lekarz okulista w Lubartowie. Osoba niezwykle skromna i oddana służbie drugiemu człowiekowi."
+  }{
+    "id": 27,
+    "era": "II WOJNA ŚWIATOWA",
+    "type": "MIEJSCE PAMIĘCI / TABLICA",
+    "order_route": 27,
+    "coords": [22.6074, 51.4552],
+    "addr": "ul. Lubelska 97 A, Kościół MBNP",
+    "name": "Tablica por. Bolesława Mucharskiego ps. „Lekarz”",
+    "desc": "Tablica pamiątkowa w hołdzie dowódcy oddziału partyzanckiego AK Obwodu Lubartów, zamordowanemu na Zamku Lubelskim 12.04.1945 r.",
+    "audio": "audio_por_mucharski.mp3",
+    "bohater_naglowek": "por. Bolesław Mucharski ps. „Lekarz”",
+    "bohater_kafelek": "Dowódca oddziału partyzanckiego AK Obwodu Lubartów, zamordowany na Zamku Lubelskim."
+  },
+  {
+    "id": 28,
+    "era": "II WOJNA ŚWIATOWA / POWOJENNE",
+    "type": "MIEJSCE PAMIĘCI / TABLICA",
+    "order_route": 28,
+    "coords": [22.6033, 51.4678],
+    "addr": "ul. Cicha 14, Szpital Powiatowy",
+    "name": "Tablica kpt. dr. Zbigniewa Bartkowa",
+    "desc": "Tablica pamiątkowa ku czci kpt. dr. Zbigniewa Bartkowa - żołnierza AK, harcmistrza ZHP oraz zasłużonego lekarza okulisty lubartowskiego szpitala.",
+    "audio": "audio_zbigniew_bartkow.mp3",
+    "bohater_naglowek": "kpt. dr Zbigniew Bartków",
+    "bohater_kafelek": "Żołnierz Armii Krajowej, harcmistrz ZHP oraz powojenny lekarz okulista w Lubartowie. Osoba niezwykle skromna i oddana służbie drugiemu człowiekowi."
   }
-];
+     ];
