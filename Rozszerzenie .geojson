@@ -1,116 +1,825 @@
 {
   "type": "FeatureCollection",
   "features": [
+  {
+  "type": "FeatureCollection",
+  "features": [
     {
       "type": "Feature",
+      "id": "LMT-012",
       "geometry": {
         "type": "Point",
-        "coordinates": [22.6078, 51.4622]
+        "coordinates": [22.6012, 51.4586]
       },
       "properties": {
-        "id": "PUNK-001",
-        "slug": "kino-lubartow",
-        "nazwa_punktu": "Kino Lubartów (Corso / Oaza / Lewart)",
-        "kategoria": "Kultura i Społeczność",
-        "okres_historyczny": "1926–2026",
-        "adres": "Rynek II 1, 21-100 Lubartów",
-        "miejsce_opis": "Siedziba Lubartowskiego Ośrodka Kultury (dawna hala targowa)",
-        "status_weryfikacji": "potwierdzony",
-        "opis_krotki": "Sto lat historii lubartowskiej kultury filmowej — od pierwszych seansów w 'Corso' po współczesne Muzeum Kina Lewart.",
-        "media": {
-          "karta_html": "cards/p001_kino_lubartow.html",
-          "audio_guide_mp3": "audio/p001_100_lat_kina.mp3",
-          "canva_embed_url": "https://www.canva.com/design/DAHQI6Z-zSE/view?embed"
-        }
+        "title": "Dworzec PKP Lubartów",
+        "category": "OBIEKT HISTORYCZNY / ARCHITEKTURA",
+        "military_unit": "27 WDP AK",
+        "era": "II WOJNA ŚWIATOWA",
+        "narrative": "Kluczowy punkt strategiczny podczas oswobadzania miasta w lipcu 1944 roku. Miejsce koncentracji i odprawy oddziałów partyzanckich.",
+        "multimedia": {
+          "header_image": "https://data.lubartowtrail.pl/images/pkp_historical.jpg",
+          "coda_image_tag": "IMAGE_43"
+        },
+        "canvas_design_id": "SCREEN_136"
       }
     },
     {
       "type": "Feature",
+      "id": "LMT-ADD-001",
       "geometry": {
         "type": "Point",
-        "coordinates": [22.6065, 51.4615]
+        "coordinates": [22.5985, 51.4553]
       },
       "properties": {
-        "id": "PUNK-002",
-        "slug": "kaplani-niezlomni",
-        "nazwa_punktu": "Kapłani Niezłomni Lubartowa",
-        "kategoria": "Duchowieństwo i Opór",
-        "okres_historyczny": "1939–1989",
-        "adres": "ul. Jana Pawła II 1, 21-100 Lubartów",
-        "miejsce_opis": "Bazylika św. Anny w Lubartowie / Panteon Pamięci",
-        "status_weryfikacji": "potwierdzony",
-        "opis_krotki": "Upamiętnienie duchownych związanych z Ziemią Lubartowską, którzy nie ugięli się wobec reżimu hitlerowskiego i komunistycznego.",
-        "media": {
-          "karta_html": "cards/p002_kaplani_niezlomni.html",
-          "audio_guide_mp3": "audio/p002_swiadectwo_wiary.mp3"
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [22.6120, 51.4650]
-      },
-      "properties": {
-        "id": "PUNK-003",
-        "slug": "mural-27-wdp-ak",
-        "nazwa_punktu": "Mural 27 Wołyńskiej Dywizji Piechoty AK",
-        "kategoria": "Wojskowość i Edukacja",
-        "okres_historyczny": "1944 / Współczesność",
-        "adres": "ul. 1 Maja 82, 21-100 Lubartów",
-        "miejsce_opis": "Elewacja budynku RCEZ (Regionalne Centrum Edukacji Zawodowej w Lubartowie)",
-        "status_weryfikacji": "potwierdzony",
-        "opis_krotki": "Wielkoformatowe dzieło pamięci upamiętniające epopeję żołnierzy 27 WDP AK i ich związki z ziemią lubartowską.",
-        "media": {
-          "karta_html": "cards/p003_mural_rcez.html",
-          "audio_guide_mp3": "audio/p003_szlak_27wdp.mp3"
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [22.6070, 51.4630]
-      },
-      "properties": {
-        "id": "PUNK-004",
-        "slug": "wyzwolenie-lubartowa-1944",
-        "nazwa_punktu": "Wyzwolenie Lubartowa (Lipiec 1944)",
-        "kategoria": "Wydarzenia Przełomowe",
-        "okres_historyczny": "1944",
-        "adres": "Centrum Miasta / Rynek I, 21-100 Lubartów",
-        "miejsce_opis": "Punkty historycznych walk i opanowania miasta w ramach Akcji 'Burza'",
-        "status_weryfikacji": "potwierdzony",
-        "opis_krotki": "Kluczowe dni lipca i sierpnia 1944 roku: walki podziemne, wycofanie wojsk niemieckich i zorganizowanie pierwszych władz cywilnych.",
-        "media": {
-          "karta_html": "cards/p004_wyzwolenie_1944.html",
-          "audio_guide_mp3": "audio/p004_lipiec_1944.mp3"
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [22.6010, 51.4580]
-      },
-      "properties": {
-        "id": "PUNK-005",
-        "slug": "panteon-bohaterow",
-        "nazwa_punktu": "Panteon Bohaterów i Obrońców Lubartowa",
-        "kategoria": "Biogramy i Postacie",
-        "okres_historyczny": "1939–1956",
-        "adres": "ul. Cmentarna, 21-100 Lubartów",
-        "miejsce_opis": "Cmentarz Parafialny / Kwatery Wojskowe i Miejsca Pamięci",
-        "status_weryfikacji": "w_trakcie_uzupelniania",
-        "opis_krotki": "Zbiorczy wykaz i biogramy żołnierzy Armii Krajowej, Wojska Polskiego oraz cywilnych bohaterów oporu Ziemi Lubartowskiej.",
-        "media": {
-          "karta_html": "cards/p005_panteon_bohaterow.html",
-          "audio_guide_mp3": "audio/p005_pamiec_o_bohaterach.mp3"
-        }
-      }
-    }
-  ]
+        "title": "Mural 27 WDP AK-RCEZ",
+        "category": "MIEJSCE PAMIĘCI / POMNIK",
+        "military_unit": "27 WDP AK",
+        "era": "II WOJNA ŚWIATOWA",
+        "narrative": "Współczesne upamiętnienie wielkoformatowe na budynku Regionalnego Centrum Edukacji Zawodowej, dedykowane żołnierzom 27. Wołyńskiej Dywizji Piechoty Armii Krajowej.",
+        "multimedia": {
+          "header_image": "https://data.lubartowtrail.pl/images/mural_rcez.jpg",
+          "coda_image_tag": "IMAGE_MURAL"
+        },
+        "canvas_design_id": "SCREEN_122"
+      }import React, { useState, useRef } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { Sphere, MeshDistortMaterial } from '@react-three/drei';
+import * as THREE from 'three';
+
+// --- Efekt Płomienia Znicza w Three.js ---
+function CandleFlame() {
+  const flameRef = useRef<THREE.Mesh>(null);
+  
+  useFrame((state) => {
+    if (!flameRef.current) return;
+    // Dynamiczne migotanie i unoszenie się płomienia
+    const t = state.clock.getElapsedTime();
+    flameRef.current.scale.x = 1 + Math.sin(t * 12) * 0.08;
+    flameRef.current.scale.y = 1.2 + Math.cos(t * 10) * 0.15;
+    flameRef.current.scale.z = 1 + Math.sin(t * 11) * 0.08;
+  });
+
+  return (
+    <mesh ref={flameRef} position={[0, 0.4, 0]}>
+      <coneGeometry args={[0.15, 0.5, 32]} />
+      <meshBasicMaterial color="#ff7b00" />
+    </mesh>
+  );
 }
+
+// --- Komponent Znicza Pamięci ---
+function MemoryCandle({ isActive }: { isActive: boolean }) {
+  return (
+    <div className="w-full h-48 bg-stone-950 rounded border border-amber-900/40 relative overflow-hidden">
+      <Canvas camera={{ position: [0, 1, 2], fov: 45 }}>
+        <ambientLight intensity={0.4} />
+        <pointLight position={[0, 1, 1]} intensity={isActive ? 2 : 0.2} color="#ffaa44" />
+        
+        {/* Podstawa znicza */}
+        <mesh position={[0, -0.2, 0]}>
+          <cylinderGeometry args={[0.3, 0.35, 0.4, 32]} />
+          <meshStandardMaterial color="#292524" roughness={0.8} metalness={0.2} />
+        </mesh>
+
+        {/* Aktywny płomień */}
+        {isActive && <CandleFlame />}
+      </Canvas>
+      <div className="absolute bottom-2 w-full text-center text-[10px] font-mono tracking-widest text-stone-500 uppercase">
+        {isActive ? "Światło Pamięci Płonie" : "Zapal Światło Pamięci"}
+      </div>
+    </div>
+  );
+}
+
+// --- Główna Karta Punktu POI ---
+interface POIProps {
+  poiId: string;
+  title: string;
+  narrative: string;
+  imageSrc: string;
+  militaryUnit: string;
+}
+
+export default function POICard({ poiId, title, narrative, imageSrc, militaryUnit }: POIProps) {
+  const [candlesCount, setCandlesCount] = useState(1944);
+  const [hasLit, setHasLit] = useState(false);
+
+  const handleLightCandle = () => {
+    if (!hasLit) {
+      setCandlesCount(prev => prev + 1);
+      setHasLit(true);
+      // Tutaj opcjonalnie: strzał metodą POST do Coda API lub bazy lokalnej, aby zapisać stan znicza
+    }
+  };
+
+  return (
+    <div className="max-w-md bg-stone-900 text-stone-100 border border-stone-800 shadow-2xl overflow-hidden font-['Source_Serif_4'] antialiased">
+      {/* Zdjęcie Nagłówkowe (Archiwalne) */}
+      <div className="relative h-56 w-full bg-stone-950 filter grayscale contrast-125 border-b border-stone-800">
+        <img 
+          src={imageSrc} 
+          alt={title} 
+          className="w-full h-full object-cover opacity-80"
+        />
+        <div className="absolute top-3 left-3 bg-stone-950/90 text-amber-500 font-mono text-xs px-2 py-1 border border-amber-950 rounded tracking-wider">
+          {poiId}
+        </div>
+        <div className="absolute bottom-3 left-3 right-3">
+          <span className="bg-amber-950/80 text-amber-400 font-mono text-[10px] uppercase tracking-widest px-2 py-0.5 rounded border border-amber-800/40">
+            {militaryUnit}
+          </span>
+          <h2 className="text-2xl font-bold text-white mt-1 drop-shadow-md">{title}</h2>
+        </div>
+      </div>
+
+      {/* Sekcja Historyczna / Opisowa */}
+      <div className="p-5 space-y-4">
+        <p className="text-stone-300 text-sm leading-relaxed text-justify first-letter:text-3xl first-letter:font-bold first-letter:text-amber-500 first-letter:mr-2 first-letter:float-left">
+          {narrative}
+        </p>
+
+        <hr className="border-stone-800" />
+
+        {/* Moduł Interaktywny: Zapal Znicz */}
+        <div className="space-y-3">
+          <div className="flex justify-between items-center font-mono text-xs text-stone-400">
+            <span>PAMIĘĆ ODDZIAŁU:</span>
+            <span className="text-amber-500 font-bold tracking-wider">{candlesCount} ZNICZY</span>
+          </div>
+
+          <MemoryCandle isActive={hasLit} />
+
+          <button
+            onClick={handleLightCandle}
+            disabled={hasLit}
+            className={`w-full py-2.5 font-mono text-xs uppercase tracking-widest transition-all duration-300 rounded border ${
+              hasLit 
+                ? 'bg-stone-950 text-stone-600 border-stone-900 cursor-not-allowed' 
+                : 'bg-amber-950 hover:bg-amber-900 text-amber-300 border-amber-800/60 active:scale-[0.99]'
+            }`}
+          >
+            {hasLit ? 'Oddano hołd bohaterom' : 'Zapal znicz pamięci'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+import mapboxgl from 'mapbox-gl';
+
+/**
+ * Filtruje warstwę mapy w celu wyeksponowania Szlaku Wyzwolenia 1944
+ * @param map Instancja mapy Mapbox GL JS
+ * @param isFilterActive Czy filtrowanie ma być włączone
+ */
+export function filterLiberationTrail(map: mapboxgl.Map, isFilterActive: boolean) {
+  const layerId = 'lmt-poi-points';
+
+  if (isFilterActive) {
+    // 1. Ukryj punkty niezwiązane z 27 WDP AK (zostaw tylko militarne)
+    map.setFilter(layerId, [
+      'all',
+      ['==', ['get', 'military_unit'], '27 WDP AK'],
+      ['==', ['get', 'era'], 'II WOJNA ŚWIATOWA']
+    ]);
+
+    // 2. Opcjonalnie: Zmień wizualne nasycenie linii szlaku (ścieżki łączącej)
+    if (map.getLayer('lmt-route-line')) {
+      map.setPaintProperty('lmt-route-line', 'line-color', '#b45309'); // Głęboki bursztyn wojenny
+      map.setPaintProperty('lmt-route-line', 'line-width', 3);
+    }
+  } else {
+    // Resetuj filtry - pokaż absolutnie wszystkie obiekty (w tym cywilne, nekropolie, pomniki innych epok)
+    map.setFilter(layerId, null);
+
+    if (map.getLayer('lmt-route-line')) {
+      map.setPaintProperty('lmt-route-line', 'line-color', '#78716c'); // Neutralny kamienny szary
+      map.setPaintProperty('lmt-route-line', 'line-width', 1.5);
+    }
+  }
+}
+    [
+  {
+    "type": "Feature",
+    "id": "LMT-001",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        22.5921,
+        51.4612
+      ]
+    },
+    "properties": {
+      "kolejnosc": 1,
+      "title": "Rynek I",
+      "category": "OBIEKT HISTORYCZNY / ARCHITEKTURA",
+      "narrative": "Główny punkt zborny i historyczne serce administracyjne miasta.",
+      "bohater_naglowek": "por. rez. Czesław Gregorowicz ps. „Jaromir”",
+      "bohater_kategoria": "II: Sztab",
+      "bohater_rola": "I zastępca Komendanta Obwodu i szef sztabu",
+      "bohater_struktura": "Obwód \"Hurtownia ",
+      "bohater_kafelek": "Mózg operacyjny lubartowskiego sztabu - koordynował współdziałanie bojowe z 27. Wołyńską Dywizją Piechoty AK, łącząc siły lokalne z regularną armią podziemia."
+    }
+  },
+  {
+    "type": "Feature",
+    "id": "LMT-002",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        22.5925,
+        51.4615
+      ]
+    },
+    "properties": {
+      "kolejnosc": 2,
+      "title": "Gmach Starostwa",
+      "category": "OBIEKT HISTORYCZNY / ARCHITEKTURA",
+      "narrative": "Miejsce stacjonowania sztabu dowodzenia podczas uderzenia znad Wieprza.",
+      "bohater_naglowek": "por. Józef Jurałomski ps. „Jur”",
+      "bohater_kategoria": "II: Sztab",
+      "bohater_rola": "Oficer KOP i dowódca II Rejonu AK (miasto Lubartów)",
+      "bohater_struktura": "Obwód \"Hurtownia ",
+      "bohater_kafelek": "Stał na straży miasta, gdy inni uciekali - jako dowódca II Rejonu AK zabezpieczył Lubartów przed grabieżą i chaosem, a potem sam poprowadził najtrudniejsze pertraktacje z Armią Ludową, broniąc honoru Żołnierzy-Zwycięzców."
+    }
+  },
+  {
+    "type": "Feature",
+    "id": "LMT-003",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        22.591,
+        51.4631
+      ]
+    },
+    "properties": {
+      "kolejnosc": 3,
+      "title": "ul. Słowackiego",
+      "category": "OBIEKT HISTORYCZNY / ARCHITEKTURA",
+      "narrative": "Legalne zaplecze sądownicze wykorzystywane do niszczenia kartotek i spowalniania śledztw.",
+      "bohater_naglowek": "kpt. Adam Domaradzki ps. „Don”",
+      "bohater_kategoria": "II: Sztab",
+      "bohater_rola": "Komendant Obwodu AK Lubartów “Hurtownia “ (Styczeń 1943-1944)",
+      "bohater_struktura": "Obwód \"Hurtownia ",
+      "bohater_kafelek": "W najtrudniejszym okresie terroru scementował lubartowską konspirację i wykuł z niej prawdziwą armię - legendarny instruktor, który przygotował blisko cztery tysiące żołnierzy do otwartej walki z okupantem, odznaczony Krzyżem Srebrnym Orderu Virtuti Militari."
+    }
+  },
+  {
+    "type": "Feature",
+    "id": "LMT-004",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        22.5905,
+        51.4589
+      ]
+    },
+    "properties": {
+      "kolejnosc": 4,
+      "title": "ul. Lubelska",
+      "category": "OBIEKT HISTORYCZNY / ARCHITEKTURA",
+      "narrative": "Miejsce akcji małego sabotażu i rozprowadzania ulotek przez harcerzy.",
+      "bohater_naglowek": "sierż. rez. Karol Skaruch ps. „Warta”",
+      "bohater_kategoria": "I: Fundament",
+      "bohater_rola": "Kierownik BIP (Biuro Informacji i Propagandy) Obwodu",
+      "bohater_struktura": "Obwód \"Hurtownia ",
+      "bohater_kafelek": "W czasach, gdy prawda była zakazana, on ją drukował - pionier walki słowem, twórca podziemnych struktur informacji i propagandy Obwodu Lubartów."
+    }
+  },
+  {
+    "type": "Feature",
+    "id": "LMT-005",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        22.5932,
+        51.4595
+      ]
+    },
+    "properties": {
+      "kolejnosc": 5,
+      "title": "ul. Lubelska (dawne gimnazjum)",
+      "category": "MIEJSCE PAMIĘCI / POMNIK",
+      "narrative": "Dawne miejsce martyrologii i aresztu. Upamiętnienie ofiar systemu totalitarnego na Ziemi Lubartowskiej.",
+      "bohater_naglowek": "por. rez. Roman Jezior ps. „Okoń”",
+      "bohater_kategoria": "II: Sztab",
+      "bohater_rola": "Komendant Obwodu AK Lubartów",
+      "bohater_struktura": "Obwód \"Hurtownia ",
+      "bohater_kafelek": "Ostatni Komendant Obwodu AK Lubartów - to on wydał rozkaz do Akcji \"Burza\" i stanął na czele żołnierzy, którzy jako prawowici gospodarze tej ziemi witali świt wolności 23 lipca 1944 r."
+    }
+  },
+  {
+    "type": "Feature",
+    "id": "LMT-006",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        22.585,
+        51.4661
+      ]
+    },
+    "properties": {
+      "kolejnosc": 6,
+      "title": "ul. Kolejowa",
+      "category": "OBIEKT HISTORYCZNY / ARCHITEKTURA",
+      "narrative": "Punkt obserwacyjny wywiadu kolejowego AK monitorujący transporty na front.",
+      "bohater_naglowek": "plut. rez. Stefan Rafalski",
+      "bohater_kategoria": "I: Fundament",
+      "bohater_rola": "Współorganizator struktur terenowych ZWZ",
+      "bohater_struktura": "Obwód \"Hurtownia ",
+      "bohater_kafelek": "Jeden z pierwszych, którzy odważyli się powiedzieć \"nie\" - budował sieć konspiracyjnych placówek ZWZ, gdy za samo słowo oporu groziła śmierć."
+    }
+  },
+  {
+    "type": "Feature",
+    "id": "LMT-007",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        22.5842,
+        51.4665
+      ]
+    },
+    "properties": {
+      "kolejnosc": 7,
+      "title": "Torowisko przy stacji",
+      "category": "MIEJSCE PAMIĘCI / POMNIK",
+      "narrative": "Miejsce koncentracji i masowych wywózek ludności do obozów zagłady.",
+      "bohater_naglowek": "ks. kapelan rez. Aleksander Szulc ps. „Ina”",
+      "bohater_kategoria": "I: Fundament",
+      "bohater_rola": "Kapelan wojskowy Obwodu Lubartów ZWZ-AK",
+      "bohater_struktura": "Obwód \"Hurtownia ",
+      "bohater_kafelek": "Był głosem sumienia i tarczą ducha - jako kapelan Obwodu towarzyszył żołnierzom podziemia w ich najtrudniejszych chwilach, dając im siłę, której nie mogła zabrać żadna okupacja."
+    }
+  },
+  {
+    "type": "Feature",
+    "id": "LMT-008",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        22.598,
+        51.465
+      ]
+    },
+    "properties": {
+      "kolejnosc": 8,
+      "title": "Park Miejski",
+      "category": "OBIEKT HISTORYCZNY / ARCHITEKTURA",
+      "narrative": "Strategicznym punkt obrony przechodzący z rąk do rąk podczas Akcji Burza.",
+      "bohater_naglowek": "por. Tadeusz Pośpiech ps. „Brzechwa”",
+      "bohater_kategoria": "III: Pięść Bojowa",
+      "bohater_rola": "Dowódca Oddziału Partyzanckiego (OP I/34",
+      "bohater_struktura": "Obwód \"Hurtownia ",
+      "bohater_kafelek": "Uderzał tam, gdzie bolało najbardziej - jego oddział partyzancki paraliżował transporty i węzły komunikacyjne wroga, rosnąc do osiemdziesięciu zaprawionych w boju żołnierzy."
+    }
+  },
+  {
+    "type": "Feature",
+    "id": "LMT-009",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        22.5915,
+        51.462
+      ]
+    },
+    "properties": {
+      "kolejnosc": 9,
+      "title": "ul. Słowackiego",
+      "category": "OBIEKT HISTORYCZNY / ARCHITEKTURA",
+      "narrative": "Ośrodek wsparcia duchowego, patriotycznego oraz oporu cywilnego mieszkańców.",
+      "bohater_naglowek": "ks. kapelan rez. Aleksander Szulc ps. „Ina”",
+      "bohater_kategoria": "I: Fundament",
+      "bohater_rola": "Kapelan wojskowy Obwodu Lubartów ZWZ-AK",
+      "bohater_struktura": "Obwód \"Hurtownia ",
+      "bohater_kafelek": "Był głosem sumienia i tarczą ducha - jako kapelan Obwodu towarzyszył żołnierzom podziemia w ich najtrudniejszych chwilach, dając im siłę, której nie mogła zabrać żadna okupacja."
+    }
+  },
+  {
+    "type": "Feature",
+    "id": "LMT-010",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        22.595,
+        51.458
+      ]
+    },
+    "properties": {
+      "kolejnosc": 10,
+      "title": "ul. Lubelska",
+      "category": "OBIEKT HISTORYCZNY / ARCHITEKTURA",
+      "narrative": "Miejsce zaciętych walk i osłony odwrotu wojsk polskich w 1831 roku.",
+      "bohater_naglowek": "ppłk Jan Kiwerski ps. \"Oliwa\"",
+      "bohater_kategoria": "III: Pięść Bojowa",
+      "bohater_rola": "Legendarny dowódca 27. WDP AK",
+      "bohater_struktura": "27.WDP AK",
+      "bohater_kafelek": "Przekształcił rozproszone oddziały partyzanckie w regularną dywizję liczącą ponad siedem tysięcy żołnierzy - zginął w boju 18 kwietnia 1944 r., zanim zdążył zobaczyć owoc swojego dzieła: wyzwolony Lubartów."
+    }
+  }
+][
+  {
+    "type": "Feature",
+    "id": "LMT-011",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        22.593,
+        51.461
+      ]
+    },
+    "properties": {
+      "kolejnosc": 11,
+      "title": "ul. Szaniawskiego",
+      "category": "MIEJSCE PAMIĘCI / POMNIK",
+      "narrative": "Miejsce pamięci poświęcone żołnierzom i działaniom obronnym regionu.",
+      "bohater_naglowek": "por. rez. Roman Jezior ps. „Okoń”",
+      "bohater_kategoria": "II: Sztab",
+      "bohater_rola": "Komendant Obwodu AK Lubartów",
+      "bohater_struktura": "Obwód \"Hurtownia ",
+      "bohater_kafelek": "Ostatni Komendant Obwodu AK Lubartów - to on wydał rozkaz do Akcji \"Burza\" i stanął na czele żołnierzy, którzy jako prawowici gospodarze tej ziemi witali świt wolności 23 lipca 1944 r."
+    }
+  },
+  {
+    "type": "Feature",
+    "id": "LMT-012",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        22.5928,
+        51.4605
+      ]
+    },
+    "properties": {
+      "kolejnosc": 12,
+      "title": "Plac Wolności",
+      "category": "MIEJSCE PAMIĘCI / POMNIK",
+      "narrative": "Tradycyjne miejsce manifestacji patriotycznych w okresach braku suwerenności.",
+      "bohater_naglowek": "kpt. Adam Domaradzki ps. „Don”",
+      "bohater_kategoria": "II: Sztab",
+      "bohater_rola": "Komendant Obwodu AK Lubartów “Hurtownia “ (Styczeń 1943-1944)",
+      "bohater_struktura": "Obwód \"Hurtownia ",
+      "bohater_kafelek": "W najtrudniejszym okresie terroru scementował lubartowską konspirację i wykuł z niej prawdziwą armię - legendarny instruktor, który przygotował blisko cztery tysiące żołnierzy do otwartej walki z okupantem, odznaczony Krzyżem Srebrnym Orderu Virtuti Militari."
+    }
+  },
+  {
+    "type": "Feature",
+    "id": "LMT-013",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        22.5911,
+        51.4572
+      ]
+    },
+    "properties": {
+      "kolejnosc": 13,
+      "title": "ul. Jana Pawła II",
+      "category": "OBIEKT HISTORYCZNY / ARCHITEKTURA",
+      "narrative": "Centralny punkt przekazywania rozkazów i meldunków konspiracyjnych.",
+      "bohater_naglowek": "por. Józef Jurałomski ps. „Jur”",
+      "bohater_kategoria": "II: Sztab",
+      "bohater_rola": "Oficer KOP i dowódca II Rejonu AK (miasto Lubartów)",
+      "bohater_struktura": "Obwód \"Hurtownia ",
+      "bohater_kafelek": "Stał na straży miasta, gdy inni uciekali - jako dowódca II Rejonu AK zabezpieczył Lubartów przed grabieżą i chaosem, a potem sam poprowadził najtrudniejsze pertraktacje z Armią Ludową, broniąc honoru Żołnierzy-Zwycięzców."
+    }
+  },
+  {
+    "type": "Feature",
+    "id": "LMT-014",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        22.5925,
+        51.4633
+      ]
+    },
+    "properties": {
+      "kolejnosc": 14,
+      "title": "róg ul. Lipowej i Słowackiego (obecnie PMDK)",
+      "category": "OBIEKT HISTORYCZNY / ARCHITEKTURA",
+      "narrative": "Konspiracyjny punkt leczniczy i sanitarny Obwodu ZWZ-AK. W podziemiach i na oddziałach udzielano pomocy rannym partyzantom.",
+      "bohater_naglowek": "ks. kapelan rez. Aleksander Szulc ps. „Ina”",
+      "bohater_kategoria": "I: Fundament",
+      "bohater_rola": "Kapelan wojskowy Obwodu Lubartów ZWZ-AK",
+      "bohater_struktura": "Obwód \"Hurtownia ",
+      "bohater_kafelek": "Był głosem sumienia i tarczą ducha - jako kapelan Obwodu towarzyszył żołnierzom podziemia w ich najtrudniejszych chwilach, dając im siłę, której nie mogła zabrać żadna okupacja."
+    }
+  },
+  {
+    "type": "Feature",
+    "id": "LMT-015",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        22.587,
+        51.4625
+      ]
+    },
+    "properties": {
+      "kolejnosc": 15,
+      "title": "ul. Cmentarna",
+      "category": "MIEJSCE PAMIĘCI / POMNIK",
+      "narrative": "Miejsce masowych egzekucji ludności żydowskiej w trakcie likwidacji getta.",
+      "bohater_naglowek": "por. rez. Czesław Gregorowicz ps. „Jaromir”",
+      "bohater_kategoria": "II: Sztab",
+      "bohater_rola": "I zastępca Komendanta Obwodu i szef sztabu",
+      "bohater_struktura": "Obwód \"Hurtownia ",
+      "bohater_kafelek": "Mózg operacyjny lubartowskiego sztabu - koordynował współdziałanie bojowe z 27. Wołyńską Dywizją Piechoty AK, łącząc siły lokalne z regularną armią podziemia."
+    }
+  },
+  {
+    "type": "Feature",
+    "id": "LMT-016",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        22.5885,
+        51.459
+      ]
+    },
+    "properties": {
+      "kolejnosc": 16,
+      "title": "ul. Wąska",
+      "category": "OBIEKT HISTORYCZNY / ARCHITEKTURA",
+      "narrative": "Miejsce wydawania i składania podziemnej prasy oraz ulotek informacyjnych.",
+      "bohater_naglowek": "sierż. rez. Karol Skaruch ps. „Warta”",
+      "bohater_kategoria": "I: Fundament",
+      "bohater_rola": "Kierownik BIP (Biuro Informacji i Propagandy) Obwodu",
+      "bohater_struktura": "Obwód \"Hurtownia ",
+      "bohater_kafelek": "W czasach, gdy prawda była zakazana, on ją drukował - pionier walki słowem, twórca podziemnych struktur informacji i propagandy Obwodu Lubartów."
+    }
+  },
+  {
+    "type": "Feature",
+    "id": "LMT-017",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        22.5942,
+        51.4568
+      ]
+    },
+    "properties": {
+      "kolejnosc": 17,
+      "title": "ul. Partyzancka",
+      "category": "OBIEKT HISTORYCZNY / ARCHITEKTURA",
+      "narrative": "Tymczasowy punkt medyczny zorganizowany na potrzeby rannych w Akcji Burza.",
+      "bohater_naglowek": "por. Tadeusz Pośpiech ps. „Brzechwa”",
+      "bohater_kategoria": "III: Pięść Bojowa",
+      "bohater_rola": "Dowódca Oddziału Partyzanckiego (OP I/34",
+      "bohater_struktura": "Obwód \"Hurtownia ",
+      "bohater_kafelek": "Uderzał tam, gdzie bolało najbardziej - jego oddział partyzancki paraliżował transporty i węzły komunikacyjne wroga, rosnąc do osiemdziesięciu zaprawionych w boju żołnierzy."
+    }
+  },
+  {
+    "type": "Feature",
+    "id": "LMT-018",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        22.591,
+        51.455
+      ]
+    },
+    "properties": {
+      "kolejnosc": 18,
+      "title": "ul. Lubelska (wylot)",
+      "category": "MIEJSCE PAMIĘCI / POMNIK",
+      "narrative": "Pozycja obronna Wojska Polskiego stawiająca opór wkraczającym oddziałom niemieckim.",
+      "bohater_naglowek": "por. Zdzisław Broński ps. „Uskok”",
+      "bohater_kategoria": "III: Pięść Bojowa",
+      "bohater_rola": "Dowódca Oddziału Partyzanckiego  OP I/8  i szef dywersji",
+      "bohater_struktura": "Obwód \"Hurtownia ",
+      "bohater_kafelek": "Legenda lubartowskich lasów - dowódca i obrońca, który z sześćdziesięcioma świetnie uzbrojonymi żołnierzami osłaniał ludność przed terrorem i w godzinie \"Burzy\" zamienił słowa przysięgi w czyn."
+    }
+  },
+  {
+    "type": "Feature",
+    "id": "LMT-019",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        22.592,
+        51.4585
+      ]
+    },
+    "properties": {
+      "kolejnosc": 19,
+      "title": "ul. Lubelska",
+      "category": "OBIEKT HISTORYCZNY / ARCHITEKTURA",
+      "narrative": "Obiekt administracji powojennej będący celem rozpoznania i akcji podziemia.",
+      "bohater_naglowek": "por. Zdzisław Broński ps. „Uskok”",
+      "bohater_kategoria": "III: Pięść Bojowa",
+      "bohater_rola": "Dowódca Oddziału Partyzanckiego  OP I/8  i szef dywersji",
+      "bohater_struktura": "Obwód \"Hurtownia ",
+      "bohater_kafelek": "Legenda lubartowskich lasów - dowódca i obrońca, który z sześćdziesięcioma świetnie uzbrojonymi żołnierzami osłaniał ludność przed terrorem i w godzinie \"Burzy\" zamienił słowa przysięgi w czyn."
+    }
+  },
+  {
+    "type": "Feature",
+    "id": "LMT-020",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        22.596,
+        51.4635
+      ]
+    },
+    "properties": {
+      "kolejnosc": 20,
+      "title": "ul. 1 Maja",
+      "category": "OBIEKT HISTORYCZNY / ARCHITEKTURA",
+      "narrative": "Rejon stacjonowania i formowania oddziałów wojskowych z okresu I wojny.",
+      "bohater_naglowek": "por. rez. pieś. Władysław Czermiński ps. “Jastrząb”",
+      "bohater_kategoria": "III: Pięść Bojowa",
+      "bohater_rola": "Dowódca I Batalionu 50. Pułku Piechoty 27. Wołyńskiej Dywizji Piechoty AK (Batalion „Jastrzębia”)",
+      "bohater_struktura": "",
+      "bohater_kafelek": "Przeprowadził zdziesiątkowany batalion przez lasy parczewskie i 23 lipca 1944 r. wkroczył na czele swoich żołnierzy do wyzwolonego Lubartowa - a gdy wolność znów zagrożono, stanął do walki w szeregach WiN."
+    }
+  }
+][
+  {
+    "type": "Feature",
+    "id": "LMT-021",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        22.5923,
+        51.4608
+      ]
+    },
+    "properties": {
+      "kolejnosc": 21,
+      "title": "Rynek",
+      "category": "MIEJSCE PAMIĘCI / POMNIK",
+      "narrative": "Monument upamiętniający powrót Lubartowa do macierzy i czyn legionowy.",
+      "bohater_naglowek": "mjr Jan Szatowski ps. \"Kowal\"",
+      "bohater_kategoria": "III: Pięść Bojowa",
+      "bohater_rola": "Dowódca zgrupowania Osnowa / zastępca dowódcy dywizji",
+      "bohater_struktura": "27.WDP AK",
+      "bohater_kafelek": "Żelazna pięść dywizji - dowodził zgrupowaniem Osnowa i jako zastępca dowódcy współkierował całą operacją wyzwolenia rejonu Lubartowa w lipcu 1944 r."
+    }
+  },
+  {
+    "type": "Feature",
+    "id": "LMT-022",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        22.59762,
+        51.45785
+      ]
+    },
+    "properties": {
+      "kolejnosc": 22,
+      "title": "ul. Szaniawskiego (Cmentarz Parafialny)",
+      "category": "NEKROPOLIA / MOGIŁA",
+      "narrative": "Miejsce spoczynku ok. 1000 żołnierzy różnych narodowości, w tym wielu Polaków.",
+      "bohater_naglowek": "ppłk Jan Kiwerski ps. \"Oliwa\"",
+      "bohater_kategoria": "III: Pięść Bojowa",
+      "bohater_rola": "Legendarny dowódca 27. WDP AK",
+      "bohater_struktura": "27.WDP AK",
+      "bohater_kafelek": "Przekształcił rozproszone oddziały partyzanckie w regularną dywizję liczącą ponad siedem tysięcy żołnierzy - zginął w boju 18 kwietnia 1944 r., zanim zdążył zobaczyć owoc swojego dzieła: wyzwolony Lubartów."
+    }
+  },
+  {
+    "type": "Feature",
+    "id": "LMT-023",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        22.5969,
+        51.4566
+      ]
+    },
+    "properties": {
+      "kolejnosc": 23,
+      "title": "Cmentarz Parafialny",
+      "category": "NEKROPOLIA / MOGIŁA",
+      "narrative": "Mogiła żołnierzy Wojska Polskiego poległych w obronie rejonu Lubartowa we wrześniu 1939 r.",
+      "bohater_naglowek": "por. rez. pieś. Władysław Czermiński ps. “Jastrząb”",
+      "bohater_kategoria": "III: Pięść Bojowa",
+      "bohater_rola": "Dowódca I Batalionu 50. Pułku Piechoty 27. Wołyńskiej Dywizji Piechoty AK (Batalion „Jastrzębia”)",
+      "bohater_struktura": "",
+      "bohater_kafelek": "Przeprowadził zdziesiątkowany batalion przez lasy parczewskie i 23 lipca 1944 r. wkroczył na czele swoich żołnierzy do wyzwolonego Lubartowa - a gdy wolność znów zagrożono, stanął do walki w szeregach WiN."
+    }
+  },
+  {
+    "type": "Feature",
+    "id": "LMT-024",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        22.5971,
+        51.4564
+      ]
+    },
+    "properties": {
+      "kolejnosc": 24,
+      "title": "Cmentarz Parafialny",
+      "category": "NEKROPOLIA / MOGIŁA",
+      "narrative": "Upamiętnienie żołnierzy Legionów Polskich poległych w 1915 roku w starciach o niepodległość.",
+      "bohater_naglowek": "Józef Szymula ps. „Jordan”",
+      "bohater_kategoria": "III: Pięść Bojowa",
+      "bohater_rola": "Dowódca oddziału specjalnego Batalionów Chłopskich",
+      "bohater_struktura": "27.WDP AK",
+      "bohater_kafelek": "Dowódca Batalionów Chłopskich, który wybrał jedność ponad podziałami - ramię w ramię z żołnierzami AK walczył o tę samą ziemię i tę samą wolność."
+    }
+  },
+  {
+    "type": "Feature",
+    "id": "LMT-025",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        22.5973,
+        51.4562
+      ]
+    },
+    "properties": {
+      "kolejnosc": 25,
+      "title": "Cmentarz Parafialny",
+      "category": "MIEJSCE PAMIĘCI / POMNIK",
+      "narrative": "Wzniesiony ku czci obrońców Ojczyzny przed najazdem bolszewickim.",
+      "bohater_naglowek": "mjr Tadeusz Sztumberk-Rychter ps. „Żegota”",
+      "bohater_kategoria": "III: Pięść Bojowa",
+      "bohater_rola": "Szef sztabu (p.o.  dowódcy  27. WDP AK   od maja do lipca 1944  .  Dowódca sił 27. Wołyńskiej Dywizji Piechoty AK",
+      "bohater_struktura": "27.WDP AK",
+      "bohater_kafelek": "Przeszedł przez piekło Wołynia, by 22 lipca 1944 r. przynieść do Lubartowa rozkaz uderzenia - wybitny strateg, który zapłacił za wolność latami sowieckiego więzienia, lecz którego pamięć trwa na muralu wśród bohaterów tej ziemi."
+    }
+  },
+  {
+    "type": "Feature",
+    "id": "LMT-026",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        22.5975,
+        51.4568
+      ]
+    },
+    "properties": {
+      "kolejnosc": 26,
+      "title": "Cmentarz Parafialny",
+      "category": "MIEJSCE PAMIĘCI / POMNIK",
+      "narrative": "Upamiętnienie kpt. Zdzisława Brońskiego (1912-1949), legendarnego dowódcy partyzanckiego AK-WiN.",
+      "bohater_naglowek": "por. Zdzisław Broński ps. „Uskok”",
+      "bohater_kategoria": "III: Pięść Bojowa",
+      "bohater_rola": "Dowódca Oddziału Partyzanckiego  OP I/8  i szef dywersji",
+      "bohater_struktura": "Obwód \"Hurtownia ",
+      "bohater_kafelek": "Legenda lubartowskich lasów - dowódca i obrońca, który z sześćdziesięcioma świetnie uzbrojonymi żołnierzami osłaniał ludność przed terrorem i w godzinie \"Burzy\" zamienił słowa przysięgi w czyn."
+    }
+  },
+  {
+    "type": "Feature",
+    "id": "LMT-EXT-ul_Dworcow",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        22.4891,
+        51.4586
+      ]
+    },
+    "properties": {
+      "kolejnosc": null,
+      "title": "ul. Dworcowa 1 , 21-100 Lubartów",
+      "category": "OBIEKT HISTORYCZNY / ARCHITEKTURA",
+      "narrative": "Kluczowy punkt strategiczny podczas oswobadzania miasta w lipcu 1944 roku. Stacja kolejowa służyła jako węzeł wywiadu AK monitorującego transporty na front wschodni, a w dniach 22-23 lipca 1944 r. stała się miejscem koncentracji i odprawy oddziałów partyzanckich przed wkroczeniem do miasta.",
+      "bohater_naglowek": "mjr Tadeusz Sztumberk-Rychter ps. „Żegota”",
+      "bohater_kategoria": "III: Pięść Bojowa",
+      "bohater_rola": "Szef sztabu (p.o.  dowódcy  27. WDP AK   od maja do lipca 1944  .  Dowódca sił 27. Wołyńskiej Dywizji Piechoty AK",
+      "bohater_struktura": "27.WDP AK",
+      "bohater_kafelek": "Przeszedł przez piekło Wołynia, by 22 lipca 1944 r. przynieść do Lubartowa rozkaz uderzenia - wybitny strateg, który zapłacił za wolność latami sowieckiego więzienia, lecz którego pamięć trwa na muralu wśród bohaterów tej ziemi."
+    }
+  },
+  {
+    "type": "Feature",
+    "id": "LMT-EXT-ul_1_Maja_",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        22.6131096,
+        51.4552819
+      ]
+    },
+    "properties": {
+      "kolejnosc": null,
+      "title": "ul. 1 Maja 82 (RCEZ)",
+      "category": "MIEJSCE PAMIĘCI / POMNIK",
+      "narrative": "Współczesne upamiętnienie wielkoformatowe na budynku Regionalnego Centrum Edukacji Zawodowej, dedykowane żołnierzom 27. Wołyńskiej Dywizji Piechoty Armii Krajowej. Mural powstał z inicjatywy lokalnej społeczności i uwiecznia twarze bohaterów, którzy w lipcu 1944 r. wkroczyli do Lubartowa jako wyzwoliciele.",
+      "bohater_naglowek": "ppłk Jan Kiwerski ps. \"Oliwa\"",
+      "bohater_kategoria": "III: Pięść Bojowa",
+      "bohater_rola": "Legendarny dowódca 27. WDP AK",
+      "bohater_struktura": "27.WDP AK",
+      "bohater_kafelek": "Przekształcił rozproszone oddziały partyzanckie w regularną dywizję liczącą ponad siedem tysięcy żołnierzy - zginął w boju 18 kwietnia 1944 r., zanim zdążył zobaczyć owoc swojego dzieła: wyzwolony Lubartów."
+    }
+  }
+]
+ } 
+
+  
