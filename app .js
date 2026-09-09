@@ -3,7 +3,7 @@ mapboxgl.accessToken = 'pk.eyJ1Ijoic3psYWtwYW1pZWNpIiwiYSI6ImNtc2Q2ajQzbTFuYm8ye
 
 // 🔥 Inicjalizacja mapy
 const map = new mapboxgl.Map({
-  container: 'mapa',
+  container: 'map',
  
 style:'mapbox://styles/mapbox/light-v11',
   center: [22.609, 51.460], // Lubartów
@@ -12,17 +12,17 @@ style:'mapbox://styles/mapbox/light-v11',
 
 // 🔥 Lista Twoich plików geoJSON
 const files = [
-  'data/pos_001.geojson',
-  'data/pos_002.geojson',
-  'data/pos_003.geojson',
-  'data/pos_004.geojson',
-  'data/pos_005.geojson',
-  'data/pos_006.geojson',
-  'data/pos_007.geojson',
-  'data/pos_008.geojson',
-  'data/pos_009.geojson',
-  'data/pos_010.geojson',
-  'data/pos_011.geojson',
-  'data/pos_013.geojson',
-  'data/pos_014.geojson'
+  'pos_001.geojson',
+  'pos_002.geojson',
+  'pos_003.geojson',
+  'pos_004.geojson',
+  'pos_005.geojson',
+  'pos_006.geojson',
+  'pos_007.geojson',
+  'pos_008.geojson',
+  'pos_009.geojson',
+  'pos_010.geojson',
+  'pos_011.geojson',
+  'pos_013.geojson',
+  'pos_014.geojson'
 ];
