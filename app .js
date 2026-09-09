@@ -12,17 +12,17 @@ style:'mapbox://styles/mapbox/light-v11',
 
 // 🔥 Lista Twoich plików geoJSON
 const files = [
-  'pos_001.geojson',
-  'pos_002.geojson',
-  'pos_003.geojson',
-  'pos_004.geojson',
-  'pos_005.geojson',
-  'pos_006.geojson',
-  'pos_007.geojson',
-  'pos_008.geojson',
-  'pos_009.geojson',
-  'pos_010.geojson',
-  'pos_011.geojson',
-  'pos_013.geojson',
-  'pos_014.geojson'
+ const files = [
+  'pos_001.html',
+  'pos_002.html',
+  'pos_003.html',
+  'pos_004.html',
+  'pos_005.html',
+  'pos_006.html',
+  'pos_007.html',
+  'pos_008.html',
+  'pos_009.html',
+  'pos_010.html',
+  'pos_011.html'
+]; 
 ];
