@@ -370,5 +370,17 @@ const points = [
     audio: "audio_tablica_pkp_lubartow.mp3",
     bohater_naglowek: "Żołnierze AK i 27 WDP AK - Walki o PKP",
     bohater_kafelek: "Upamiętnienie walk o stację kolejową i wyzwolenie Lubartowa 22 lipca 1944 roku przez żołnierzy Armii Krajowej oraz 27 Wołyńskiej Dywizji Piechoty."
+  },
+  {
+    id: 32,
+    order_route: 32,
+    name: "Symboliczna tablica ppor. Mirosława Orzechowskiego",
+    era: "II WOJNA ŚWIATOWA",
+    type: "MIEJSCE PAMIĘCI / TABLICA",
+    addr: "Cmentarz Parafialny św. Anny w Lubartowie",
+    coords: [22.602841, 51.462753],
+    audio: "audio_orzechowski.mp3",
+    bohater_naglowek: "ppor. pil. Mirosław Maciej Orzechowski (1916–1941)",
+    bohater_kafelek: "Pilot Dywizjonu 308 'Krakowskiego', poległy w akcji bojowej nad Kanałem La Manche. Mogiła symboliczna na Cmentarzu Parafialnym w Lubartowie."
   }
 ];
