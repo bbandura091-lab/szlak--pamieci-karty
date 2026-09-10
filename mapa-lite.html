@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Lubartowski Szlak Pamięci</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#221D18;
+    --surface:#2E2721;
+    --surface-raised:#3A3129;
+    --hairline:#4A3F35;
+    --parchment:#EDE3D0;
+    --muted:#A79C87;
+    --brass:#B4903F;
+    --brass-dim:#8C7233;
+    --brick:#8B3A32;
+    --steel:#5B6B73;
+    --violet:#6B5D74;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;height:100%;background:var(--ink);color:var(--parchment);
+    font-family:'IBM Plex Sans',sans-serif;overscroll-behavior:none;}
+  #app{position:fixed;inset:0;display:flex;flex-direction:column;}
+
+  header{
+    padding:14px 16px 10px;
+    background:linear-gradient(180deg, var(--ink) 60%, transparent);
+    position:relative;z-index:20;
+  }
+  .title-row{display:flex;align-items:baseline;gap:8px;margin-bottom:10px;}
+  .title-row .crest{font-size:20px;line-height:1;color:var(--brass);}
+  h1{font-family:'Spectral',serif;font-weight:600;font-size:19px;margin:0;
+     letter-spacing:0.2px;color:var(--parchment);}
+  .subtitle{font-size:12px;color:var(--muted);margin:0 0 10px 28px;}
+
+  .chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;}
+  .chips::-webkit-scrollbar{display:none;}
+  .chip{
+    flex:none;padding:6px 12px;border-radius:100px;font-size:12.5px;font-weight:500;
+    border:1px solid var(--hairline);background:var(--surface);color:var(--muted);
+    cursor:pointer;transition:background .15s, color .15s, border-color .15s;
+    white-space:nowrap;
+  }
+  .chip:focus-visible{outline:2px solid var(--brass);outline-offset:2px;}
+  .chip[aria-pressed="true"]{background:var(--brass);border-color:var(--brass);color:var(--ink);font-weight:600;}
+  .chip .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;vertical-align:middle;}
+
+  #map{flex:1;position:relative;z-index:1;}
+  .leaflet-container{background:#1a1613;font-family:'IBM Plex Sans',sans-serif;}
+
+  .pin{
+    width:26px;height:26px;border-radius:50% 50% 50% 0;
+    transform:rotate(-45deg);
+    border:2px solid rgba(0,0,0,.35);
+    box-shadow:0 2px 5px rgba(0,0,0,.5);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .pin span{transform:rotate(45deg);font-size:11px;font-weight:700;color:var(--ink);font-family:'IBM Plex Sans',sans-serif;}
+
+  .view-toggle{
+    position:absolute;bottom:18px;left:50%;transform:translateX(-50%);
+    z-index:15;background:var(--surface-raised);border:1px solid var(--hairline);
+    color:var(--parchment);padding:10px 20px;border-radius:100px;font-size:13px;
+    font-weight:600;display:flex;align-items:center;gap:8px;cursor:pointer;
+    box-shadow:0 4px 14px rgba(0,0,0,.5);
+  }
+  .view-toggle:focus-visible{outline:2px solid var(--brass);outline-offset:2px;}
+
+  #list{flex:1;overflow-y:auto;display:none;padding:4px 14px 90px;}
+  .era-group-label{
+    font-family:'Spectral',serif;font-size:13px;font-weight:600;color:var(--brass);
+    margin:18px 4px 8px;padding-top:8px;border-top:1px solid var(--hairline);
+  }
+  .era-group-label:first-child{border-top:none;margin-top:6px;}
+  .list-item{
+    display:flex;align-items:flex-start;gap:12px;padding:12px 10px;border-radius:10px;
+    cursor:pointer;border:1px solid transparent;
+  }
+  .list-item:hover, .list-item:focus-visible{background:var(--surface);border-color:var(--hairline);}
+  .list-item:focus-visible{outline:2px solid var(--brass);}
+  .list-item .num{
+    flex:none;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;
+    justify-content:center;font-size:12px;font-weight:700;color:var(--ink);margin-top:1px;
+  }
+  .list-item .info{min-width:0;}
+  .list-item .name{font-size:14.5px;font-weight:500;color:var(--parchment);line-height:1.35;}
+  .list-item .addr{font-size:12px;color:var(--muted);margin-top:2px;}
+
+  #sheet{
+    position:fixed;left:0;right:0;bottom:0;z-index:30;
+    background:var(--surface-raised);border-top:1px solid var(--hairline);
+    border-radius:18px 18px 0 0;box-shadow:0 -8px 30px rgba(0,0,0,.6);
+    transform:translateY(100%);transition:transform .28s cubic-bezier(.32,.72,0,1);
+    max-height:70vh;overflow-y:auto;padding:10px 20px 26px;
+  }
+  #sheet.open{transform:translateY(0);}
+  .handle{width:36px;height:4px;background:var(--hairline);border-radius:4px;margin:2px auto 14px;}
+  .sheet-era{
+    display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;
+    padding:4px 10px;border-radius:100px;margin-bottom:10px;color:var(--ink);
+  }
+  #sheet h2{font-family:'Spectral',serif;font-size:19px;font-weight:600;margin:0 0 6px;
+    line-height:1.3;color:var(--parchment);}
+  .sheet-meta{font-size:12.5px;color:var(--muted);margin-bottom:2px;}
+  .sheet-desc{font-size:13.5px;line-height:1.6;color:var(--parchment);margin-top:12px;
+    padding-top:12px;border-top:1px solid var(--hairline);}
+  .sheet-placeholder{font-size:12.5px;line-height:1.6;color:var(--muted);margin-top:12px;
+    padding-top:12px;border-top:1px solid var(--hairline);font-style:italic;}
+  .close-x{
+    position:absolute;top:14px;right:14px;background:none;border:none;color:var(--muted);
+    font-size:20px;cursor:pointer;line-height:1;padding:4px;
+  }
+  .close-x:focus-visible{outline:2px solid var(--brass);}
+
+  #overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:25;
+    opacity:0;pointer-events:none;transition:opacity .28s;
+  }
+  #overlay.open{opacity:1;pointer-events:auto;}
+
+  @media (prefers-reduced-motion: reduce){
+    #sheet, #overlay{transition:none;}
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="title-row">
+      <span class="crest">⛨</span>
+      <h1>Lubartowski Szlak Pamięci</h1>
+    </div>
+    <p class="subtitle">32 punkty · 1863–2025</p>
+    <div class="chips" id="chips" role="group" aria-label="Filtruj wg epoki"></div>
+  </header>
+
+  <div id="map"></div>
+  <div id="list"></div>
+
+  <button class="view-toggle" id="viewToggle" aria-label="Przełącz widok">
+    <span id="viewToggleLabel">Pokaż listę</span>
+  </button>
+</div>
+
+<div id="overlay"></div>
+<div id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+  <button class="close-x" id="closeSheet" aria-label="Zamknij">✕</button>
+  <div class="handle"></div>
+  <span class="sheet-era" id="sheetEra"></span>
+  <h2 id="sheetTitle"></h2>
+  <div class="sheet-meta" id="sheetType"></div>
+  <div class="sheet-meta" id="sheetAddr"></div>
+  <div id="sheetDescWrap"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+// ============================================================
+// DANE — 32 punkty, zrodlo: szlak_32_punktow_FINALNY.tsv (Coda)
+// Opisy podane TYLKO tam, gdzie zweryfikowane zrodlowo.
+// ============================================================
+const ERAS = {
+  "POWSTANIE STYCZNIOWE": {label:"1863", color:"var(--brick)", hex:"#8B3A32", order:0},
+  "WOJNA 1920":            {label:"1920", color:"var(--steel)", hex:"#5B6B73", order:1},
+  "II WOJNA SWIATOWA":     {label:"1939–45", color:"var(--brass)", hex:"#B4903F", order:2},
+  "OKRES POWOJENNY":       {label:"Powojenne", color:"var(--violet)", hex:"#6B5D74", order:3},
+};
+
+const POINTS = [
+  {id:1, name:"Sztab Marszałka Piłsudskiego 1920", era:"WOJNA 1920", type:"Obiekt historyczny / architektura", addr:"Rynek 11, Gmach Starostwa", lat:51.46234, lng:22.60789},
+  {id:2, name:"Tablica Wojska Polskiego 1920", era:"WOJNA 1920", type:"Pomnik / tablica", addr:"Rynek 15 (fasada kościoła)", lat:51.4628, lng:22.6075},
+  {id:3, name:"Siedziba Gestapo i Żandarmerii", era:"II WOJNA SWIATOWA", type:"Obiekt historyczny / architektura", addr:"ul. Cmentarna 4", lat:51.4631, lng:22.6081},
+  {id:4, name:"Więzienie Gestapo i Katownia UB", era:"II WOJNA SWIATOWA", type:"Miejsce pamięci / tablica", addr:"ul. Słowackiego 7", lat:51.4619, lng:22.6062},
+  {id:5, name:"Dawny Szpital Polowy AK", era:"II WOJNA SWIATOWA", type:"Obiekt historyczny / architektura", addr:"ul. Legionów 2", lat:51.4605, lng:22.605},
+  {id:6, name:"Dom Przejściowy Wołyniaków", era:"II WOJNA SWIATOWA", type:"Miejsce pamięci / tablica", addr:"ul. Lubelska 34", lat:51.4598, lng:22.6041},
+  {id:7, name:"Punkt Kontaktowy 27 WDP AK", era:"II WOJNA SWIATOWA", type:"Obiekt historyczny / architektura", addr:"ul. Cicha 8", lat:51.4589, lng:22.603},
+  {id:8, name:"Kryjówka Żołnierzy Wyklętych", era:"OKRES POWOJENNY", type:"Miejsce pamięci / tablica", addr:"ul. Poprzeczna 12", lat:51.4642, lng:22.6091},
+  {id:9, name:"Posterunek MO i Urząd Bezpieczeństwa", era:"OKRES POWOJENNY", type:"Miejsce pamięci / tablica", addr:"ul. Lipowa 3", lat:51.465, lng:22.6105},
+  {id:10, name:"Pomnik Niepodległości", era:"II WOJNA SWIATOWA", type:"Pomnik / tablica", addr:"Plac Wolności 1", lat:51.457, lng:22.6012},
+  {id:11, name:"Drukarnia Podziemna AK", era:"II WOJNA SWIATOWA", type:"Obiekt historyczny / architektura", addr:"ul. Partyzantów 15", lat:51.4581, lng:22.6025,
+    desc:"Związana z sierż. Karolem Skaruchem ps. „Warta” — szefem Biura Informacji i Propagandy Obwodu, odpowiedzialnym za wydawanie i kolportaż podziemnej prasy."},
+  {id:12, name:"Siedziba Sztabu BCh", era:"II WOJNA SWIATOWA", type:"Miejsce pamięci / tablica", addr:"ul. Kościuszki 20", lat:51.4611, lng:22.6068},
+  {id:13, name:"Mogiła Powstańców Styczniowych 1863", era:"POWSTANIE STYCZNIOWE", type:"Pomnik / mogiła", addr:"Cmentarz Parafialny", lat:51.4665, lng:22.612},
+  {id:14, name:"Kwatera Żołnierzy AK i Września 1939", era:"II WOJNA SWIATOWA", type:"Miejsce pamięci / tablica", addr:"Cmentarz Parafialny", lat:51.467, lng:22.6128},
+  {id:15, name:"Symboliczny Grobowiec Żołnierzy Wyklętych", era:"OKRES POWOJENNY", type:"Miejsce pamięci / tablica", addr:"Cmentarz Parafialny", lat:51.4674, lng:22.6132},
+  {id:16, name:"Schron Wojskowy i Magazyn Broni", era:"II WOJNA SWIATOWA", type:"Obiekt historyczny / architektura", addr:"ul. Nowa 5", lat:51.4555, lng:22.6001},
+  {id:17, name:"Punkt Zrzutowy Broni", era:"II WOJNA SWIATOWA", type:"Miejsce pamięci / tablica", addr:"ul. Polna 18", lat:51.454, lng:22.5985},
+  {id:18, name:"Miejsce Egzekucji Cywilów 1943", era:"II WOJNA SWIATOWA", type:"Pomnik / tablica", addr:"ul. Piaskowa 2", lat:51.468, lng:22.614},
+  {id:19, name:"Dom Pamięci Ochotników 1920", era:"WOJNA 1920", type:"Miejsce pamięci / tablica", addr:"ul. Krótka 1", lat:51.46, lng:22.6045},
+  {id:20, name:"Apteka Podziemna i Punkt Opatrunkowy", era:"II WOJNA SWIATOWA", type:"Obiekt historyczny / architektura", addr:"ul. Rynek 8", lat:51.4621, lng:22.6071},
+  {id:21, name:"Siedziba Tajnego Nauczania", era:"II WOJNA SWIATOWA", type:"Miejsce pamięci / tablica", addr:"ul. Cmentarna 18", lat:51.4645, lng:22.6098,
+    desc:"Rekomendowane (niepotwierdzone jednoznacznie) powiązanie z ks. kanonikiem Aleksandrem Szulcem ps. „Ina” (1892–1965), kapelanem Obwodu AK i wieloletnim rektorem kościoła OO. Kapucynów, zaangażowanym w tajne nauczanie."},
+  {id:22, name:"Lokal Kontaktowy WiN", era:"OKRES POWOJENNY", type:"Miejsce pamięci / tablica", addr:"ul. Ogrodowa 4", lat:51.4658, lng:22.6112},
+  {id:23, name:"Dawne Gimnazjum — Ośrodek Oporu", era:"II WOJNA SWIATOWA", type:"Obiekt historyczny / architektura", addr:"ul. Lubelska 10", lat:51.4592, lng:22.6038},
+  {id:24, name:"Warsztat Krawiecki — Kryjówka Służb", era:"II WOJNA SWIATOWA", type:"Miejsce pamięci / tablica", addr:"ul. Szewska 3", lat:51.4578, lng:22.602},
+  {id:25, name:"Krzyż Pamięci Powstańców 1863", era:"POWSTANIE STYCZNIOWE", type:"Pomnik / tablica", addr:"Rondo Styczniowe", lat:51.469, lng:22.615},
+  {id:26, name:"Punkt Odbioru Radiowego Sztabu", era:"II WOJNA SWIATOWA", type:"Miejsce pamięci / tablica", addr:"ul. Słowackiego 12", lat:51.4615, lng:22.606},
+  {id:27, name:"por. Bolesław Mucharski ps. „Lekarz”", era:"II WOJNA SWIATOWA", type:"Miejsce pamięci / tablica", addr:"ul. Lubelska 97A, Kościół Matki Bożej NP", lat:51.4552, lng:22.6074,
+    desc:"Dowódca oddziału partyzanckiego AK w Obwodzie Lubartowskim (1914–1945). Walczył z okupantem niemieckim w latach 1941–1945, zamordowany na Zamku Lubelskim 12.04.1945 r. Tablicę ufundowali w 2005 r. żołnierze AK-WiN, wójt i społeczeństwo gminy Lubartów."},
+  {id:28, name:"kpt. dr Zbigniew Bartków", era:"II WOJNA SWIATOWA", type:"Miejsce pamięci / tablica", addr:"ul. Cicha 14, Szpital Powiatowy", lat:51.4678, lng:22.6033,
+    desc:"Żołnierz Armii Krajowej, harcmistrz ZHP oraz zasłużony powojenny lekarz okulista lubartowskiego szpitala. Osoba niezwykle skromna i oddana służbie drugiemu człowiekowi."},
+  {id:29, name:"Mural 27 WDP AK", era:"II WOJNA SWIATOWA", type:"Mural", addr:"ul. 1 Maja 82, budynek RCEZ", lat:51.462, lng:22.6,
+    desc:"Największy w mieście mural poświęcony 27. Wołyńskiej Dywizji Piechoty AK, upamiętniający m.in. mjr. Tadeusza Sztumberka-Rychtera ps. „Żegota” i pozostałych oficerów sztabu dywizji."},
+  {id:30, name:"Miejsce pamięci — Obóz w Skrobowie (NKWD/UB)", era:"OKRES POWOJENNY", type:"Miejsce pamięci", addr:"Skrobów Kolonia", lat:51.4628, lng:22.5498,
+    desc:"Miejsce obozu internowania żołnierzy Armii Krajowej podstępnie rozbrojonych przez NKWD i UB zaraz po zakończeniu Akcji „Burza” — mimo że to oni wyzwolili miasto."},
+  {id:31, name:"Stacja PKP Lubartów", era:"OKRES POWOJENNY", type:"Tablica AK i 27 WDP", addr:"ul. Kolejowa, Dworzec PKP", lat:51.4655, lng:22.6152},
+  {id:32, name:"Symboliczna tablica ppor. Mirosława Orzechowskiego", era:"II WOJNA SWIATOWA", type:"Miejsce pamięci / tablica (grób nieznany)", addr:"Cmentarz Parafialny św. Anny (współrzędne przybliżone)", lat:51.462753, lng:22.6028411,
+    desc:"Pilot myśliwski RAF, 308. Krakowski Dywizjon Myśliwski (ur. 1916 w Lubartowie). Zginął w akcji bojowej nad Kanałem La Manche 22 lipca 1941 r. w wieku 25 lat. Odznaczony Krzyżem Walecznych i Medalem Lotniczym. Grób nieznany — tablicę postawiła matka i rodzeństwo."},
+];
+
+// ============================================================
+// MAPA
+// ============================================================
+const map = L.map('map', {zoomControl:false, attributionControl:true}).setView([51.462, 22.605], 14);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom:19,
+  attribution:'&copy; OpenStreetMap'
+}).addTo(map);
+L.control.zoom({position:'bottomright'}).addTo(map);
+
+let activeEra = null; // null = wszystkie
+const markers = {};
+
+function makeIcon(era){
+  const hex = ERAS[era].hex;
+  return L.divIcon({
+    className:'',
+    html:`<div class="pin" style="background:${hex}"><span></span></div>`,
+    iconSize:[26,26],
+    iconAnchor:[13,26],
+  });
+}
+
+POINTS.forEach(p=>{
+  const m = L.marker([p.lat,p.lng], {icon:makeIcon(p.era)});
+  m.on('click', ()=>openSheet(p));
+  m.addTo(map);
+  markers[p.id]=m;
+});
+
+function applyFilter(){
+  POINTS.forEach(p=>{
+    const show = !activeEra || p.era===activeEra;
+    const el = markers[p.id].getElement();
+    if(el) el.style.display = show ? '' : 'none';
+  });
+  renderList();
+}
+
+// ============================================================
+// CHIPY FILTRUJACE
+// ============================================================
+const chipsWrap = document.getElementById('chips');
+function buildChips(){
+  const allChip = document.createElement('button');
+  allChip.className='chip'; allChip.textContent='Wszystkie';
+  allChip.setAttribute('aria-pressed','true');
+  allChip.onclick=()=>{activeEra=null; refreshChips(); applyFilter();};
+  chipsWrap.appendChild(allChip);
+
+  Object.keys(ERAS).sort((a,b)=>ERAS[a].order-ERAS[b].order).forEach(era=>{
+    const c = document.createElement('button');
+    c.className='chip'; c.setAttribute('aria-pressed','false');
+    c.innerHTML = `<span class="dot" style="background:${ERAS[era].hex}"></span>${ERAS[era].label}`;
+    c.onclick=()=>{activeEra=era; refreshChips(); applyFilter();};
+    chipsWrap.appendChild(c);
+  });
+}
+function refreshChips(){
+  [...chipsWrap.children].forEach((c,i)=>{
+    const era = i===0? null : Object.keys(ERAS).sort((a,b)=>ERAS[a].order-ERAS[b].order)[i-1];
+    c.setAttribute('aria-pressed', era===activeEra ? 'true':'false');
+  });
+}
+buildChips();
+
+// ============================================================
+// WIDOK LISTY
+// ============================================================
+const listEl = document.getElementById('list');
+function renderList(){
+  listEl.innerHTML='';
+  const eraOrder = Object.keys(ERAS).sort((a,b)=>ERAS[a].order-ERAS[b].order);
+  eraOrder.forEach(era=>{
+    if(activeEra && era!==activeEra) return;
+    const pts = POINTS.filter(p=>p.era===era).sort((a,b)=>a.id-b.id);
+    if(!pts.length) return;
+    const label = document.createElement('div');
+    label.className='era-group-label';
+    label.textContent = ERAS[era].label + ' — ' + era.charAt(0)+era.slice(1).toLowerCase();
+    listEl.appendChild(label);
+    pts.forEach(p=>{
+      const item = document.createElement('div');
+      item.className='list-item'; item.tabIndex=0; item.setAttribute('role','button');
+      item.innerHTML = `<div class="num" style="background:${ERAS[p.era].hex}">${p.id}</div>
+        <div class="info"><div class="name">${p.name}</div><div class="addr">${p.addr}</div></div>`;
+      item.onclick=()=>{openSheet(p); map.setView([p.lat,p.lng],17);};
+      item.onkeydown=(e)=>{if(e.key==='Enter')item.onclick();};
+      listEl.appendChild(item);
+    });
+  });
+}
+renderList();
+
+// ============================================================
+// PRZELACZNIK MAPA / LISTA
+// ============================================================
+let showingList = false;
+const toggleBtn = document.getElementById('viewToggle');
+const toggleLabel = document.getElementById('viewToggleLabel');
+const mapEl = document.getElementById('map');
+toggleBtn.onclick = ()=>{
+  showingList = !showingList;
+  mapEl.style.display = showingList ? 'none':'block';
+  listEl.style.display = showingList ? 'block':'none';
+  toggleLabel.textContent = showingList ? 'Pokaż mapę' : 'Pokaż listę';
+  if(!showingList) setTimeout(()=>map.invalidateSize(),50);
+};
+
+// ============================================================
+// DOLNA KARTA (BOTTOM SHEET)
+// ============================================================
+const sheet = document.getElementById('sheet');
+const overlay = document.getElementById('overlay');
+function openSheet(p){
+  document.getElementById('sheetEra').textContent = ERAS[p.era].label;
+  document.getElementById('sheetEra').style.background = ERAS[p.era].hex;
+  document.getElementById('sheetTitle').textContent = `${p.id}. ${p.name}`;
+  document.getElementById('sheetType').textContent = p.type;
+  document.getElementById('sheetAddr').textContent = p.addr;
+  const descWrap = document.getElementById('sheetDescWrap');
+  if(p.desc){
+    descWrap.innerHTML = `<div class="sheet-desc">${p.desc}</div>`;
+  } else {
+    descWrap.innerHTML = `<div class="sheet-placeholder">Pełny opis historyczny w opracowaniu — dostępny po połączeniu z bazą danych szlaku.</div>`;
+  }
+  sheet.classList.add('open');
+  overlay.classList.add('open');
+}
+function closeSheet(){
+  sheet.classList.remove('open');
+  overlay.classList.remove('open');
+}
+document.getElementById('closeSheet').onclick = closeSheet;
+overlay.onclick = closeSheet;
+</script>
+</body>
+</html>
