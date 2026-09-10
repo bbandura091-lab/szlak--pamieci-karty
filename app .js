@@ -1,5 +1,32 @@
-// 🔥 Wstaw swój token Mapbox
-mapboxgl.accessToken = 'pk.eyJ1Ijoic3psYWtwYW1pZWNpIiwiYSI6ImNtc2Q2ajQzbTFuYm8yenF5NzlxMm94NmIifQ.onRsmrhonmqffC3GfOnYFg' ;
+ ;// Wstaw swój zweryfikowany token Mapbox
+mapboxgl.accessToken =pk.eyJ1Ijoic3psYWtwYW1pZWNpIiwiYSI6ImNtc2Q2ajQzbTFuYm8yenF5NzlxMm94NmIifQ.onRsmrhonmqffC3GfOnYFg
+
+// Inicjalizacja mapy
+const map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/light-v11',
+    center: [22.607, 51.460], // Lubartów
+    zoom: 12
+});
+
+// Lista Twoich plików geoJSON / HTML (dopisane pozycje pos_031 i pos_032)
+const files = [
+    'pos_001.html',
+    'pos_002.html',
+    'pos_003.html',
+    'pos_004.html',
+    'pos_005.html',
+    'pos_006.html',
+    'pos_007.html',
+    'pos_008.html',
+    'pos_009.html',
+    'pos_010.html',
+    'pos_011.html',
+    'pos_012.html',
+    'pos_013.html',
+    'pos_031.html',
+    'pos_032.html'
+];
 
 // 🔥 Inicjalizacja mapy
 const map = new mapboxgl.Map({
@@ -10,19 +37,4 @@ style:'mapbox://styles/mapbox/light-v11',
   zoom: 12
 });
 
-// 🔥 Lista Twoich plików geoJSON
-const files = [
- const files = [
-  'pos_001.html',
-  'pos_002.html',
-  'pos_003.html',
-  'pos_004.html',
-  'pos_005.html',
-  'pos_006.html',
-  'pos_007.html',
-  'pos_008.html',
-  'pos_009.html',
-  'pos_010.html',
-  'pos_011.html'
-]; 
-];
+
