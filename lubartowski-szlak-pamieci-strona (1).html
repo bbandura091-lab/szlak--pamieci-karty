@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Lubartowski Szlak Pamięci</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#221D18">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#221D18; --surface:#2E2721; --surface-raised:#3A3129; --hairline:#4A3F35;
+  --parchment:#EDE3D0; --muted:#A79C87;
+  --brass:#B4903F; --brass-dim:#8C7233; --brick:#8B3A32; --steel:#5B6B73; --violet:#6B5D74;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;}
+body{margin:0;background:var(--ink);color:var(--parchment);font-family:'IBM Plex Sans',sans-serif;line-height:1.5;}
+h1,h2,h3{font-family:'Spectral',serif;font-weight:600;margin:0;}
+a{color:var(--brass);}
+::selection{background:var(--brass);color:var(--ink);}
+
+nav{position:sticky;top:0;z-index:50;background:rgba(34,29,24,.96);backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--hairline);}
+.navrow{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:10px;padding:12px 18px;
+  overflow-x:auto;scrollbar-width:none;}
+.navrow::-webkit-scrollbar{display:none;}
+.brand{display:flex;align-items:center;gap:8px;flex:none;margin-right:14px;}
+.brand .crest{color:var(--brass);font-size:20px;}
+.brand span{font-family:'Spectral',serif;font-weight:600;font-size:16px;white-space:nowrap;}
+.navlink{flex:none;background:none;border:none;color:var(--muted);font-family:'IBM Plex Sans',sans-serif;
+  font-size:13.5px;font-weight:500;padding:8px 12px;border-radius:8px;cursor:pointer;white-space:nowrap;}
+.navlink:hover{color:var(--parchment);}
+.navlink.active{background:var(--surface);color:var(--brass);font-weight:600;}
+.navlink:focus-visible{outline:2px solid var(--brass);outline-offset:1px;}
+
+.view{display:none;max-width:1100px;margin:0 auto;padding:34px 18px 70px;}
+.view.active{display:block;animation:fade .35s ease;}
+@keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+.hero{text-align:center;padding:30px 10px 10px;}
+.hero .crest-big{font-size:38px;color:var(--brass);}
+.hero h1{font-size:clamp(28px,5vw,42px);margin:10px 0 6px;}
+.hero .sub{color:var(--muted);font-size:15px;}
+.quote{max-width:640px;margin:34px auto;padding:22px 26px;background:var(--surface);
+  border-left:3px solid var(--brass);border-radius:0 10px 10px 0;font-style:italic;font-size:17px;}
+.quote cite{display:block;margin-top:10px;font-style:normal;color:var(--brass);font-size:13px;}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin:36px 0;}
+.stat{background:var(--surface);border:1px solid var(--hairline);border-radius:12px;padding:20px;text-align:center;}
+.stat .num{font-family:'Spectral',serif;font-size:30px;font-weight:700;color:var(--brass);}
+.stat .lab{font-size:12px;color:var(--muted);margin-top:4px;}
+.prose{font-size:15px;line-height:1.75;color:var(--parchment);}
+.prose h3{font-size:17px;color:var(--brass);margin:26px 0 10px;}
+.navgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:30px;}
+.navcard{background:var(--surface);border:1px solid var(--hairline);border-radius:14px;padding:20px;
+  cursor:pointer;transition:border-color .15s, transform .15s;}
+.navcard:hover{border-color:var(--brass);transform:translateY(-2px);}
+.navcard .ic{font-size:22px;color:var(--brass);margin-bottom:8px;}
+.navcard h3{font-size:16px;margin-bottom:4px;}
+.navcard p{font-size:12.5px;color:var(--muted);margin:0;}
+
+.sec-head{margin-bottom:22px;}
+.sec-head h2{font-size:26px;}
+.sec-head p{color:var(--muted);font-size:14px;margin-top:6px;}
+
+.controls{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px;}
+.search{flex:1;min-width:180px;background:var(--surface);border:1px solid var(--hairline);
+  border-radius:10px;padding:10px 14px;color:var(--parchment);font-size:14px;font-family:inherit;}
+.search:focus-visible{outline:2px solid var(--brass);}
+.filterchip{background:var(--surface);border:1px solid var(--hairline);color:var(--muted);
+  font-size:12px;padding:7px 12px;border-radius:100px;cursor:pointer;white-space:nowrap;}
+.filterchip[aria-pressed="true"]{background:var(--brass);border-color:var(--brass);color:var(--ink);font-weight:600;}
+.filterchip:focus-visible{outline:2px solid var(--brass);}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;}
+.pcard{background:var(--surface);border:1px solid var(--hairline);border-radius:14px;padding:18px;cursor:pointer;}
+.pcard:hover{border-color:var(--brass);}
+.pcard .badge{display:inline-block;font-size:10.5px;padding:3px 9px;border-radius:100px;background:var(--surface-raised);
+  color:var(--brass);margin-bottom:10px;}
+.pcard h3{font-size:16px;line-height:1.3;}
+.pcard .ps{color:var(--brass-dim);font-size:12.5px;font-style:italic;margin:2px 0 8px;}
+.pcard .role{font-size:12.5px;color:var(--muted);line-height:1.5;}
+.pcard .years{font-size:11px;color:var(--muted);margin-top:8px;font-family:monospace;}
+.empty{color:var(--muted);font-size:13px;padding:30px;text-align:center;}
+
+#modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:100;display:none;
+  align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto;}
+#modal-overlay.open{display:flex;}
+#modal{background:var(--surface-raised);border:1px solid var(--hairline);border-radius:16px;
+  max-width:560px;width:100%;padding:28px;position:relative;}
+#modal .mclose{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--muted);
+  font-size:20px;cursor:pointer;}
+#modal .mbadge{display:inline-block;font-size:11px;padding:4px 10px;border-radius:100px;background:var(--brass);
+  color:var(--ink);font-weight:600;margin-bottom:12px;}
+#modal h2{font-size:21px;line-height:1.3;}
+#modal .mps{color:var(--brass-dim);font-style:italic;margin:2px 0 4px;}
+#modal .myears{font-size:12px;color:var(--muted);font-family:monospace;margin-bottom:14px;}
+#modal .mrole{font-size:13.5px;color:var(--parchment);font-weight:500;margin-bottom:14px;padding-bottom:14px;
+  border-bottom:1px solid var(--hairline);}
+#modal .mbio{font-size:13.5px;line-height:1.7;color:var(--parchment);}
+
+#map-wrap{position:relative;height:70vh;min-height:420px;border-radius:14px;overflow:hidden;
+  border:1px solid var(--hairline);}
+#map{height:100%;}
+.leaflet-container{background:#1a1613;font-family:'IBM Plex Sans',sans-serif;}
+.pin{width:24px;height:24px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);
+  border:2px solid rgba(0,0,0,.35);box-shadow:0 2px 5px rgba(0,0,0,.5);}
+.map-chips{display:flex;gap:6px;overflow-x:auto;margin-bottom:14px;padding-bottom:2px;scrollbar-width:none;}
+.map-chips::-webkit-scrollbar{display:none;}
+.map-sheet{position:absolute;left:12px;right:12px;bottom:12px;z-index:15;background:var(--surface-raised);
+  border:1px solid var(--hairline);border-radius:12px;padding:16px 18px;max-height:45%;overflow-y:auto;
+  display:none;box-shadow:0 8px 24px rgba(0,0,0,.5);}
+.map-sheet.open{display:block;}
+.map-sheet h3{font-size:15px;margin-bottom:4px;}
+.map-sheet .meta{font-size:12px;color:var(--muted);margin-bottom:2px;}
+.map-sheet .desc{font-size:12.5px;line-height:1.6;margin-top:10px;padding-top:10px;border-top:1px solid var(--hairline);}
+.map-sheet .mclose2{float:right;background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;}
+
+.nekro-card{background:var(--surface);border:1px solid var(--hairline);border-left:3px solid var(--brick);
+  border-radius:0 12px 12px 0;padding:20px 22px;margin-bottom:16px;}
+.nekro-card h3{font-size:17px;margin-bottom:4px;}
+.nekro-card .addr{font-size:12px;color:var(--muted);margin-bottom:10px;}
+.nekro-card p{font-size:13.5px;line-height:1.7;margin:0 0 10px;}
+.nekro-names{font-size:12px;color:var(--brass-dim);line-height:1.8;}
+.nekro-hero{font-size:12.5px;color:var(--brass);margin-top:8px;}
+
+.hold-card{background:var(--surface);border:1px solid var(--hairline);border-radius:14px;padding:18px 20px;margin-bottom:12px;}
+.hold-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;}
+.hold-card h3{font-size:15.5px;}
+.hold-meta{font-size:12px;color:var(--muted);margin-top:2px;}
+.hold-badges{display:flex;gap:6px;flex-wrap:wrap;}
+.hold-badge{font-size:10.5px;padding:3px 9px;border-radius:100px;background:var(--surface-raised);color:var(--brass);}
+.hold-candle{font-size:14px;}
+.hold-text{font-size:13px;font-style:italic;color:var(--muted);margin-top:10px;padding-top:10px;border-top:1px solid var(--hairline);}
+.cta-box{margin-top:24px;background:var(--surface);border:1px dashed var(--brass-dim);border-radius:14px;
+  padding:22px;text-align:center;}
+.cta-box h3{font-size:16px;margin-bottom:6px;}
+.cta-box p{font-size:13px;color:var(--muted);}
+
+footer{text-align:center;padding:26px 18px 40px;color:var(--muted);font-size:12px;border-top:1px solid var(--hairline);}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important;}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="navrow" id="navrow">
+    <div class="brand"><span class="crest">&#9860;</span><span>Lubartowski Szlak Pamięci</span></div>
+    <button class="navlink" data-view="home">Strona Główna</button>
+    <button class="navlink" data-view="panteon">Panteon</button>
+    <button class="navlink" data-view="mapa">Mapa</button>
+    <button class="navlink" data-view="nekropolia">Nekropolia</button>
+    <button class="navlink" data-view="hold">Księga Hołdu</button>
+  </div>
+</nav>
+
+<section class="view" id="view-home">
+  <div class="hero">
+    <div class="crest-big">&#9860;</div>
+    <h1>Lubartowski Szlak Pamięci</h1>
+    <p class="sub">Projekt upamiętniający bohaterów AK, 27. WDP i podziemia niepodległościowego z rejonu Lubartowa</p>
+  </div>
+
+  <div class="quote">
+    „Jeśli zapomnę o nich, Ty, Boże na niebie, zapomnij o mnie!”
+    <cite>— Adam Mickiewicz, Dziady cz. III</cite>
+  </div>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="prose">
+    <p>Projekt powstał, aby ocalić od zapomnienia bohaterów Armii Krajowej, cywilnych obrońców i mieszkańców ziemi lubartowskiej, którzy oddali życie za wolność. Przechodząc przez kolejne punkty szlaku, poznajesz ich historię, miejsca walk i niezłomny duch Lubartowa 1944 roku.</p>
+    <h3>Od walk o wyzwolenie do powojennych represji</h3>
+    <p>W lipcu 1944 roku Lubartów stał się jednym z kluczowych punktów akcji „Burza” na Lubelszczyźnie. Po połączonym uderzeniu oddziałów Armii Krajowej oraz 27. Wołyńskiej Dywizji Piechoty miasto zostało wyzwolone spod okupacji niemieckiej, lecz powiew wolności trwał krótko. Tuż po przejęciu władzy przez aparat sowiecki i NKWD lokalne miejsca oporu zamieniono w punkty represji, tworząc tragiczny rozdział historii ziemi lubartowskiej — kontynuowany przez oddziały WiN kpt. Zdzisława Brońskiego „Uskoka” i ppor. Stanisława Kuchciewicza „Wiktora” aż do 1953 roku.</p>
+  </div>
+
+  <div class="navgrid">
+    <div class="navcard" data-view="panteon"><div class="ic">&#127894;</div><h3>Panteon Bohaterów</h3><p>29 udokumentowanych biogramów — od Obwodu AK po Żołnierzy Wyklętych</p></div>
+    <div class="navcard" data-view="mapa"><div class="ic">&#128506;</div><h3>Mapa Szlaku</h3><p>44 punkty — od Lubartowa po Zamek Lubelski i Piaski</p></div>
+    <div class="navcard" data-view="nekropolia"><div class="ic">&#128367;</div><h3>Nekropolia</h3><p>Groby i mogiły na Cmentarzu Parafialnym</p></div>
+    <div class="navcard" data-view="hold"><div class="ic">&#128214;</div><h3>Księga Hołdu</h3><p>Wpisy odwiedzających składających hołd bohaterom</p></div>
+  </div>
+</section>
+
+<section class="view" id="view-panteon">
+  <div class="sec-head">
+    <h2>Panteon Bohaterów</h2>
+    <p>29 udokumentowanych postaci związanych z Lubartowskim Szlakiem Pamięci</p>
+  </div>
+  <div class="controls">
+    <input class="search" id="pSearch" type="text" placeholder="Szukaj po nazwisku, pseudonimie lub roli…">
+  </div>
+  <div class="controls" id="pFilters"></div>
+  <div class="pgrid" id="pGrid"></div>
+</section>
+
+<section class="view" id="view-mapa">
+  <div class="sec-head">
+    <h2>Mapa Szlaku</h2>
+    <p>44 punkty — Lubartów i okolice, od 1863 do współczesności</p>
+  </div>
+  <div class="map-chips" id="mapChips"></div>
+  <div id="map-wrap">
+    <div id="map"></div>
+    <div class="map-sheet" id="mapSheet">
+      <button class="mclose2" id="mapSheetClose">&times;</button>
+      <h3 id="msTitle"></h3>
+      <div class="meta" id="msType"></div>
+      <div class="meta" id="msAddr"></div>
+      <div id="msDescWrap"></div>
+    </div>
+  </div>
+</section>
+
+<section class="view" id="view-nekropolia">
+  <div class="sec-head">
+    <h2>Nekropolia</h2>
+    <p>Groby, mogiły i miejsca pochówku — Cmentarz Parafialny w Lubartowie</p>
+  </div>
+  <div id="nekroList"></div>
+</section>
+
+<section class="view" id="view-hold">
+  <div class="sec-head">
+    <h2>Księga Hołdu i Pamięci</h2>
+    <p>Wpisy złożone przez odwiedzających — osobiste słowa pamięci skierowane do bohaterów szlaku</p>
+  </div>
+  <div id="holdList"></div>
+  <div class="cta-box">
+    <h3>Chcesz dołączyć do grona osób, które upamiętniły bohaterów?</h3>
+    <p>Formularz „Złóż swój hołd” dostępny jest w wersji roboczej projektu w Coda.</p>
+  </div>
+</section>
+
+<footer>Lubartowski Szlak Pamięci — projekt żywy i wciąż rozwijany · dane zweryfikowane źródłowo (IPN, archiwa muzealne, relacje rodzin)</footer>
+
+<div id="modal-overlay">
+  <div id="modal">
+    <button class="mclose" id="modalClose">&times;</button>
+    <span class="mbadge" id="mBadge"></span>
+    <h2 id="mName"></h2>
+    <div class="mps" id="mPs"></div>
+    <div class="myears" id="mYears"></div>
+    <div class="mrole" id="mRole"></div>
+    <div class="mbio" id="mBio"></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+const PANTHEON = [
+{s:"adam-mozdzynski",st:"ppor. rez.",name:"Adam Możdżyński",ps:"Chodnik",years:"1900–1977",role:"Organizator struktur ZWZ i oficer łączności radiowej",bio:"Twórca pierwszych struktur konspiracyjnych na ziemi lubartowskiej, odpowiedzialny za łączność radiową Obwodu.",group:"I: Fundament"},
+{s:"stefan-rafalski",st:"plut. rez.",name:"Stefan Rafalski",ps:"",years:"",role:"Współorganizator struktur terenowych ZWZ",bio:"Jeden z pierwszych, którzy odważyli się powiedzieć „nie” — budował sieć konspiracyjnych placówek ZWZ, gdy za samo słowo oporu groziła śmierć.",group:"I: Fundament"},
+{s:"karol-skaruch",st:"sierż. rez.",name:"Karol Skaruch",ps:"Warta",years:"",role:"Kierownik BIP (Biuro Informacji i Propagandy) Obwodu",bio:"W czasach, gdy prawda była zakazana, on ją drukował — pionier walki słowem, twórca podziemnych struktur informacji i propagandy Obwodu Lubartów. Powiązany z Punktem 11 trasy — Drukarnia Podziemna AK, ul. Partyzantów 15.",group:"I: Fundament"},
+{s:"aleksander-szulc",st:"ks. kanonik",name:"Aleksander Szulc",ps:"Jon / Ina",years:"1892–1965",role:"Kapelan wojskowy Obwodu Lubartów ZWZ-AK (1940–43); Rektor Kościoła OO. Kapucynów (1921–1938); Prefekt szkół",bio:"Był głosem sumienia i tarczą ducha — jako kapelan Obwodu towarzyszył żołnierzom podziemia w ich najtrudniejszych chwilach. Biblioteka Macierzy Szkolnej była dla niego i żołnierzy AK czymś więcej niż szkołą — była ich sztabem, gdzie między stronami książek przekazywano grypsy. Potwierdzone tablicą pamiątkową w Klasztorze OO. Kapucynów (1987).",group:"I: Fundament"},
+{s:"adam-domaradzki",st:"por. rez.",name:"Adam Domaradzki",ps:"Don",years:"",role:"Komendant Obwodu AK Lubartów (I 1943 – I 1944)",bio:"Kierował Obwodem w kluczowym okresie rozbudowy struktur podziemnych i przygotowań do dalszej walki.",group:"I: Fundament"},
+{s:"roman-jezior",st:"kpt.",name:"Roman Jezior",ps:"Okoń / Jung / Butrym",years:"1907–1991",role:"Ostatni Komendant Obwodu AK Lubartów",bio:"To on wydał rozkaz do Akcji „Burza” i stanął na czele żołnierzy, którzy jako prawowici gospodarze tej ziemi witali świt wolności 23 lipca 1944 r. Wg inskrypcji nagrobnej (krzyż Virtuti Militari) dowodził połączonymi siłami 7 tysięcy żołnierzy AK, BCh i WiN.",group:"II: Sztab"},
+{s:"jozef-juralomski",st:"por.",name:"Józef Jurałomski",ps:"Ju / Jur",years:"1905–1978",role:"Oficer KOP i dowódca II Rejonu AK (miasto Lubartów)",bio:"Stał na straży miasta, gdy inni uciekali — zabezpieczył Lubartów przed grabieżą i chaosem, a potem sam poprowadził najtrudniejsze pertraktacje z Armią Ludową, broniąc honoru Żołnierzy-Zwycięzców.",group:"II: Sztab"},
+{s:"czeslaw-gregorowicz",st:"por. rez.",name:"Czesław Gregorowicz",ps:"Jaromir / Wojciech",years:"",role:"Inspektor WSOP i zastępca Komendanta Obwodu",bio:"Mózg operacyjny lubartowskiego sztabu — koordynował współdziałanie bojowe z 27. Wołyńską Dywizją Piechoty AK.",group:"II: Sztab"},
+{s:"tadeusz-pospiech",st:"por.",name:"Tadeusz Pośpiech",ps:"Brzechwa",years:"",role:"Dowódca Oddziału Partyzanckiego",bio:"Uderzał tam, gdzie bolało najbardziej — jego oddział partyzancki paraliżował transporty i węzły komunikacyjne wroga, rosnąc do osiemdziesięciu zaprawionych w boju żołnierzy.",group:"III: Pięść Bojowa"},
+{s:"zdzislaw-bronski",st:"kpt.",name:"Zdzisław Broński",ps:"Uskok / Zdzich / Kryza",years:"24.12.1912–21.05.1949",role:"Dowódca Oddziału Partyzanckiego, ostatecznie zwierzchnik wszystkich oddziałów WiN w powiecie Lubartów",bio:"Urodzony w Radzicu Starym. Po kampanii wrześniowej 1939 (27. DP) trafił do niewoli, uciekł ze Stalagu II B. Od 1944 r. komendant I rejonu Obwodu AK Lubartów. Po wkroczeniu Sowietów odmówił złożenia broni — komendant OPL II WiN (krypt. „Leontyna”). Zginął 21 maja 1949 r. w bunkrze w Dąbrówce (Nowogród k. Łęcznej), otoczony przez 140-osobową grupę operacyjną UB-KBW-MO — zdetonował granat, wybierając śmierć zamiast pojmania. Ciało ekshumowano w 2013 r., pochowany z honorami w Lublinie. Źródło: IPN Lu 0264/19, „Bastion Pamięci”.",group:"III: Pięść Bojowa"},
+{s:"jan-kotowicz",st:"płk",name:"Jan Kotowicz",ps:"Twardy",years:"",role:"Ostatni dowódca 27. Wołyńskiej Dywizji Piechoty AK",bio:"Dowodził natarciem dywizji, które 21 lipca 1944 r. zajęło Lubartów i Kock, rozbijając wycofującą się kolumnę niemiecką.",group:"IV: Dowództwo 27. WDP AK"},
+{s:"tadeusz-sztumberk-rychter",st:"mjr",name:"Tadeusz Sztumberk-Rychter",ps:"Żegota",years:"1907–1972",role:"Szef sztabu 27. Wołyńskiej Dywizji Piechoty AK",bio:"Przeszedł przez piekło Wołynia, by 22 lipca 1944 r. przynieść do Lubartowa rozkaz uderzenia. Po śmierci ppłk. „Oliwy” jej tymczasowy dowódca. Zapłacił za wolność latami sowieckiego więzienia. Upamiętniony na Muralu 27. WDP AK.",group:"III: Pięść Bojowa"},
+{s:"jozef-szymula",st:"strz.",name:"Józef Szymula",ps:"Jordan",years:"",role:"Dowódca oddziału specjalnego Batalionów Chłopskich",bio:"Dowódca oddziału Chłopskich, który wybrał jedność ponad podziałami — ramię w ramię z żołnierzami AK walczył o tę samą ziemię i tę samą wolność.",group:"III: Pięść Bojowa"},
+{s:"kazimierz-babinski",st:"płk",name:"Kazimierz Bąbiński",ps:"Luboń",years:"1895–1970",role:"Komendant Okręgu Wołyńskiego AK, twórca dywizji",bio:"Wydał rozkaz rozpoczęcia Akcji „Burza” na Wołyniu i zarządził koncentrację sił, z których powstała 27. WDP AK. Jego pamięci dedykowano oficjalne odsłonięcie Muralu 27. WDP AK w Lubartowie.",group:"IV: Dowództwo 27. WDP AK"},
+{s:"jan-kiwerski",st:"ppłk dypl.",name:"Jan Wojciech Kiwerski",ps:"Oliwa",years:"1910–1944",role:"Pierwszy dowódca 27. Wołyńskiej Dywizji Piechoty AK",bio:"Przekształcił rozproszone oddziały partyzanckie w regularną dywizję liczącą ponad siedem tysięcy żołnierzy — zginął w boju 18 kwietnia 1944 r. pod Zamłyniem, zanim zdążył zobaczyć owoc swojego dzieła: wyzwolony Lubartów.",group:"IV: Dowództwo 27. WDP AK"},
+{s:"jan-szatowski",st:"mjr",name:"Jan Szatowski",ps:"Kowal",years:"1907–1988",role:"Dowódca 27. WDP AK po śmierci „Oliwy”",bio:"Żelazna pięść dywizji — dowodził zgrupowaniem „Osnowa” i jako zastępca dowódcy współkierował całą operacją wyzwolenia rejonu Lubartowa w lipcu 1944 r.",group:"IV: Dowództwo 27. WDP AK"},
+{s:"aniela-miduch",st:"",name:"Aniela Miduch",ps:"Kama",years:"",role:"Nauczycielka tajnego nauczania",bio:"Pełniła też funkcję komendantki Wojskowej Służby Kobiet w Obwodzie ZWZ AK Lubartów, łącząc pracę pedagogiczną z działalnością konspiracyjną.",group:"V: Nauczyciele Tajnego Nauczania"},
+{s:"ludwika-traczyk",st:"",name:"Ludwika Traczyk",ps:"Ala",years:"",role:"Nauczycielka tajnego nauczania",bio:"Prowadziła tajne komplety dla dzieci i młodzieży Lubartowa w okresie okupacji niemieckiej.",group:"V: Nauczyciele Tajnego Nauczania"},
+{s:"kazimiera-janczewska",st:"",name:"Kazimiera Janczewska",ps:"",years:"",role:"Nauczycielka tajnego nauczania",bio:"Uczestniczka konspiracyjnego systemu nauczania w Lubartowie w latach okupacji niemieckiej.",group:"V: Nauczyciele Tajnego Nauczania"},
+{s:"wladyslaw-czermin",st:"por. rez. pieś.",name:"Władysław Czermiński",ps:"Jastrząb",years:"",role:"Dowódca I Batalionu 50. Pułku Piechoty 27. WDP AK",bio:"Przeprowadził zdziesiątkowany batalion przez lasy parczewskie i 23 lipca 1944 r. wkroczył na czele swoich żołnierzy do wyzwolonego miasta — a gdy wolność znów zagrożono, stanął do walki w szeregach WiN.",group:"III: Pięść Bojowa"},
+{s:"boleslaw-mucharski",st:"ppor.",name:"Bolesław Mucharski",ps:"Lekarz",years:"1914–1945",role:"Dowódca Oddziału Partyzanckiego Kedywu AK „Lekarz”",bio:"Urodzony w Łomży. W 1941 r. zorganizował grupę dywersyjną „DN”. Oddział przeprowadził najwięcej akcji dywersyjnych w regionie — wykolejono ok. 20 pociągów wojskowych. Aresztowany i stracony na Zamku Lubelskim 12.04.1945 r.",group:"III: Pięść Bojowa"},
+{s:"zbigniew-bartkow",st:"kpt. dr",name:"Zbigniew Bartków",ps:"",years:"",role:"Żołnierz AK, harcmistrz ZHP, powojenny lekarz okulista",bio:"Osoba niezwykle skromna i oddana służbie drugiemu człowiekowi. Upamiętniony tablicą przy ul. Cichej 14 (dawny Szpital Powiatowy).",group:"Inne / Powojenne"},
+{s:"antoni-k",st:"",name:"Antoni K.",ps:"",years:"",role:"Żołnierz liniowy w oddziale Uskoka",bio:"Biogram w trakcie opracowania.",group:"Sztab Uskoka"},
+{s:"konstanty-piotrowski",st:"",name:"Konstanty Piotrowski",ps:"",years:"",role:"Komendant Obwodu AK",bio:"Biogram w trakcie opracowania.",group:"Sztab Uskoka"},
+{s:"zygmunt-libera",st:"ppor.",name:"Zygmunt Libera",ps:"Babinicz",years:"",role:"Zastępca dowódcy oddziału Uskoka",bio:"Faktyczny zastępca kpt. Brońskiego, współdzielił z nim bunkier w Dąbrówce. 20 maja 1949 r. zwabiony w zasadzkę przez zdrajcę Franciszka Kasperka ps. „Hardy” i aresztowany. Poddany brutalnym torturom, wskazał lokalizację bunkra — co doprowadziło do śmierci Uskoka następnego dnia. Ważne rozróżnienie: to nie Libera był zdrajcą z wyboru, lecz ofiarą tortur.",group:"Sztab Uskoka"},
+{s:"jan-kowalski-bystry",st:"",name:"Jan Kowalski",ps:"Bystry",years:"zginął mając 19 lat",role:"Żołnierz AK i WiN, podkomendny mjr. Hieronima Dekutowskiego „Zapory”",bio:"Nowość 2025 — najświeższe odkrycie projektu. Szczątki odnaleziono w kwietniu 2021 r. na cmentarzu parafii św. Anny w Lubartowie, w nieoznaczonym grobie. Identyfikację ogłoszono 1 grudnia 2023 r. Uroczysty pogrzeb z pełnymi honorami wojskowymi odbył się 4 marca 2025 r.",group:"Podziemie Antykomunistyczne"},
+{s:"marian-jezowski",st:"ppor. / por.",name:"Marian Jeżowski",ps:"Szary",years:"",role:"Dowódca plutonu w III Kompanii „Jura”",bio:"Postać kluczowa dla wyzwolenia Lubartowa 22 lipca 1944 r. — to jego żołnierze wykazali się największą dynamiką, wchodząc do Lubartowa jako pierwsi i kładąc kres niemieckiej okupacji w śródmieściu.",group:"III: Pięść Bojowa"},
+{s:"walenty-waskowicz",st:"",name:"Walenty Waśkowicz",ps:"",years:"",role:"Dowódca patrolu w oddziale Uskoka",bio:"Biogram w trakcie opracowania.",group:"Sztab Uskoka"},
+{s:"stanislaw-kuchciewicz",st:"ppor.",name:"Stanisław Kuchciewicz",ps:"Wiktor / Iskra",years:"27.12.1922–10.02.1953",role:"Ostatni dowódca podziemia niepodległościowego w powiecie lubartowskim",bio:"Urodzony w Łęcznej. Od 1946 r. służył pod rozkazami kpt. Brońskiego „Uskoka” — od jesieni 1948 r. szef sztabu oddziału. Po śmierci Uskoka (1949) przejął dowództwo i przez cztery lata kontynuował zbrojny opór — jeden z ostatnich żołnierzy podziemia antykomunistycznego na Lubelszczyźnie. Zginął 10 lutego 1953 r. w Piaskach, śmiertelnie ranny podczas strzelaniny w budynku Gminnej Kasy Spółdzielczej.",group:"Podziemie Antykomunistyczne"},
+{s:"miroslaw-orzechowski",st:"ppor.",name:"Mirosław Maciej Orzechowski",ps:"",years:"25.02.1916–22.07.1941",role:"Pilot myśliwski RAF — 308. Krakowski Dywizjon Myśliwski",bio:"Urodzony w Lubartowie. Absolwent Szkoły Podchorążych Lotnictwa w Dęblinie. Ewakuowany przez Rumunię i Francję do Wielkiej Brytanii. Zginął w akcji bojowej nad Kanałem La Manche 22 lipca 1941 r. w wieku 25 lat. Odznaczony Krzyżem Walecznych i Medalem Lotniczym. Grób nieznany — symboliczną tablicę postawiła matka i rodzeństwo. Źródło: Muzeum Ziemi Lubartowskiej.",group:"Lubartowianie na frontach świata"},
+];
+
+const NEKROPOLIA = [
+{name:"Cmentarz Wojenny 1915–18",addr:"ul. Szaniawskiego (Cmentarz Parafialny)",desc:"Miejsce spoczynku ok. 1000 żołnierzy różnych narodowości, w tym wielu Polaków.",hero:"pplk Jan Kiwerski ps. „Oliwa”"},
+{name:"Kwatera Wrześniowa 1939",addr:"Cmentarz Parafialny",desc:"Mogiła żołnierzy WP poległych w obronie Lubartowa we wrześniu 1939 r.",hero:"por. rez. Władysław Czermiński ps. „Jastrząb”"},
+{name:"Obelisk Żołnierzy Oddziału Uskoka",addr:"Cmentarz Parafialny, Sektor XII (tuż za Kwaterą Wrześniową)",desc:"„Żołnierzom AK z oddziału Uskoka zamordowanym przez Urząd Bezpieczeństwa. Cześć ich pamięci.” (data na cokole: 20 maja, prawdopodobnie 1988)",names:["Śledziński Czesław (I.21)","Zając Bronisław (I.18)","Idzikowski Stanisław (I.18)","Szymanek Józef (I.32)","Kulpa Franciszek (I.26)","Staropiętka Stanisław (I.29)"]},
+{name:"Nagrobek Legionistów",addr:"Cmentarz Parafialny",desc:"Upamiętnienie żołnierzy Legionów Polskich poległych w 1915 roku w staraniach o niepodległość.",hero:"Józef Szymula ps. „Jordan”"},
+{name:"Symboliczny Grób kpt. „Uskoka”",addr:"Cmentarz Parafialny",desc:"Upamiętnienie kpt. Zdzisława Brońskiego (1912–1949), dowódcy AK-WiN — legendy lubartowskich lasów, który w godzinie „Burzy” zamienił słowa przysięgi w czyn.",hero:"kpt. Zdzisław Broński ps. „Uskok”"},
+];
+
+const HOLD = [
+{hero:"Nieznany Partyzant",author:"Mieszkańcy Lubartowa",date:"11.11.2024",cat:"Mieszkaniec Lubartowa",form:"Modlitwa",candle:true},
+{hero:"ppor. Zdzisław Broński „Uskok”",author:"Stowarzyszenie Pamięci AK Lublin",date:"01.09.2024",cat:"Organizacja / Stowarzyszenie",form:"Cytat historyczny",candle:false},
+{hero:"Łączniczka Maria Wiśniewska",author:"Rodzina Wiśniewskich",date:"15.08.2024",cat:"Rodzina",form:"Dedykacja zdjęcia",candle:true},
+{hero:"ppor. Czesław Rossiński „Kowal”",author:"Uczniowie LO im. T. Kościuszki w Lubartowie",date:"22.07.2024",cat:"Szkoła / Młodzież",form:"Wpis pisemny",candle:true},
+{hero:"Daniela Iwanek „Wiśnia”",author:"Koło Historyczne ZHP Lubartów",date:"22.07.2024",cat:"Organizacja / Stowarzyszenie",form:"Wpis pisemny",candle:true},
+];
+
+const ERAS = {
+  "POWSTANIE STYCZNIOWE": {label:"1863", hex:"#8B3A32", order:0},
+  "WOJNA 1920":            {label:"1920", hex:"#5B6B73", order:1},
+  "II WOJNA SWIATOWA":     {label:"1939–45", hex:"#B4903F", order:2},
+  "OKRES POWOJENNY":       {label:"Powojenne", hex:"#6B5D74", order:3},
+};
+const POINTS = [
+  {id:1, name:"Sztab Marszałka Piłsudskiego 1920", era:"WOJNA 1920", type:"Obiekt historyczny / architektura", addr:"Rynek 11, Gmach Starostwa", lat:51.46234, lng:22.60789},
+  {id:2, name:"Tablica Wojska Polskiego 1920", era:"WOJNA 1920", type:"Pomnik / tablica", addr:"Rynek 15 (fasada kościoła)", lat:51.4628, lng:22.6075},
+  {id:3, name:"Siedziba Gestapo i Żandarmerii", era:"II WOJNA SWIATOWA", type:"Obiekt historyczny / architektura", addr:"ul. Cmentarna 4", lat:51.4631, lng:22.6081},
+  {id:4, name:"Więzienie Gestapo i Katownia UB", era:"II WOJNA SWIATOWA", type:"Miejsce pamięci / tablica", addr:"ul. Słowackiego 7", lat:51.4619, lng:22.6062},
+  {id:5, name:"Dawny Szpital Polowy AK", era:"II WOJNA SWIATOWA", type:"Obiekt historyczny / architektura", addr:"ul. Legionów 2", lat:51.4605, lng:22.605},
+  {id:6, name:"Dom Przejściowy Wołyniaków", era:"II WOJNA SWIATOWA", type:"Miejsce pamięci / tablica", addr:"ul. Lubelska 34", lat:51.4598, lng:22.6041},
+  {id:7, name:"Punkt Kontaktowy 27 WDP AK", era:"II WOJNA SWIATOWA", type:"Obiekt historyczny / architektura", addr:"ul. Cicha 8", lat:51.4589, lng:22.603},
+  {id:8, name:"Kryjówka Żołnierzy Wyklętych", era:"OKRES POWOJENNY", type:"Miejsce pamięci / tablica", addr:"ul. Poprzeczna 12", lat:51.4642, lng:22.6091},
+  {id:9, name:"Posterunek MO i Urząd Bezpieczeństwa", era:"OKRES POWOJENNY", type:"Miejsce pamięci / tablica", addr:"ul. Lipowa 3", lat:51.465, lng:22.6105},
+  {id:10, name:"Pomnik Niepodległości", era:"II WOJNA SWIATOWA", type:"Pomnik / tablica", addr:"Plac Wolności 1", lat:51.457, lng:22.6012},
+  {id:11, name:"Drukarnia Podziemna AK", era:"II WOJNA SWIATOWA", type:"Obiekt historyczny / architektura", addr:"ul. Partyzantów 15", lat:51.4581, lng:22.6025, desc:"Związana z sierż. Karolem Skaruchem ps. „Warta” — szefem BIP Obwodu, odpowiedzialnym za wydawanie i kolportaż podziemnej prasy."},
+  {id:12, name:"Siedziba Sztabu BCh", era:"II WOJNA SWIATOWA", type:"Miejsce pamięci / tablica", addr:"ul. Kościuszki 20", lat:51.4611, lng:22.6068},
+  {id:13, name:"Mogiła Powstańców Styczniowych 1863", era:"POWSTANIE STYCZNIOWE", type:"Pomnik / mogiła", addr:"Cmentarz Parafialny", lat:51.4665, lng:22.612},
+  {id:14, name:"Kwatera Żołnierzy AK i Września 1939", era:"II WOJNA SWIATOWA", type:"Miejsce pamięci / tablica", addr:"Cmentarz Parafialny", lat:51.467, lng:22.6128},
+  {id:15, name:"Symboliczny Grobowiec Żołnierzy Wyklętych", era:"OKRES POWOJENNY", type:"Miejsce pamięci / tablica", addr:"Cmentarz Parafialny", lat:51.4674, lng:22.6132},
+  {id:16, name:"Schron Wojskowy i Magazyn Broni", era:"II WOJNA SWIATOWA", type:"Obiekt historyczny / architektura", addr:"ul. Nowa 5", lat:51.4555, lng:22.6001},
+  {id:17, name:"Punkt Zrzutowy Broni", era:"II WOJNA SWIATOWA", type:"Miejsce pamięci / tablica", addr:"ul. Polna 18", lat:51.454, lng:22.5985},
+  {id:18, name:"Miejsce Egzekucji Cywilów 1943", era:"II WOJNA SWIATOWA", type:"Pomnik / tablica", addr:"ul. Piaskowa 2", lat:51.468, lng:22.614},
+  {id:19, name:"Dom Pamięci Ochotników 1920", era:"WOJNA 1920", type:"Miejsce pamięci / tablica", addr:"ul. Krótka 1", lat:51.46, lng:22.6045},
+  {id:20, name:"Apteka Podziemna i Punkt Opatrunkowy", era:"II WOJNA SWIATOWA", type:"Obiekt historyczny / architektura", addr:"ul. Rynek 8", lat:51.4621, lng:22.6071},
+  {id:21, name:"Siedziba Tajnego Nauczania", era:"II WOJNA SWIATOWA", type:"Miejsce pamięci / tablica", addr:"ul. Cmentarna 18", lat:51.4645, lng:22.6098, desc:"Rekomendowane (niepotwierdzone jednoznacznie) powiązanie z ks. kanonikiem Aleksandrem Szulcem ps. „Ina”."},
+  {id:22, name:"Lokal Kontaktowy WiN", era:"OKRES POWOJENNY", type:"Miejsce pamięci / tablica", addr:"ul. Ogrodowa 4", lat:51.4658, lng:22.6112},
+  {id:23, name:"Dawne Gimnazjum — Ośrodek Oporu", era:"II WOJNA SWIATOWA", type:"Obiekt historyczny / architektura", addr:"ul. Lubelska 10", lat:51.4592, lng:22.6038},
+  {id:24, name:"Warsztat Krawiecki — Kryjówka Służb", era:"II WOJNA SWIATOWA", type:"Miejsce pamięci / tablica", addr:"ul. Szewska 3", lat:51.4578, lng:22.602},
+  {id:25, name:"Krzyż Pamięci Powstańców 1863", era:"POWSTANIE STYCZNIOWE", type:"Pomnik / tablica", addr:"Rondo Styczniowe", lat:51.469, lng:22.615},
+  {id:26, name:"Punkt Odbioru Radiowego Sztabu", era:"II WOJNA SWIATOWA", type:"Miejsce pamięci / tablica", addr:"ul. Słowackiego 12", lat:51.4615, lng:22.606},
+  {id:27, name:"por. Bolesław Mucharski ps. „Lekarz”", era:"II WOJNA SWIATOWA", type:"Miejsce pamięci / tablica", addr:"ul. Lubelska 97A, Kościół Matki Bożej NP", lat:51.4552, lng:22.6074, desc:"Dowódca oddziału partyzanckiego AK (1914–1945). Zamordowany na Zamku Lubelskim 12.04.1945 r."},
+  {id:28, name:"kpt. dr Zbigniew Bartków", era:"II WOJNA SWIATOWA", type:"Miejsce pamięci / tablica", addr:"ul. Cicha 14, Szpital Powiatowy", lat:51.4678, lng:22.6033, desc:"Żołnierz AK, harcmistrz ZHP oraz zasłużony powojenny lekarz okulista lubartowskiego szpitala."},
+  {id:29, name:"Mural 27 WDP AK", era:"II WOJNA SWIATOWA", type:"Mural", addr:"ul. 1 Maja 82, budynek RCEZ", lat:51.462, lng:22.6, desc:"Największy w mieście mural poświęcony 27. Wołyńskiej Dywizji Piechoty AK."},
+  {id:30, name:"Miejsce pamięci — Obóz w Skrobowie (NKWD/UB)", era:"OKRES POWOJENNY", type:"Miejsce pamięci", addr:"Skrobów Kolonia", lat:51.4628, lng:22.5498, desc:"Miejsce obozu internowania żołnierzy AK podstępnie rozbrojonych przez NKWD i UB zaraz po Akcji „Burza”."},
+  {id:31, name:"Stacja PKP Lubartów", era:"OKRES POWOJENNY", type:"Tablica AK i 27 WDP", addr:"ul. Kolejowa, Dworzec PKP", lat:51.4655, lng:22.6152},
+  {id:32, name:"Symboliczna tablica ppor. Mirosława Orzechowskiego", era:"II WOJNA SWIATOWA", type:"Miejsce pamięci / tablica (grób nieznany)", addr:"Cmentarz Parafialny św. Anny (współrzędne przybliżone)", lat:51.462753, lng:22.6028411, desc:"Pilot myśliwski RAF, 308. Dywizjon. Zginął nad Kanałem La Manche 22.07.1941 r. w wieku 25 lat."},
+  {id:33, name:"Bunkier i pomnik kpt. Zdzisława Brońskiego „Uskoka”", era:"OKRES POWOJENNY", type:"Miejsce śmierci / pomnik (poza gminą Lubartów)", addr:"Nowogród (dawniej Dąbrówka), gm. Ludwin — współrzędne przybliżone", lat:51.30, lng:22.88, desc:"21 maja 1949 r. otoczony przez grupę operacyjną UB-KBW-MO, zdetonował granat, wybierając śmierć zamiast pojmania."},
+  {id:34, name:"Miejsce śmierci ppor. Stanisława Kuchciewicza „Wiktora”", era:"OKRES POWOJENNY", type:"Miejsce śmierci (poza gminą Lubartów)", addr:"Piaski, dawna Gminna Kasa Spółdzielcza", lat:51.1806, lng:22.9074, desc:"Ostatni dowódca podziemia niepodległościowego w powiecie lubartowskim. Zginął 10.02.1953 r."},
+  {id:35, name:"Siedziba PUBP w Lubartowie", era:"OKRES POWOJENNY", type:"Miejsce represji (1944–1956)", addr:"ul. Aleja 1000-lecia 4, Lubartów", lat:51.462, lng:22.607},
+  {id:36, name:"Dawne więzienie w Lubartowie", era:"OKRES POWOJENNY", type:"Miejsce represji (1944–1956)", addr:"Lubartów (adres do doprecyzowania)", lat:51.4619, lng:22.6062, desc:"Uwaga: możliwy duplikat / to samo miejsce co Punkt 4 — wymaga weryfikacji."},
+  {id:37, name:"Kościół Farny Wniebowzięcia NMP", era:"II WOJNA SWIATOWA", type:"Miejsce pamięci (1944–dziś)", addr:"Lubartów (adres do doprecyzowania)", lat:51.462, lng:22.607, desc:"Uwaga: inne wezwanie kościoła niż „Kościół Matki Bożej NP” z Punktu 27 — nie mylić."},
+  {id:38, name:"Radzic Stary — miejsce urodzenia „Uskoka”", era:"II WOJNA SWIATOWA", type:"Miejsce pamięci (poza gminą Lubartów)", addr:"Stary Radzic, gm. Ludwin", lat:51.37278, lng:22.82361},
+  {id:39, name:"Zezulin — starcia i kwatera oddziału Uskoka", era:"OKRES POWOJENNY", type:"Miejsce walk (poza gminą Lubartów)", addr:"Zezulin, gm. Ludwin", lat:51.38, lng:22.83},
+  {id:40, name:"Gmina Spiczyn — teren operacji", era:"OKRES POWOJENNY", type:"Teren działań (poza gminą Lubartów)", addr:"Gmina Spiczyn, pow. łęczyński", lat:51.36, lng:22.80},
+  {id:41, name:"Serniki — teren działań Uskoka", era:"OKRES POWOJENNY", type:"Miejsce walk (poza gminą Lubartów)", addr:"Serniki, pow. lubartowski", lat:51.433, lng:22.667},
+  {id:42, name:"Łęczna — miejsce urodzenia „Wiktora”", era:"OKRES POWOJENNY", type:"Miejsce pamięci (poza gminą Lubartów)", addr:"Łęczna", lat:51.2999, lng:22.8807},
+  {id:43, name:"Centrum Lubartów — Obwód WiN", era:"OKRES POWOJENNY", type:"Miejsce pamięci", addr:"Lubartów, centrum", lat:51.462, lng:22.607},
+  {id:44, name:"Lublin — Zamek/WUBP", era:"OKRES POWOJENNY", type:"Miejsce represji (poza gminą Lubartów)", addr:"Zamek Lubelski, Lublin", lat:51.2489, lng:22.5717, desc:"Tu zamordowano 12.04.1945 r. por. Bolesława Mucharskiego ps. „Lekarz” (Punkt 27)."},
+];
+
+const views=['home','panteon','mapa','nekropolia','hold'];
+let mapInited=false;
+function showView(v){
+  views.forEach(x=>document.getElementById('view-'+x).classList.toggle('active', x===v));
+  document.querySelectorAll('.navlink').forEach(b=>b.classList.toggle('active', b.dataset.view===v));
+  if(v==='mapa'){ if(!mapInited){initMap(); mapInited=true;} setTimeout(()=>map.invalidateSize(),50); }
+  window.scrollTo({top:0});
+}
+document.querySelectorAll('[data-view]').forEach(el=>el.addEventListener('click',()=>showView(el.dataset.view)));
+
+document.getElementById('stats').innerHTML =
+  '<div class="stat"><div class="num">44</div><div class="lab">punkty szlaku</div></div>'+
+  '<div class="stat"><div class="num">29</div><div class="lab">bohaterów w Panteonie</div></div>'+
+  '<div class="stat"><div class="num">1863–2025</div><div class="lab">zakres czasowy</div></div>'+
+  '<div class="stat"><div class="num">5</div><div class="lab">wpisów w Księdze Hołdu</div></div>';
+
+const groups = [...new Set(PANTHEON.map(p=>p.group))];
+let activeGroup = null;
+const pFiltersEl = document.getElementById('pFilters');
+const allBtn = document.createElement('button');
+allBtn.className='filterchip'; allBtn.textContent='Wszyscy'; allBtn.setAttribute('aria-pressed','true');
+allBtn.onclick=function(){activeGroup=null; refreshPFilters(); renderPanteon();};
+pFiltersEl.appendChild(allBtn);
+groups.forEach(function(g){
+  const b=document.createElement('button');
+  b.className='filterchip'; b.textContent=g; b.setAttribute('aria-pressed','false');
+  b.onclick=function(){activeGroup=g; refreshPFilters(); renderPanteon();};
+  pFiltersEl.appendChild(b);
+});
+function refreshPFilters(){
+  Array.prototype.forEach.call(pFiltersEl.children, function(b,i){
+    const g = i===0?null:groups[i-1];
+    b.setAttribute('aria-pressed', g===activeGroup?'true':'false');
+  });
+}
+document.getElementById('pSearch').addEventListener('input', renderPanteon);
+
+function renderPanteon(){
+  const q = document.getElementById('pSearch').value.toLowerCase();
+  const grid = document.getElementById('pGrid');
+  const filtered = PANTHEON.filter(function(p){
+    if(activeGroup && p.group!==activeGroup) return false;
+    if(!q) return true;
+    return (p.name+p.ps+p.role).toLowerCase().indexOf(q)!==-1;
+  });
+  if(!filtered.length){ grid.innerHTML='<div class="empty">Brak wyników.</div>'; return; }
+  grid.innerHTML = filtered.map(function(p){
+    const idx = PANTHEON.indexOf(p);
+    return '<div class="pcard" data-idx="'+idx+'">'+
+      '<span class="badge">'+p.group+'</span>'+
+      '<h3>'+(p.st?p.st+' ':'')+p.name+'</h3>'+
+      (p.ps?'<div class="ps">ps. „'+p.ps+'”</div>':'')+
+      '<div class="role">'+p.role+'</div>'+
+      (p.years?'<div class="years">'+p.years+'</div>':'')+
+      '</div>';
+  }).join('');
+  Array.prototype.forEach.call(grid.querySelectorAll('.pcard'), function(c){
+    c.onclick=function(){ openModal(PANTHEON[c.dataset.idx]); };
+  });
+}
+renderPanteon();
+
+function openModal(p){
+  document.getElementById('mBadge').textContent=p.group;
+  document.getElementById('mName').textContent=(p.st?p.st+' ':'')+p.name;
+  document.getElementById('mPs').textContent = p.ps? 'ps. „'+p.ps+'”':'';
+  document.getElementById('mYears').textContent = p.years||'';
+  document.getElementById('mRole').textContent = p.role;
+  document.getElementById('mBio').textContent = p.bio;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+document.getElementById('modalClose').onclick=function(){document.getElementById('modal-overlay').classList.remove('open');};
+document.getElementById('modal-overlay').addEventListener('click',function(e){if(e.target.id==='modal-overlay')e.currentTarget.classList.remove('open');});
+
+let map, mapMarkers={}, mapActiveEra=null;
+function initMap(){
+  map = L.map('map', {zoomControl:false}).setView([51.38, 22.70], 9);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:19, attribution:'&copy; OpenStreetMap'}).addTo(map);
+  L.control.zoom({position:'bottomright'}).addTo(map);
+  POINTS.forEach(function(p){
+    const icon = L.divIcon({className:'', html:'<div class="pin" style="background:'+ERAS[p.era].hex+'"></div>', iconSize:[24,24], iconAnchor:[12,24]});
+    const m = L.marker([p.lat,p.lng],{icon}); m.on('click',function(){openMapSheet(p);}); m.addTo(map);
+    mapMarkers[p.id]=m;
+  });
+  const chipsEl = document.getElementById('mapChips');
+  const allC = document.createElement('button'); allC.className='filterchip'; allC.textContent='Wszystkie'; allC.setAttribute('aria-pressed','true');
+  allC.onclick=function(){mapActiveEra=null; refreshMapChips(); applyMapFilter();};
+  chipsEl.appendChild(allC);
+  Object.keys(ERAS).sort(function(a,b){return ERAS[a].order-ERAS[b].order;}).forEach(function(era){
+    const c=document.createElement('button'); c.className='filterchip'; c.setAttribute('aria-pressed','false');
+    c.innerHTML='<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:'+ERAS[era].hex+';margin-right:5px;"></span>'+ERAS[era].label;
+    c.onclick=function(){mapActiveEra=era; refreshMapChips(); applyMapFilter();};
+    chipsEl.appendChild(c);
+  });
+}
+function refreshMapChips(){
+  const chipsEl = document.getElementById('mapChips');
+  const keys = Object.keys(ERAS).sort(function(a,b){return ERAS[a].order-ERAS[b].order;});
+  Array.prototype.forEach.call(chipsEl.children, function(c,i){
+    const era = i===0?null:keys[i-1];
+    c.setAttribute('aria-pressed', era===mapActiveEra?'true':'false');
+  });
+}
+function applyMapFilter(){
+  POINTS.forEach(function(p){
+    const show = !mapActiveEra || p.era===mapActiveEra;
+    const el = mapMarkers[p.id].getElement();
+    if(el) el.style.display = show?'':'none';
+  });
+}
+function openMapSheet(p){
+  document.getElementById('msTitle').textContent = p.id+'. '+p.name;
+  document.getElementById('msType').textContent = p.type;
+  document.getElementById('msAddr').textContent = p.addr;
+  document.getElementById('msDescWrap').innerHTML = p.desc? '<div class="desc">'+p.desc+'</div>':'';
+  document.getElementById('mapSheet').classList.add('open');
+}
+document.getElementById('mapSheetClose').onclick=function(){document.getElementById('mapSheet').classList.remove('open');};
+
+document.getElementById('nekroList').innerHTML = NEKROPOLIA.map(function(n){
+  return '<div class="nekro-card">'+
+    '<h3>'+n.name+'</h3>'+
+    '<div class="addr">'+n.addr+'</div>'+
+    '<p>'+n.desc+'</p>'+
+    (n.hero?'<div class="nekro-hero">Powiązany bohater: '+n.hero+'</div>':'')+
+    (n.names?'<div class="nekro-names">'+n.names.join(' · ')+'</div>':'')+
+    '</div>';
+}).join('');
+
+document.getElementById('holdList').innerHTML = HOLD.map(function(h){
+  return '<div class="hold-card">'+
+    '<div class="hold-top">'+
+      '<div><h3>'+h.hero+'</h3><div class="hold-meta">'+h.author+' · '+h.date+'</div></div>'+
+      '<div class="hold-badges">'+
+        '<span class="hold-badge">'+h.cat+'</span>'+
+        '<span class="hold-badge">'+h.form+'</span>'+
+        '<span class="hold-candle">'+(h.candle?'\uD83D\uDD6F\uFE0F':'\u26AB')+'</span>'+
+      '</div>'+
+    '</div>'+
+    '<div class="hold-text">Treść tego hołdu oczekuje na uzupełnienie przez autora wpisu.</div>'+
+    '</div>';
+}).join('');
+
+showView('home');
+</script>
+</body>
+</html>
