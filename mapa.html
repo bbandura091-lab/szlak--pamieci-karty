@@ -358,8 +358,12 @@ async function fetchRouteChunk(coordsArray) {
 // Start mapy z wbudowanym tokenem. Jeśli token zawiedzie, map.on('error', ...)
 // powyżej automatycznie pokaże panel do wpisania własnego tokenu.
 initMap(DEFAULT_TOKEN);
- <script src="points.js"></script>
 </script>
-
+<script src="points.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+  }
+</script>
 </body>
 </html>
