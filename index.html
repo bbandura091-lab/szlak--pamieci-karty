@@ -77,6 +77,9 @@ nav{position:sticky;top:0;z-index:50;background:rgba(34,29,24,.96);backdrop-filt
 .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;}
 .pcard{background:var(--surface);border:1px solid var(--hairline);border-radius:14px;padding:18px;cursor:pointer;}
 .pcard:hover{border-color:var(--brass);}
+.pcard .thumb{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;margin-bottom:12px;filter:grayscale(30%) sepia(15%);}
+.pcard .thumb-placeholder{width:100%;aspect-ratio:1;border-radius:10px;margin-bottom:12px;background:var(--surface-raised);
+  display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--hairline);}
 .pcard .badge{display:inline-block;font-size:10.5px;padding:3px 9px;border-radius:100px;background:var(--surface-raised);
   color:var(--brass);margin-bottom:10px;}
 .pcard h3{font-size:16px;line-height:1.3;}
@@ -95,6 +98,7 @@ nav{position:sticky;top:0;z-index:50;background:rgba(34,29,24,.96);backdrop-filt
 #modal .mbadge{display:inline-block;font-size:11px;padding:4px 10px;border-radius:100px;background:var(--brass);
   color:var(--ink);font-weight:600;margin-bottom:12px;}
 #modal h2{font-size:21px;line-height:1.3;}
+#modal .mphoto{width:100%;max-height:260px;object-fit:cover;border-radius:12px;margin-bottom:16px;filter:grayscale(30%) sepia(15%);}
 #modal .mps{color:var(--brass-dim);font-style:italic;margin:2px 0 4px;}
 #modal .myears{font-size:12px;color:var(--muted);font-family:monospace;margin-bottom:14px;}
 #modal .mrole{font-size:13.5px;color:var(--parchment);font-weight:500;margin-bottom:14px;padding-bottom:14px;
@@ -213,82 +217,14 @@ footer{text-align:center;padding:26px 18px 40px;color:var(--muted);font-size:12p
     </div>
   </div>
 </section>
-<!-- SEKCJA NEKROPOLIA -->
-<section id="nekropolia" class="section-container">
-  <div class="section-header">
-    <h2>Nekropolia i Miejsca Pamięci</h2>
-    <p>Mogiły, kwatery wojskowe oraz pomniki bohaterów ziemi lubartowskiej na Cmentarzu Parafialnym w Lubartowie i w rejonie.</p>
+
+<section class="view" id="view-nekropolia">
+  <div class="sec-head">
+    <h2>Nekropolia</h2>
+    <p>Groby, mogiły i miejsca pochówku — Cmentarz Parafialny w Lubartowie</p>
   </div>
-
-  <div class="cards-grid">
-
-    <!-- 1. por. Józef Jurałomski "Jur" -->
-    <div class="card nekropolia-card">
-      <div class="card-image-wrapper">
-        <img src="images/Józef Jurałomski.jpg" alt="por. Józef Jurałomski" class="card-img" onerror="this.src='https://via.placeholder.com/400x250/1a1a1a/d8b878?text=Pamięć+I+Hołd'">
-        <span class="card-badge">Cmentarz Parafialny</span>
-      </div>
-      <div class="card-content">
-        <h3 class="card-title">por. Józef Jurałomski ps. „Jur”</h3>
-        <p class="card-subtitle">Dowódca II Rejonu AK Lubartów • Kwatera Żołnierzy AK</p>
-        <p class="card-text">
-          Dowódca III Kompanii wyzwalającej Lubartów w lipcu 1944 r. Kluczowa postać obrony i zabezpieczenia miasta.
-        </p>
-        <a href="index.html#panteon" class="btn-link">Zobacz w Panteonie →</a>
-      </div>
-    </div>
-
-    <!-- 2. kpt. Roman Jezior "Okoń" -->
-    <div class="card nekropolia-card">
-      <div class="card-image-wrapper">
-        <img src="images/Roman Jezior.jpg" alt="kpt. Roman Jezior" class="card-img" onerror="this.src='https://via.placeholder.com/400x250/1a1a1a/d8b878?text=Pamięć+I+Hołd'">
-        <span class="card-badge">Cmentarz Parafialny</span>
-      </div>
-      <div class="card-content">
-        <h3 class="card-title">kpt. Roman Jezior ps. „Okoń” / „Jung”</h3>
-        <p class="card-subtitle">Komendant Obwodu AK Lubartów</p>
-        <p class="card-text">
-          Ostatni Komendant Obwodu AK Lubartów, dowódca sił lokalnych podczas Akcji „Burza” w lipcu 1944 roku.
-        </p>
-        <a href="index.html#panteon" class="btn-link">Zobacz w Panteonie →</a>
-      </div>
-    </div>
-
-    <!-- 3. por. Czesław Gregorowicz "Jaromir" -->
-    <div class="card nekropolia-card">
-      <div class="card-image-wrapper">
-        <img src="images/DSC_0305 (2).JPG" alt="por. Czesław Gregorowicz" class="card-img" onerror="this.src='https://via.placeholder.com/400x250/1a1a1a/d8b878?text=Pamięć+I+Hołd'">
-        <span class="card-badge">Cmentarz Parafialny</span>
-      </div>
-      <div class="card-content">
-        <h3 class="card-title">por. rez. Czesław Gregorowicz ps. „Jaromir”</h3>
-        <p class="card-subtitle">Szef Sztabu Obwodu AK Lubartów</p>
-        <p class="card-text">
-          Inspektor WSOP, kluczowy oficer operacyjny koordynujący współdziałanie z 27. Wołyńską Dywizją Piechoty AK.
-        </p>
-        <a href="index.html#panteon" class="btn-link">Zobacz w Panteonie →</a>
-      </div>
-    </div>
-
-    <!-- 4. ppor. Zdzisław Broński "Uskok" -->
-    <div class="card nekropolia-card">
-      <div class="card-image-wrapper">
-        <img src="images/Uskok.jpg" alt="ppor. Zdzisław Broński Uskok" class="card-img" onerror="this.src='https://via.placeholder.com/400x250/1a1a1a/d8b878?text=Pamięć+I+Hołd'">
-        <span class="card-badge">Symboliczna Kwatera / Novogród</span>
-      </div>
-      <div class="card-content">
-        <h3 class="card-title">ppor. Zdzisław Broński ps. „Uskok”</h3>
-        <p class="card-subtitle">Dowódca OP I/8 AK</p>
-        <p class="card-text">
-          Legendarny dowódca oddziału partyzanckiego i dywersji Obwodu AK Lubartów.
-        </p>
-        <a href="index.html#panteon" class="btn-link">Zobacz w Panteonie →</a>
-      </div>
-    </div>
-
-  </div>
+  <div id="nekroList"></div>
 </section>
-
 
 <section class="view" id="view-hold">
   <div class="sec-head">
@@ -324,7 +260,7 @@ const PANTHEON = [
 {s:"karol-skaruch",st:"sierż. rez.",name:"Karol Skaruch",ps:"Warta",years:"",role:"Kierownik BIP (Biuro Informacji i Propagandy) Obwodu",bio:"W czasach, gdy prawda była zakazana, on ją drukował — pionier walki słowem, twórca podziemnych struktur informacji i propagandy Obwodu Lubartów. Powiązany z Punktem 11 trasy — Drukarnia Podziemna AK, ul. Partyzantów 15.",group:"I: Fundament"},
 {s:"aleksander-szulc",st:"ks. kanonik",name:"Aleksander Szulc",ps:"Jon / Ina",years:"1892–1965",role:"Kapelan wojskowy Obwodu Lubartów ZWZ-AK (1940–43); Rektor Kościoła OO. Kapucynów (1921–1938); Prefekt szkół",bio:"Był głosem sumienia i tarczą ducha — jako kapelan Obwodu towarzyszył żołnierzom podziemia w ich najtrudniejszych chwilach. Biblioteka Macierzy Szkolnej była dla niego i żołnierzy AK czymś więcej niż szkołą — była ich sztabem, gdzie między stronami książek przekazywano grypsy. Potwierdzone tablicą pamiątkową w Klasztorze OO. Kapucynów (1987).",group:"I: Fundament"},
 {s:"adam-domaradzki",st:"por. rez.",name:"Adam Domaradzki",ps:"Don",years:"",role:"Komendant Obwodu AK Lubartów (I 1943 – I 1944)",bio:"Kierował Obwodem w kluczowym okresie rozbudowy struktur podziemnych i przygotowań do dalszej walki.",group:"I: Fundament"},
-{s:"roman-jezior",st:"kpt.",name:"Roman Jezior",ps:"Okoń / Jung / Butrym",years:"1907–1991",role:"Ostatni Komendant Obwodu AK Lubartów",bio:"To on wydał rozkaz do Akcji „Burza” i stanął na czele żołnierzy, którzy jako prawowici gospodarze tej ziemi witali świt wolności 23 lipca 1944 r. Wg inskrypcji nagrobnej (krzyż Virtuti Militari) dowodził połączonymi siłami 7 tysięcy żołnierzy AK, BCh i WiN.",group:"II: Sztab"},
+{s:"roman-jezior",st:"kpt.",name:"Roman Jezior",ps:"Okoń / Jung / Butrym",years:"1907–1991",role:"Ostatni Komendant Obwodu AK Lubartów",bio:"To on wydał rozkaz do Akcji „Burza” i stanął na czele żołnierzy, którzy jako prawowici gospodarze tej ziemi witali świt wolności 23 lipca 1944 r. Wg inskrypcji nagrobnej (krzyż Virtuti Militari) dowodził połączonymi siłami 7 tysięcy żołnierzy AK, BCh i WiN.",group:"II: Sztab",photo:"images/panteon/roman-jezior.jpg"},
 {s:"jozef-juralomski",st:"por.",name:"Józef Jurałomski",ps:"Ju / Jur",years:"1905–1978",role:"Oficer KOP i dowódca II Rejonu AK (miasto Lubartów)",bio:"Stał na straży miasta, gdy inni uciekali — zabezpieczył Lubartów przed grabieżą i chaosem, a potem sam poprowadził najtrudniejsze pertraktacje z Armią Ludową, broniąc honoru Żołnierzy-Zwycięzców.",group:"II: Sztab"},
 {s:"czeslaw-gregorowicz",st:"por. rez.",name:"Czesław Gregorowicz",ps:"Jaromir / Wojciech",years:"",role:"Inspektor WSOP i zastępca Komendanta Obwodu",bio:"Mózg operacyjny lubartowskiego sztabu — koordynował współdziałanie bojowe z 27. Wołyńską Dywizją Piechoty AK.",group:"II: Sztab"},
 {s:"tadeusz-pospiech",st:"por.",name:"Tadeusz Pośpiech",ps:"Brzechwa",years:"",role:"Dowódca Oddziału Partyzanckiego",bio:"Uderzał tam, gdzie bolało najbardziej — jego oddział partyzancki paraliżował transporty i węzły komunikacyjne wroga, rosnąc do osiemdziesięciu zaprawionych w boju żołnierzy.",group:"III: Pięść Bojowa"},
@@ -468,7 +404,11 @@ function renderPanteon(){
   if(!filtered.length){ grid.innerHTML='<div class="empty">Brak wyników.</div>'; return; }
   grid.innerHTML = filtered.map(function(p){
     const idx = PANTHEON.indexOf(p);
+    const thumb = p.photo
+      ? '<img class="thumb" src="'+p.photo+'" alt="" loading="lazy" onerror="this.outerHTML=\'<div class=&quot;thumb-placeholder&quot;>&#127894;</div>\'">'
+      : '<div class="thumb-placeholder">&#127894;</div>';
     return '<div class="pcard" data-idx="'+idx+'">'+
+      thumb+
       '<span class="badge">'+p.group+'</span>'+
       '<h3>'+(p.st?p.st+' ':'')+p.name+'</h3>'+
       (p.ps?'<div class="ps">ps. „'+p.ps+'”</div>':'')+
@@ -489,6 +429,15 @@ function openModal(p){
   document.getElementById('mYears').textContent = p.years||'';
   document.getElementById('mRole').textContent = p.role;
   document.getElementById('mBio').textContent = p.bio;
+  const modal = document.getElementById('modal');
+  const existingPhoto = modal.querySelector('.mphoto');
+  if(existingPhoto) existingPhoto.remove();
+  if(p.photo){
+    const img = document.createElement('img');
+    img.className='mphoto'; img.src=p.photo; img.alt='';
+    img.onerror=function(){ img.remove(); };
+    modal.insertBefore(img, modal.querySelector('.mbadge'));
+  }
   document.getElementById('modal-overlay').classList.add('open');
 }
 document.getElementById('modalClose').onclick=function(){document.getElementById('modal-overlay').classList.remove('open');};
