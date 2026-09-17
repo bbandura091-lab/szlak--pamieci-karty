@@ -1,9 +1,12 @@
 backend:
-  name: github
+  name: git-gateway
   repo: bbandura091-lab/szlak--pamieci-karty
   branch: main
-  base_url: https://decapbridge.com
-  auth_endpoint: /api/auth
+  auth_type: pkce
+  base_url: https://auth.decapbridge.com
+  auth_endpoint: /sites/d304ccc3-7e0f-4e70-beb7-f7a7de8a3e48/pkce
+  auth_token_endpoint: /sites/d304ccc3-7e0f-4e70-beb7-f7a7de8a3e48/token
+  gateway_url: https://gateway.decapbridge.com
 
 media_folder: "images"
 public_folder: "images"
