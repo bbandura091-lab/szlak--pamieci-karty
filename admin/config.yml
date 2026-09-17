@@ -2,8 +2,7 @@ backend:
   name: github
   repo: bbandura091-lab/szlak--pamieci-karty
   branch: main
-  base_url: https://decap-bridge.snetter.com
-  auth_endpoint: /api/auth
+  auth_type: implicit
 
 media_folder: "images"
 public_folder: "images"
