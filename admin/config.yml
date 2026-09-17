@@ -22,3 +22,13 @@ collections:
       - {label: "Cmentarz / Lokacja", name: "badge", widget: "string"}
       - {label: "Zdjęcie", name: "image", widget: "image"}
       - {label: "Opis biograficzny", name: "body", widget: "markdown"}
+
+  - name: "miejsca"
+    label: "Miejsca Pamięci"
+    folder: "content/miejsca"
+    create: true
+    fields:
+      - {label: "Nazwa Miejsca", name: "title", widget: "string"}
+      - {label: "Lokalizacja", name: "badge", widget: "string"}
+      - {label: "Zdjęcie", name: "image", widget: "image"}
+      - {label: "Opis historyczny", name: "body", widget: "markdown"}
