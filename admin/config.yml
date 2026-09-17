@@ -2,6 +2,8 @@ backend:
   name: github
   repo: bbandura091-lab/szlak--pamieci-karty
   branch: main
+  base_url: https://decap-cms-oauth-pkce.vercel.app
+  auth_endpoint: auth
 
 media_folder: "images"
 public_folder: "images"
