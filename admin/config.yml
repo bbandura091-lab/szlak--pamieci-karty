@@ -1,0 +1,19 @@
+backend:
+  name: github
+  repo: bbandura091-lab/szlak--pamieci-karty
+  branch: main
+
+media_folder: "images"
+public_folder: "images"
+
+collections:
+  - name: "nekropolia"
+    label: "Nekropolia"
+    folder: "content/nekropolia"
+    create: true
+    fields:
+      - {label: "Imię i Nazwisko / Postać", name: "title", widget: "string"}
+      - {label: "Rola / Stopień", name: "subtitle", widget: "string"}
+      - {label: "Cmentarz / Lokacja", name: "badge", widget: "string"}
+      - {label: "Zdjęcie", name: "image", widget: "image"}
+      - {label: "Opis biograficzny", name: "body", widget: "markdown"}
