@@ -8,27 +8,131 @@ backend:
   auth_token_endpoint: /sites/d304ccc3-7e0f-4e70-beb7-f7a7de8a3e48/token
   gateway_url: https://gateway.decapbridge.com
 
+  commit_messages:
+    create: "Dodano wpis w {{collection}} — {{author-name}} via panel"
+    update: "Edycja {{collection}} — {{author-name}} via panel"
+    delete: "Usunięto wpis w {{collection}} — {{author-name}} via panel"
+    uploadMedia: "Dodano plik {{path}} via panel"
+    deleteMedia: "Usunięto plik {{path}} via panel"
+
+auth:
+  email_claim: email
+  first_name_claim: first_name
+  last_name_claim: last_name
+  avatar_url_claim: avatar_url
+
+logo_url: https://decapbridge.com/decapcms-with-bridge.svg
+site_url: https://bbandura091-lab.github.io/szlak--pamieci-karty/
+
 media_folder: "images"
 public_folder: "images"
 
+# ============================================================
+# Kazda z 4 kolekcji ponizej to JEDEN plik JSON zawierajacy
+# liste wpisow (widget "list"). index.html na zywo pobiera
+# te 4 pliki przy kazdym wejsciu na strone - zadnej dodatkowej
+# przebudowy nie trzeba uruchamiac po zapisaniu zmian w panelu.
+# ============================================================
+
 collections:
+  - name: "panteon"
+    label: "Panteon Bohaterów"
+    files:
+      - name: "heroes"
+        label: "Lista Bohaterów"
+        file: "content/panteon.json"
+        fields:
+          - label: "Bohaterowie"
+            name: "heroes"
+            widget: "list"
+            summary: "{{fields.name}} ({{fields.group}})"
+            fields:
+              - {label: "Slug (unikalny identyfikator, bez spacji/polskich znakow)", name: "s", widget: "string"}
+              - {label: "Stopień/tytuł", name: "st", widget: "string", required: false}
+              - {label: "Imię i nazwisko", name: "name", widget: "string"}
+              - {label: "Pseudonim", name: "ps", widget: "string", required: false}
+              - {label: "Lata życia", name: "years", widget: "string", required: false}
+              - {label: "Rola / funkcja", name: "role", widget: "string"}
+              - {label: "Biografia", name: "bio", widget: "text"}
+              - label: "Grupa"
+                name: "group"
+                widget: "select"
+                options:
+                  - "I: Fundament"
+                  - "II: Sztab"
+                  - "III: Pięść Bojowa"
+                  - "Dowództwo 27 WDP"
+                  - "V: Nauczyciele Tajnego Nauczania"
+                  - "Sztab Uskoka"
+                  - "Podziemie Antykomunistyczne"
+                  - "Lubartowianie na frontach świata"
+              - {label: "Zdjęcie (portret)", name: "photo", widget: "image", required: false, media_library: {config: {multiple: false}}}
+
+  - name: "mapa"
+    label: "Mapa Szlaku"
+    files:
+      - name: "points"
+        label: "Lista Punktów"
+        file: "content/punkty.json"
+        fields:
+          - label: "Punkty"
+            name: "points"
+            widget: "list"
+            summary: "{{fields.id}}. {{fields.name}}"
+            fields:
+              - {label: "Numer (unikalny, kolejny)", name: "id", widget: "number", value_type: "int"}
+              - {label: "Nazwa punktu", name: "name", widget: "string"}
+              - label: "Epoka"
+                name: "era"
+                widget: "select"
+                options:
+                  - "POWSTANIE STYCZNIOWE"
+                  - "WOJNA 1920"
+                  - "II WOJNA SWIATOWA"
+                  - "OKRES POWOJENNY"
+              - {label: "Typ / opis kategorii", name: "type", widget: "string", required: false}
+              - {label: "Adres / lokalizacja", name: "addr", widget: "string"}
+              - {label: "Szerokość geogr. (lat)", name: "lat", widget: "number", value_type: "float"}
+              - {label: "Długość geogr. (lng)", name: "lng", widget: "number", value_type: "float"}
+              - {label: "Opis historyczny (widoczny po kliknięciu)", name: "desc", widget: "text", required: false}
+
   - name: "nekropolia"
     label: "Nekropolia"
-    folder: "content/nekropolia"
-    create: true
-    fields:
-      - {label: "Imię i Nazwisko / Postać", name: "title", widget: "string"}
-      - {label: "Rola / Stopień", name: "subtitle", widget: "string"}
-      - {label: "Cmentarz / Lokacja", name: "badge", widget: "string"}
-      - {label: "Zdjęcie", name: "image", widget: "image"}
-      - {label: "Opis biograficzny", name: "body", widget: "markdown"}
+    files:
+      - name: "graves"
+        label: "Lista Grobów"
+        file: "content/nekropolia.json"
+        fields:
+          - label: "Groby / kwatery"
+            name: "graves"
+            widget: "list"
+            summary: "{{fields.name}}"
+            fields:
+              - {label: "Nazwa", name: "name", widget: "string"}
+              - {label: "Adres / lokalizacja na cmentarzu", name: "addr", widget: "string"}
+              - {label: "Opis", name: "desc", widget: "text"}
+              - {label: "Powiązany bohater (opcjonalnie)", name: "hero", widget: "string", required: false}
+              - label: "Lista nazwisk (opcjonalnie, np. mogiła zbiorowa)"
+                name: "names"
+                widget: "list"
+                field: {label: "Nazwisko", name: "value", widget: "string"}
+                required: false
 
-  - name: "miejsca"
-    label: "Miejsca Pamięci"
-    folder: "content/miejsca"
-    create: true
-    fields:
-      - {label: "Nazwa Miejsca", name: "title", widget: "string"}
-      - {label: "Lokalizacja", name: "badge", widget: "string"}
-      - {label: "Zdjęcie", name: "image", widget: "image"}
-      - {label: "Opis historyczny", name: "body", widget: "markdown"}
+  - name: "hold"
+    label: "Księga Hołdu"
+    files:
+      - name: "entries"
+        label: "Wpisy Hołdu"
+        file: "content/hold.json"
+        fields:
+          - label: "Wpisy"
+            name: "entries"
+            widget: "list"
+            summary: "{{fields.hero}} — {{fields.author}}"
+            fields:
+              - {label: "Ku czci (imię bohatera)", name: "hero", widget: "string"}
+              - {label: "Autor wpisu", name: "author", widget: "string"}
+              - {label: "Data", name: "date", widget: "string"}
+              - {label: "Kategoria", name: "cat", widget: "string"}
+              - {label: "Forma", name: "form", widget: "string"}
+              - {label: "Zapalono znicz?", name: "candle", widget: "boolean", default: true}
