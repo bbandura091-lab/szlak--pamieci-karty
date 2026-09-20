@@ -1,0 +1,452 @@
+{
+  "points": [
+    {
+      "id": 1,
+      "name": "Sztab Marszałka Piłsudskiego 1920",
+      "era": "WOJNA 1920",
+      "type": "Obiekt historyczny / architektura",
+      "addr": "Rynek 11, Gmach Starostwa",
+      "lat": 51.46234,
+      "lng": 22.60789
+    },
+    {
+      "id": 2,
+      "name": "Tablica Wojska Polskiego 1920",
+      "era": "WOJNA 1920",
+      "type": "Pomnik / tablica",
+      "addr": "Rynek 15 (fasada kościoła)",
+      "lat": 51.4628,
+      "lng": 22.6075
+    },
+    {
+      "id": 3,
+      "name": "Siedziba Gestapo i Żandarmerii",
+      "era": "II WOJNA SWIATOWA",
+      "type": "Obiekt historyczny / architektura",
+      "addr": "ul. Cmentarna 4",
+      "lat": 51.4631,
+      "lng": 22.6081
+    },
+    {
+      "id": 4,
+      "name": "Więzienie Gestapo i Katownia UB",
+      "era": "II WOJNA SWIATOWA",
+      "type": "Miejsce pamięci / tablica",
+      "addr": "ul. Słowackiego 7",
+      "lat": 51.4619,
+      "lng": 22.6062
+    },
+    {
+      "id": 5,
+      "name": "Dawny Szpital Polowy AK",
+      "era": "II WOJNA SWIATOWA",
+      "type": "Obiekt historyczny / architektura",
+      "addr": "ul. Legionów 2",
+      "lat": 51.4605,
+      "lng": 22.605
+    },
+    {
+      "id": 6,
+      "name": "Dom Przejściowy Wołyniaków",
+      "era": "II WOJNA SWIATOWA",
+      "type": "Miejsce pamięci / tablica",
+      "addr": "ul. Lubelska 34",
+      "lat": 51.4598,
+      "lng": 22.6041
+    },
+    {
+      "id": 7,
+      "name": "Punkt Kontaktowy 27 WDP AK",
+      "era": "II WOJNA SWIATOWA",
+      "type": "Obiekt historyczny / architektura",
+      "addr": "ul. Cicha 8",
+      "lat": 51.4589,
+      "lng": 22.603
+    },
+    {
+      "id": 8,
+      "name": "Kryjówka Żołnierzy Wyklętych",
+      "era": "OKRES POWOJENNY",
+      "type": "Miejsce pamięci / tablica",
+      "addr": "ul. Poprzeczna 12",
+      "lat": 51.4642,
+      "lng": 22.6091
+    },
+    {
+      "id": 9,
+      "name": "Posterunek MO i Urząd Bezpieczeństwa",
+      "era": "OKRES POWOJENNY",
+      "type": "Miejsce pamięci / tablica",
+      "addr": "ul. Lipowa 3",
+      "lat": 51.465,
+      "lng": 22.6105
+    },
+    {
+      "id": 10,
+      "name": "Pomnik Niepodległości",
+      "era": "II WOJNA SWIATOWA",
+      "type": "Pomnik / tablica",
+      "addr": "Plac Wolności 1",
+      "lat": 51.457,
+      "lng": 22.6012
+    },
+    {
+      "id": 11,
+      "name": "Drukarnia Podziemna AK",
+      "era": "II WOJNA SWIATOWA",
+      "type": "Obiekt historyczny / architektura",
+      "addr": "ul. Partyzantów 15",
+      "lat": 51.4581,
+      "lng": 22.6025,
+      "desc": "Związana z sierż. Karolem Skaruchem ps. „Warta” — szefem BIP Obwodu, odpowiedzialnym za wydawanie i kolportaż podziemnej prasy."
+    },
+    {
+      "id": 12,
+      "name": "Siedziba Sztabu BCh",
+      "era": "II WOJNA SWIATOWA",
+      "type": "Miejsce pamięci / tablica",
+      "addr": "ul. Kościuszki 20",
+      "lat": 51.4611,
+      "lng": 22.6068
+    },
+    {
+      "id": 13,
+      "name": "Mogiła Powstańców Styczniowych 1863",
+      "era": "POWSTANIE STYCZNIOWE",
+      "type": "Pomnik / mogiła",
+      "addr": "Cmentarz Parafialny",
+      "lat": 51.4665,
+      "lng": 22.612
+    },
+    {
+      "id": 14,
+      "name": "Kwatera Żołnierzy AK i Września 1939",
+      "era": "II WOJNA SWIATOWA",
+      "type": "Miejsce pamięci / tablica",
+      "addr": "Cmentarz Parafialny",
+      "lat": 51.467,
+      "lng": 22.6128
+    },
+    {
+      "id": 15,
+      "name": "Symboliczny Grobowiec Żołnierzy Wyklętych",
+      "era": "OKRES POWOJENNY",
+      "type": "Miejsce pamięci / tablica",
+      "addr": "Cmentarz Parafialny",
+      "lat": 51.4674,
+      "lng": 22.6132
+    },
+    {
+      "id": 16,
+      "name": "Schron Wojskowy i Magazyn Broni",
+      "era": "II WOJNA SWIATOWA",
+      "type": "Obiekt historyczny / architektura",
+      "addr": "ul. Nowa 5",
+      "lat": 51.4555,
+      "lng": 22.6001
+    },
+    {
+      "id": 17,
+      "name": "Punkt Zrzutowy Broni",
+      "era": "II WOJNA SWIATOWA",
+      "type": "Miejsce pamięci / tablica",
+      "addr": "ul. Polna 18",
+      "lat": 51.454,
+      "lng": 22.5985
+    },
+    {
+      "id": 18,
+      "name": "Miejsce Egzekucji Cywilów 1943",
+      "era": "II WOJNA SWIATOWA",
+      "type": "Pomnik / tablica",
+      "addr": "ul. Piaskowa 2",
+      "lat": 51.468,
+      "lng": 22.614
+    },
+    {
+      "id": 19,
+      "name": "Dom Pamięci Ochotników 1920",
+      "era": "WOJNA 1920",
+      "type": "Miejsce pamięci / tablica",
+      "addr": "ul. Krótka 1",
+      "lat": 51.46,
+      "lng": 22.6045
+    },
+    {
+      "id": 20,
+      "name": "Apteka Podziemna i Punkt Opatrunkowy",
+      "era": "II WOJNA SWIATOWA",
+      "type": "Obiekt historyczny / architektura",
+      "addr": "ul. Rynek 8",
+      "lat": 51.4621,
+      "lng": 22.6071
+    },
+    {
+      "id": 21,
+      "name": "Siedziba Tajnego Nauczania",
+      "era": "II WOJNA SWIATOWA",
+      "type": "Miejsce pamięci / tablica",
+      "addr": "ul. Cmentarna 18",
+      "lat": 51.4645,
+      "lng": 22.6098,
+      "desc": "Rekomendowane (niepotwierdzone jednoznacznie) powiązanie z ks. kanonikiem Aleksandrem Szulcem ps. „Ina”."
+    },
+    {
+      "id": 22,
+      "name": "Lokal Kontaktowy WiN",
+      "era": "OKRES POWOJENNY",
+      "type": "Miejsce pamięci / tablica",
+      "addr": "ul. Ogrodowa 4",
+      "lat": 51.4658,
+      "lng": 22.6112
+    },
+    {
+      "id": 23,
+      "name": "Dawne Gimnazjum — Ośrodek Oporu",
+      "era": "II WOJNA SWIATOWA",
+      "type": "Obiekt historyczny / architektura",
+      "addr": "ul. Lubelska 10",
+      "lat": 51.4592,
+      "lng": 22.6038
+    },
+    {
+      "id": 24,
+      "name": "Warsztat Krawiecki — Kryjówka Służb",
+      "era": "II WOJNA SWIATOWA",
+      "type": "Miejsce pamięci / tablica",
+      "addr": "ul. Szewska 3",
+      "lat": 51.4578,
+      "lng": 22.602
+    },
+    {
+      "id": 25,
+      "name": "Krzyż Pamięci Powstańców 1863",
+      "era": "POWSTANIE STYCZNIOWE",
+      "type": "Pomnik / tablica",
+      "addr": "Rondo Styczniowe",
+      "lat": 51.469,
+      "lng": 22.615
+    },
+    {
+      "id": 26,
+      "name": "Punkt Odbioru Radiowego Sztabu",
+      "era": "II WOJNA SWIATOWA",
+      "type": "Miejsce pamięci / tablica",
+      "addr": "ul. Słowackiego 12",
+      "lat": 51.4615,
+      "lng": 22.606
+    },
+    {
+      "id": 27,
+      "name": "por. Bolesław Mucharski ps. „Lekarz”",
+      "era": "II WOJNA SWIATOWA",
+      "type": "Miejsce pamięci / tablica",
+      "addr": "ul. Lubelska 97A, Kościół Matki Bożej NP",
+      "lat": 51.4552,
+      "lng": 22.6074,
+      "desc": "Dowódca oddziału partyzanckiego AK (1914–1945). Zamordowany na Zamku Lubelskim 12.04.1945 r."
+    },
+    {
+      "id": 28,
+      "name": "kpt. dr Zbigniew Bartków",
+      "era": "II WOJNA SWIATOWA",
+      "type": "Miejsce pamięci / tablica",
+      "addr": "ul. Cicha 14, Szpital Powiatowy",
+      "lat": 51.4678,
+      "lng": 22.6033,
+      "desc": "Żołnierz AK, harcmistrz ZHP oraz zasłużony powojenny lekarz okulista lubartowskiego szpitala."
+    },
+    {
+      "id": 29,
+      "name": "Mural 27 WDP AK",
+      "era": "II WOJNA SWIATOWA",
+      "type": "Mural",
+      "addr": "ul. 1 Maja 82, budynek RCEZ",
+      "lat": 51.462,
+      "lng": 22.6,
+      "desc": "Największy w mieście mural poświęcony 27. Wołyńskiej Dywizji Piechoty AK."
+    },
+    {
+      "id": 30,
+      "name": "Miejsce pamięci — Obóz w Skrobowie (NKWD/UB)",
+      "era": "OKRES POWOJENNY",
+      "type": "Miejsce pamięci",
+      "addr": "Skrobów Kolonia",
+      "lat": 51.4628,
+      "lng": 22.5498,
+      "desc": "Miejsce obozu internowania żołnierzy AK podstępnie rozbrojonych przez NKWD i UB zaraz po Akcji „Burza”."
+    },
+    {
+      "id": 31,
+      "name": "Stacja PKP Lubartów",
+      "era": "OKRES POWOJENNY",
+      "type": "Tablica AK i 27 WDP",
+      "addr": "ul. Kolejowa, Dworzec PKP",
+      "lat": 51.4655,
+      "lng": 22.6152
+    },
+    {
+      "id": 32,
+      "name": "Symboliczna tablica ppor. Mirosława Orzechowskiego",
+      "era": "II WOJNA SWIATOWA",
+      "type": "Miejsce pamięci / tablica (grób nieznany)",
+      "addr": "Cmentarz Parafialny św. Anny (współrzędne przybliżone)",
+      "lat": 51.462753,
+      "lng": 22.6028411,
+      "desc": "Pilot myśliwski RAF, 308. Dywizjon. Zginął nad Kanałem La Manche 22.07.1941 r. w wieku 25 lat."
+    },
+    {
+      "id": 33,
+      "name": "Bunkier i pomnik kpt. Zdzisława Brońskiego „Uskoka”",
+      "era": "OKRES POWOJENNY",
+      "type": "Miejsce śmierci / pomnik (poza gminą Lubartów)",
+      "addr": "Nowogród (dawniej Dąbrówka), gm. Ludwin — współrzędne przybliżone",
+      "lat": 51.3,
+      "lng": 22.88,
+      "desc": "21 maja 1949 r. otoczony przez grupę operacyjną UB-KBW-MO, zdetonował granat, wybierając śmierć zamiast pojmania."
+    },
+    {
+      "id": 34,
+      "name": "Miejsce śmierci ppor. Stanisława Kuchciewicza „Wiktora”",
+      "era": "OKRES POWOJENNY",
+      "type": "Miejsce śmierci (poza gminą Lubartów)",
+      "addr": "Piaski, dawna Gminna Kasa Spółdzielcza",
+      "lat": 51.1806,
+      "lng": 22.9074,
+      "desc": "Ostatni dowódca podziemia niepodległościowego w powiecie lubartowskim. Zginął 10.02.1953 r."
+    },
+    {
+      "id": 35,
+      "name": "Siedziba PUBP w Lubartowie",
+      "era": "OKRES POWOJENNY",
+      "type": "Miejsce represji (1944–1956)",
+      "addr": "ul. Aleja 1000-lecia 4, Lubartów",
+      "lat": 51.462,
+      "lng": 22.607
+    },
+    {
+      "id": 36,
+      "name": "Dawne więzienie w Lubartowie",
+      "era": "OKRES POWOJENNY",
+      "type": "Miejsce represji (1944–1956)",
+      "addr": "Lubartów (adres do doprecyzowania)",
+      "lat": 51.4619,
+      "lng": 22.6062,
+      "desc": "Uwaga: możliwy duplikat / to samo miejsce co Punkt 4 — wymaga weryfikacji."
+    },
+    {
+      "id": 37,
+      "name": "Kościół Farny Wniebowzięcia NMP",
+      "era": "II WOJNA SWIATOWA",
+      "type": "Miejsce pamięci (1944–dziś)",
+      "addr": "Lubartów (adres do doprecyzowania)",
+      "lat": 51.462,
+      "lng": 22.607,
+      "desc": "Uwaga: inne wezwanie kościoła niż „Kościół Matki Bożej NP” z Punktu 27 — nie mylić."
+    },
+    {
+      "id": 38,
+      "name": "Radzic Stary — miejsce urodzenia „Uskoka”",
+      "era": "II WOJNA SWIATOWA",
+      "type": "Miejsce pamięci (poza gminą Lubartów)",
+      "addr": "Stary Radzic, gm. Ludwin",
+      "lat": 51.37278,
+      "lng": 22.82361
+    },
+    {
+      "id": 39,
+      "name": "Zezulin — starcia i kwatera oddziału Uskoka",
+      "era": "OKRES POWOJENNY",
+      "type": "Miejsce walk (poza gminą Lubartów)",
+      "addr": "Zezulin, gm. Ludwin",
+      "lat": 51.38,
+      "lng": 22.83
+    },
+    {
+      "id": 40,
+      "name": "Gmina Spiczyn — teren operacji",
+      "era": "OKRES POWOJENNY",
+      "type": "Teren działań (poza gminą Lubartów)",
+      "addr": "Gmina Spiczyn, pow. łęczyński",
+      "lat": 51.36,
+      "lng": 22.8
+    },
+    {
+      "id": 41,
+      "name": "Serniki — teren działań Uskoka",
+      "era": "OKRES POWOJENNY",
+      "type": "Miejsce walk (poza gminą Lubartów)",
+      "addr": "Serniki, pow. lubartowski",
+      "lat": 51.433,
+      "lng": 22.667
+    },
+    {
+      "id": 42,
+      "name": "Łęczna — miejsce urodzenia „Wiktora”",
+      "era": "OKRES POWOJENNY",
+      "type": "Miejsce pamięci (poza gminą Lubartów)",
+      "addr": "Łęczna",
+      "lat": 51.2999,
+      "lng": 22.8807
+    },
+    {
+      "id": 43,
+      "name": "Centrum Lubartów — Obwód WiN",
+      "era": "OKRES POWOJENNY",
+      "type": "Miejsce pamięci",
+      "addr": "Lubartów, centrum",
+      "lat": 51.462,
+      "lng": 22.607
+    },
+    {
+      "id": 45,
+      "name": "Firlej — Rejon Masowych Aresztowań (Wigilia 1944)",
+      "era": "OKRES POWOJENNY",
+      "type": "Miejsce represji (1944–1956)",
+      "addr": "Firlej",
+      "lat": 51.5592154,
+      "lng": 22.5090879,
+      "desc": "W Rejonie IV (Firlej) UB i NKWD aresztowały 74 członków AK, niemal połowę z nich w samą Wigilię 1944 roku."
+    },
+    {
+      "id": 46,
+      "name": "Uciekajka — Miejsce Starcia (25 marca 1945)",
+      "era": "OKRES POWOJENNY",
+      "type": "Miejsce pamięci",
+      "addr": "Uciekajka, gm. Ludwin",
+      "lat": 51.3676648,
+      "lng": 22.9898731,
+      "desc": "Ponad 200-osobowa grupa operacyjna NKWD, wsparta czołgami, zaskoczyła 25 partyzantów oddziału „Uskoka” i 27 WDP AK. Zginęło 7 „leśnych”, kilkudziesięciu mieszkańców wsi aresztowano."
+    },
+    {
+      "id": 47,
+      "name": "Bojki — Miejsce Zasadzki (13 maja 1945)",
+      "era": "OKRES POWOJENNY",
+      "type": "Miejsce pamięci",
+      "addr": "Bojki k. Ostrowa Lubelskiego",
+      "lat": 51.5278378,
+      "lng": 22.846247,
+      "desc": "Zmęczony po wcześniejszej akcji oddział „Uskoka” został zaskoczony przez grupę operacyjną NKWD-UB-MO z Włodawy. Stracił czterech zabitych i znaczną część uzbrojenia."
+    },
+    {
+      "id": 48,
+      "name": "Samoklęski — Centrum Rozbicia Rejonu V WiN",
+      "era": "OKRES POWOJENNY",
+      "type": "Miejsce pamięci",
+      "addr": "Samoklęski / Kamionka",
+      "lat": 51.4545153,
+      "lng": 22.4211848,
+      "desc": "Aresztowanie komendanta Rejonu V Dionizego Daniewskiego „Kruka” 22 grudnia 1945 r. zapoczątkowało lawinową „wsypę”, która w ciągu miesiąca doprowadziła do rozbicia sztabu całego Obwodu WiN."
+    },
+    {
+      "id": 44,
+      "name": "Lublin — Zamek/WUBP",
+      "era": "OKRES POWOJENNY",
+      "type": "Miejsce represji (poza gminą Lubartów)",
+      "addr": "Zamek Lubelski, Lublin",
+      "lat": 51.2489,
+      "lng": 22.5717,
+      "desc": "Tu zamordowano 12.04.1945 r. por. Bolesława Mucharskiego ps. „Lekarz” (Punkt 27)."
+    }
+  ]
+}

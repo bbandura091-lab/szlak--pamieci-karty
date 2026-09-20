@@ -1,0 +1,44 @@
+{
+  "entries": [
+    {
+      "hero": "Nieznany Partyzant",
+      "author": "Mieszkańcy Lubartowa",
+      "date": "11.11.2024",
+      "cat": "Mieszkaniec Lubartowa",
+      "form": "Modlitwa",
+      "candle": true
+    },
+    {
+      "hero": "ppor. Zdzisław Broński „Uskok”",
+      "author": "Stowarzyszenie Pamięci AK Lublin",
+      "date": "01.09.2024",
+      "cat": "Organizacja / Stowarzyszenie",
+      "form": "Cytat historyczny",
+      "candle": false
+    },
+    {
+      "hero": "Łączniczka Maria Wiśniewska",
+      "author": "Rodzina Wiśniewskich",
+      "date": "15.08.2024",
+      "cat": "Rodzina",
+      "form": "Dedykacja zdjęcia",
+      "candle": true
+    },
+    {
+      "hero": "ppor. Czesław Rossiński „Kowal”",
+      "author": "Uczniowie LO im. T. Kościuszki w Lubartowie",
+      "date": "22.07.2024",
+      "cat": "Szkoła / Młodzież",
+      "form": "Wpis pisemny",
+      "candle": true
+    },
+    {
+      "hero": "Daniela Iwanek „Wiśnia”",
+      "author": "Koło Historyczne ZHP Lubartów",
+      "date": "22.07.2024",
+      "cat": "Organizacja / Stowarzyszenie",
+      "form": "Wpis pisemny",
+      "candle": true
+    }
+  ]
+}
