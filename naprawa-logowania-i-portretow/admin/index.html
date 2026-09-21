@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel — Lubartowski Szlak Pamięci</title>
+</head>
+<body>
+  <script>
+  // Samoleczenie: usuwa wszelkie stare/zombie Service Workery, zeby panel
+  // logowania nie byl serwowany ze zcache'owanej, nieaktualnej odpowiedzi.
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(function(regs){
+      regs.forEach(function(reg){
+        var url = (reg.active && reg.active.scriptURL) || '';
+        if (!url.endsWith('/sw.js')) {
+          reg.unregister();
+          if ('caches' in window) {
+            caches.keys().then(function(names){ names.forEach(function(n){ caches.delete(n); }); });
+          }
+        }
+      });
+    });
+  }
+  </script>
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+</body>
+</html>
