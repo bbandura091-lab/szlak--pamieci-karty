@@ -1,6 +1,6 @@
 backend:
   name: git-gateway
-  repo: bbandura091-lab/szlak--pamieci-karty
+  repo: lubartowskiszlakpamieci/szlak--pamieci-karty
   branch: main
   auth_type: pkce
   base_url: https://auth.decapbridge.com
@@ -22,7 +22,7 @@ auth:
   avatar_url_claim: avatar_url
 
 logo_url: https://decapbridge.com/decapcms-with-bridge.svg
-site_url: https://bbandura091-lab.github.io/szlak--pamieci-karty/
+site_url: https://lubartowskiszlakpamieci.github.io/szlak--pamieci-karty/
 
 media_folder: "images"
 public_folder: "images"
