@@ -433,7 +433,13 @@ function initMap(){
   L.control.zoom({position:'bottomright'}).addTo(map);
   POINTS.forEach(function(p){
     const icon = L.divIcon({className:'', html:'<div class="pin" style="background:'+ERAS[p.era].hex+'"></div>', iconSize:[24,24], iconAnchor:[12,24]});
-    const m = L.marker([p.lat,p.lng],{icon}); m.on('click',function(){openMapSheet(p);}); m.addTo(map);
+   sconst m = L.marker([p.lat, p.lng], {icon}).bindPopup(`
+  <div style="font-family: sans-serif; max-width: 220px;">
+    <h3 style="margin: 0 0 6px 0; font-size: 15px; color: #333;">${p.name || p.nazwa || 'Punkt Szlaku'}</h3>
+    ${p.img ? `<img src="${p.img}" style="width:100%; height:auto; border-radius:4px; margin-bottom:6px;">` : ''}
+    <p style="margin: 0; font-size: 13px; color: #555; line-height: 1.4;">${p.desc || p.opis || ''}</p>
+  </div>
+`);
     mapMarkers[p.id]=m;
   });
   const chipsEl = document.getElementById('mapChips');
