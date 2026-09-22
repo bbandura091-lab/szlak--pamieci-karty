@@ -109,6 +109,9 @@ nav{position:sticky;top:0;z-index:50;background:rgba(237,227,208,.96);backdrop-f
   border:1px solid var(--hairline);}
 #map{height:100%;}
 .leaflet-container{background:#EDE3D0;font-family:'IBM Plex Sans',sans-serif;}
+.leaflet-tooltip.pin-tip{background:var(--surface-raised);color:var(--parchment);border:1px solid var(--hairline);
+  border-radius:6px;padding:4px 9px;font-size:12px;font-weight:600;box-shadow:0 2px 6px rgba(0,0,0,.15);}
+.leaflet-tooltip.pin-tip::before{border-top-color:var(--hairline);}
 .pin{width:24px;height:24px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);
   border:2px solid rgba(0,0,0,.35);box-shadow:0 2px 5px rgba(0,0,0,.5);}
 .map-chips{display:flex;gap:6px;overflow-x:auto;margin-bottom:14px;padding-bottom:2px;scrollbar-width:none;}
@@ -434,6 +437,7 @@ function initMap(){
   POINTS.forEach(function(p){
     const icon = L.divIcon({className:'', html:'<div class="pin" style="background:'+ERAS[p.era].hex+'"></div>', iconSize:[24,24], iconAnchor:[12,24]});
     const m = L.marker([p.lat,p.lng],{icon}); m.on('click',function(){openMapSheet(p);}); m.addTo(map);
+    m.bindTooltip(p.name, {direction:'top', offset:[0,-22], className:'pin-tip'});
     mapMarkers[p.id]=m;
   });
   const chipsEl = document.getElementById('mapChips');
