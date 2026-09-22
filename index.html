@@ -162,6 +162,24 @@ footer{text-align:center;padding:26px 18px 40px;color:var(--muted);font-size:12p
   <div class="loader-spin"></div>
   <div class="loader-text">Ładowanie danych szlaku…</div>
 </div>
+<script>
+// Samoleczenie: usuwa wszelkie stare/zombie Service Workery (np. z poprzednich
+// wersji strony), zeby nie serwowaly zcache'owanych, nieaktualnych odpowiedzi
+// (w tym bledow 404 zapisanych zanim dany plik zaczal istniec).
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(function(regs){
+    regs.forEach(function(reg){
+      var url = (reg.active && reg.active.scriptURL) || '';
+      if (!url.endsWith('/sw.js')) {
+        reg.unregister();
+        if ('caches' in window) {
+          caches.keys().then(function(names){ names.forEach(function(n){ caches.delete(n); }); });
+        }
+      }
+    });
+  });
+}
+</script>
 
 <nav>
   <div class="navrow" id="navrow">
