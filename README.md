@@ -1,8 +1,9 @@
+[README (1).md](https://github.com/user-attachments/files/32507845/README.1.md)
 # Lubartowski Szlak Pamięci
 
 Projekt upamiętniający bohaterów Armii Krajowej, 27. Wołyńskiej Dywizji Piechoty AK oraz powojennego podziemia niepodległościowego z rejonu Lubartowa (1863–2025).
 
-🔗 **Strona:** https://bbandura091-lab.github.io/szlak--pamieci-karty/
+🔗 **Strona:** https://lubartowskiszlakpamieci.github.io/szlak--pamieci-karty/
 
 ## Architektura
 
