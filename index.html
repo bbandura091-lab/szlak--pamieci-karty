@@ -8,6 +8,8 @@
 <meta name="theme-color" content="#EDE3D0">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.Default.css" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -112,6 +114,16 @@ nav{position:sticky;top:0;z-index:50;background:rgba(237,227,208,.96);backdrop-f
 .leaflet-tooltip.pin-tip{background:var(--surface-raised);color:var(--parchment);border:1px solid var(--hairline);
   border-radius:6px;padding:4px 9px;font-size:12px;font-weight:600;box-shadow:0 2px 6px rgba(0,0,0,.15);}
 .leaflet-tooltip.pin-tip::before{border-top-color:var(--hairline);}
+.locate-btn{width:34px;height:34px;background:#fff;border:2px solid rgba(0,0,0,.2);border-radius:4px;
+  cursor:pointer;font-size:18px;line-height:1;color:var(--parchment);display:flex;align-items:center;justify-content:center;}
+.locate-btn:hover{background:#f4f4f4;}
+.locate-btn.loading{animation:locate-pulse 1s ease-in-out infinite;color:var(--brass);}
+@keyframes locate-pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+.cluster-pin{width:36px;height:36px;border-radius:50%;background:var(--brass);color:#fff;font-weight:700;
+  font-size:13px;display:flex;align-items:center;justify-content:center;border:3px solid rgba(255,255,255,.85);
+  box-shadow:0 2px 8px rgba(0,0,0,.3);}
+.leaflet-popup-content-wrapper{border-radius:10px;}
+.leaflet-popup-content{margin:11px 13px;}
 .pin{width:24px;height:24px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);
   border:2px solid rgba(0,0,0,.35);box-shadow:0 2px 5px rgba(0,0,0,.5);}
 .map-chips{display:flex;gap:6px;overflow-x:auto;margin-bottom:14px;padding-bottom:2px;scrollbar-width:none;}
@@ -288,6 +300,7 @@ if ('serviceWorker' in navigator) {
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
 <script>
 let PANTHEON = [], POINTS = [], NEKROPOLIA = [], HOLD = [];
 let groups = [], activeGroup = null;
@@ -429,38 +442,93 @@ function openModal(p){
 document.getElementById('modalClose').onclick=function(){document.getElementById('modal-overlay').classList.remove('open');};
 document.getElementById('modal-overlay').addEventListener('click',function(e){if(e.target.id==='modal-overlay')e.currentTarget.classList.remove('open');});
 
-let map, mapMarkers={}, mapActiveEra=null;
+let map, mapMarkers={}, mapActiveEra=null, clusterGroup=null, userLocMarker=null;
+
+// Prosty przycisk "Lokalizuj mnie" - wlasna kontrolka Leaflet (bez dodatkowej biblioteki)
+const LocateControl = L.Control.extend({
+  options: {position:'bottomright'},
+  onAdd: function(){
+    const btn = L.DomUtil.create('button', 'locate-btn');
+    btn.innerHTML = '&#8982;';
+    btn.title = 'Pokaz moja lokalizacje';
+    btn.setAttribute('aria-label','Pokaz moja lokalizacje');
+    L.DomEvent.disableClickPropagation(btn);
+    L.DomEvent.on(btn, 'click', function(){
+      btn.classList.add('loading');
+      map.locate({setView:true, maxZoom:16, enableHighAccuracy:true});
+    });
+    return btn;
+  }
+});
+
 function initMap(){
   map = L.map('map', {zoomControl:false}).setView([51.38, 22.70], 9);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:19, attribution:'&copy; OpenStreetMap'}).addTo(map);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    maxZoom:19,
+    attribution:'&copy; OpenStreetMap &copy; <a href="https://carto.com/attributions">CARTO</a>'
+  }).addTo(map);
   L.control.zoom({position:'bottomright'}).addTo(map);
+  new LocateControl().addTo(map);
+
+  map.on('locationfound', function(e){
+    document.querySelector('.locate-btn').classList.remove('loading');
+    if(userLocMarker) map.removeLayer(userLocMarker);
+    userLocMarker = L.circleMarker(e.latlng, {
+      radius:8, color:'#fff', weight:2, fillColor:'#2E7CD6', fillOpacity:1
+    }).addTo(map).bindTooltip('Jestes tutaj', {direction:'top', offset:[0,-10]});
+  });
+  map.on('locationerror', function(){
+    document.querySelector('.locate-btn').classList.remove('loading');
+    alert('Nie udalo sie ustalic lokalizacji. Sprawdz uprawnienia lokalizacji w przegladarce.');
+  });
+
+  clusterGroup = L.markerClusterGroup({
+    maxClusterRadius:50,
+    iconCreateFunction: function(cluster){
+      return L.divIcon({html:'<div class="cluster-pin">'+cluster.getChildCount()+'</div>', className:'', iconSize:[36,36]});
+    }
+  });
+
   POINTS.forEach(function(p){
     const icon = L.divIcon({className:'', html:'<div class="pin" style="background:'+ERAS[p.era].hex+'"></div>', iconSize:[24,24], iconAnchor:[12,24]});
     const m = L.marker([p.lat, p.lng], {icon});
 
     const photoHtml = p.photo
-      ? '<img src="'+p.photo+'" alt="'+p.name+'" style="width:100%;max-height:140px;object-fit:cover;border-radius:6px;margin:6px 0;">'
+      ? '<img src="'+p.photo+'" alt="'+p.name+'" style="width:100%;max-width:150px;max-height:110px;object-fit:cover;border-radius:6px;margin-bottom:6px;">'
       : '';
-    const addrHtml = p.addr
-      ? '<div style="font-size:11px;color:#7A6C54;margin-bottom:4px;">'+p.addr+'</div>'
-      : '';
-    const descHtml = p.desc
-      ? '<p style="margin:4px 0 0;font-size:13px;line-height:1.5;color:#2B2318;">'+p.desc+'</p>'
+    const teaser = p.desc ? (p.desc.length>110 ? p.desc.slice(0,110).trim()+'…' : p.desc) : '';
+    const teaserHtml = teaser
+      ? '<p style="margin:4px 0 8px;font-size:12.5px;line-height:1.5;color:#2B2318;">'+teaser+'</p>'
       : '';
 
     const popupHtml =
-      '<div style="font-family:\'IBM Plex Sans\',sans-serif;max-width:220px;">'
-      + '<h3 style="margin:0 0 4px;font-size:15px;color:#2B2318;">'+p.name+'</h3>'
-      + addrHtml
+      '<div class="pin-popup" style="font-family:\'IBM Plex Sans\',sans-serif;max-width:190px;">'
       + photoHtml
-      + descHtml
+      + '<h3 style="margin:0 0 3px;font-size:14.5px;color:#2B2318;">'+p.name+'</h3>'
+      + teaserHtml
+      + '<a href="#" class="popup-link" data-pid="'+p.id+'" style="font-size:12px;font-weight:600;color:#8A6B26;text-decoration:none;">Zobacz pełną historię →</a>'
       + '</div>';
 
-    m.bindPopup(popupHtml, {maxWidth:240});
+    m.bindPopup(popupHtml, {maxWidth:220});
     m.bindTooltip(p.name, {direction:'top', offset:[0,-22], className:'pin-tip'});
-    m.addTo(map);
+    clusterGroup.addLayer(m);
     mapMarkers[p.id]=m;
   });
+  map.addLayer(clusterGroup);
+
+  // Delegacja klikniecia w link "Zobacz pelna historie" wewnatrz popupu
+  map.on('popupopen', function(e){
+    const link = e.popup.getElement().querySelector('.popup-link');
+    if(link){
+      link.addEventListener('click', function(ev){
+        ev.preventDefault();
+        const pid = parseInt(link.getAttribute('data-pid'),10);
+        const p = POINTS.find(function(pt){return pt.id===pid;});
+        if(p){ map.closePopup(); openMapSheet(p); }
+      });
+    }
+  });
+
   const chipsEl = document.getElementById('mapChips');
   const allC = document.createElement('button'); allC.className='filterchip'; allC.textContent='Wszystkie'; allC.setAttribute('aria-pressed','true');
   allC.onclick=function(){mapActiveEra=null; refreshMapChips(); applyMapFilter();};
@@ -483,8 +551,10 @@ function refreshMapChips(){
 function applyMapFilter(){
   POINTS.forEach(function(p){
     const show = !mapActiveEra || p.era===mapActiveEra;
-    const el = mapMarkers[p.id].getElement();
-    if(el) el.style.display = show?'':'none';
+    const m = mapMarkers[p.id];
+    const has = clusterGroup.hasLayer(m);
+    if(show && !has) clusterGroup.addLayer(m);
+    if(!show && has) clusterGroup.removeLayer(m);
   });
 }
 function openMapSheet(p){
