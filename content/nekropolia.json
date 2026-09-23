@@ -1,10 +1,10 @@
 {
   "graves": [
     {
-      "name": "Cmentarz Wojenny 1915–18",
+      "name": "Cmentarz Wojenny 1915-18",
       "addr": "ul. Szaniawskiego (Cmentarz Parafialny)",
       "desc": "Miejsce spoczynku ok. 1000 żołnierzy różnych narodowości, w tym wielu Polaków.",
-      "hero": "pplk Jan Kiwerski ps. „Oliwa”",
+      "hero": "ppłk Jan Kiwerski ps. „Oliwa”",
       "lat": 51.4658,
       "lng": 22.6115
     },
@@ -17,35 +17,88 @@
       "lng": 22.6127
     },
     {
-      "name": "Obelisk Żołnierzy Oddziału Uskoka",
-      "addr": "Cmentarz Parafialny, Sektor XII (tuż za Kwaterą Wrześniową)",
-      "desc": "„Żołnierzom AK z oddziału Uskoka zamordowanym przez Urząd Bezpieczeństwa. Cześć ich pamięci.” (data na cokole: 20 maja, prawdopodobnie 1988)",
-      "names": [
-        "Śledziński Czesław (I.21)",
-        "Zając Bronisław (I.18)",
-        "Idzikowski Stanisław (I.18)",
-        "Szymanek Józef (I.32)",
-        "Kulpa Franciszek (I.26)",
-        "Staropiętka Stanisław (I.29)"
-      ],
-      "lat": 51.46695,
-      "lng": 22.61275
+      "name": "Józef Bazan „Płomień”",
+      "addr": "Cmentarz Parafialny w Lubartowie — Kwatera X, Grób 9",
+      "desc": "Kwatera X, Rząd/Numer: 9",
+      "hero": "Józef Bazan"
     },
     {
-      "name": "Nagrobek Legionistów",
-      "addr": "Cmentarz Parafialny",
-      "desc": "Upamiętnienie żołnierzy Legionów Polskich poległych w 1915 roku w staraniach o niepodległość.",
-      "hero": "Józef Szymula ps. „Jordan”",
-      "lat": 51.4666,
-      "lng": 22.6122
+      "name": "Kazimierz Cyranek „Jaszczurka”",
+      "addr": "Cmentarz Parafialny w Lubartowie — Kwatera V, Grób 557",
+      "desc": "Kwatera V, Rząd/Numer: 557",
+      "hero": "Kazimierz Cyranek"
     },
     {
-      "name": "Symboliczny Grób kpt. „Uskoka”",
-      "addr": "Cmentarz Parafialny",
-      "desc": "Upamiętnienie kpt. Zdzisława Brońskiego (1912–1949), dowódcy AK-WiN — legendy lubartowskich lasów, który w godzinie „Burzy” zamienił słowa przysięgi w czyn.",
-      "hero": "kpt. Zdzisław Broński ps. „Uskok”",
-      "lat": 51.4672,
-      "lng": 22.6130
+      "name": "Czesław Edelman „Cymon”",
+      "addr": "Cmentarz Parafialny w Lubartowie — Kwatera VII, Grób 67",
+      "desc": "Kwatera VII, Rząd/Numer: 67",
+      "hero": "Czesław Edelman"
+    },
+    {
+      "name": "Aniela Miduch „Kama”",
+      "addr": "Cmentarz Parafialny w Lubartowie — Kwatera V, Grób 428",
+      "desc": "Kwatera V, Rząd/Numer: 428",
+      "hero": "Aniela Miduch"
+    },
+    {
+      "name": "Roman Mika „Pług”",
+      "addr": "Cmentarz Parafialny w Lubartowie — Kwatera VI, Grób 1",
+      "desc": "Kwatera VI, Rząd/Numer: 1",
+      "hero": "Roman Mika"
+    },
+    {
+      "name": "Adam Możdziński „Kord”",
+      "addr": "Cmentarz Parafialny w Lubartowie — Kwatera X, Grób 285",
+      "desc": "Kwatera X, Rząd/Numer: 285",
+      "hero": "Adam Możdziński"
+    },
+    {
+      "name": "Bolesław Mucharski „Lekarz”",
+      "addr": "Cmentarz Parafialny w Lubartowie — Kwatera XIII, Grób 10 (symboliczny)",
+      "desc": "Kwatera XIII, Rząd/Numer: 10 (Grób symboliczny)",
+      "hero": "Bolesław Mucharski"
+    },
+    {
+      "name": "Józef Surma Juratomski „Jur”",
+      "addr": "Cmentarz Parafialny w Lubartowie — Kwatera V, Grób 68",
+      "desc": "Kwatera V, Rząd/Numer: 68",
+      "hero": "Józef Surma Juratomski"
+    },
+    {
+      "name": "ks. Aleksander Szulc",
+      "addr": "Cmentarz Parafialny w Lubartowie — Kwatera IV, Grób 23",
+      "desc": "Kwatera IV, Rząd/Numer: 23",
+      "hero": "ks. Aleksander Szulc"
+    },
+    {
+      "name": "Józef Szymula „Jordan”",
+      "addr": "Cmentarz Parafialny w Lubartowie — Kwatera XVI, Grób 67",
+      "desc": "Kwatera XVI, Rząd/Numer: 67",
+      "hero": "Józef Szymula"
+    },
+    {
+      "name": "Lucjan Furtak „Paweł”",
+      "addr": "Cmentarz Parafialny w Lubartowie — Kwatera X, Grób 318",
+      "desc": "Kwatera X, Rząd/Numer: 318",
+      "hero": "Lucjan Furtak"
+    },
+    {
+      "name": "Roman Jezior „Jung”, „Okoń”",
+      "addr": "Cmentarz Parafialny w Lubartowie — Kwatera XV, Grób 48",
+      "desc": "Kwatera XV, Rząd/Numer: 48",
+      "hero": "Roman Jezior"
+    },
+    {
+      "name": "Kazimierz Kućmiński",
+      "addr": "Cmentarz Parafialny w Lubartowie — Kwatera XV, Grób 49",
+      "desc": "Kwatera XV, Rząd/Numer: 49",
+      "hero": "Kazimierz Kućmiński"
+    },
+    {
+      "name": "Zdzisław Broński „Uskok”",
+      "addr": "Cmentarz Parafialny w Lubartowie — Kwatera XV, Grób 50 (upamiętniony symbolicznie)",
+      "desc": "Kwatera XV, Rząd/Numer: 50 (Upamiętnienie symboliczne)",
+      "hero": "Zdzisław Broński"
     }
   ]
 }
