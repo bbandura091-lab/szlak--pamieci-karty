@@ -4,13 +4,17 @@
       "name": "Cmentarz Wojenny 1915–18",
       "addr": "ul. Szaniawskiego (Cmentarz Parafialny)",
       "desc": "Miejsce spoczynku ok. 1000 żołnierzy różnych narodowości, w tym wielu Polaków.",
-      "hero": "pplk Jan Kiwerski ps. „Oliwa”"
+      "hero": "pplk Jan Kiwerski ps. „Oliwa”",
+      "lat": 51.4658,
+      "lng": 22.6115
     },
     {
       "name": "Kwatera Wrześniowa 1939",
       "addr": "Cmentarz Parafialny",
       "desc": "Mogiła żołnierzy WP poległych w obronie Lubartowa we wrześniu 1939 r.",
-      "hero": "por. rez. Władysław Czermiński ps. „Jastrząb”"
+      "hero": "por. rez. Władysław Czermiński ps. „Jastrząb”",
+      "lat": 51.4669,
+      "lng": 22.6127
     },
     {
       "name": "Obelisk Żołnierzy Oddziału Uskoka",
@@ -23,19 +27,25 @@
         "Szymanek Józef (I.32)",
         "Kulpa Franciszek (I.26)",
         "Staropiętka Stanisław (I.29)"
-      ]
+      ],
+      "lat": 51.46695,
+      "lng": 22.61275
     },
     {
       "name": "Nagrobek Legionistów",
       "addr": "Cmentarz Parafialny",
       "desc": "Upamiętnienie żołnierzy Legionów Polskich poległych w 1915 roku w staraniach o niepodległość.",
-      "hero": "Józef Szymula ps. „Jordan”"
+      "hero": "Józef Szymula ps. „Jordan”",
+      "lat": 51.4666,
+      "lng": 22.6122
     },
     {
       "name": "Symboliczny Grób kpt. „Uskoka”",
       "addr": "Cmentarz Parafialny",
       "desc": "Upamiętnienie kpt. Zdzisława Brońskiego (1912–1949), dowódcy AK-WiN — legendy lubartowskich lasów, który w godzinie „Burzy” zamienił słowa przysięgi w czyn.",
-      "hero": "kpt. Zdzisław Broński ps. „Uskok”"
+      "hero": "kpt. Zdzisław Broński ps. „Uskok”",
+      "lat": 51.4672,
+      "lng": 22.6130
     }
   ]
 }
