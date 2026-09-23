@@ -463,9 +463,12 @@ const LocateControl = L.Control.extend({
 
 function initMap(){
   map = L.map('map', {zoomControl:false}).setView([51.38, 22.70], 9);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-    maxZoom:19,
-    attribution:'&copy; OpenStreetMap &copy; <a href="https://carto.com/attributions">CARTO</a>'
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom:16,
+    attribution:'Kafle: Esri, HERE, Garmin, &copy; OpenStreetMap contributors, GIS User Community'
+  }).addTo(map);
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom:16
   }).addTo(map);
   L.control.zoom({position:'bottomright'}).addTo(map);
   new LocateControl().addTo(map);
