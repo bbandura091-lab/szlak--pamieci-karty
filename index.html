@@ -178,9 +178,6 @@ footer{text-align:center;padding:26px 18px 40px;color:var(--muted);font-size:12p
   <div class="loader-text">Ładowanie danych szlaku…</div>
 </div>
 <script>
-// Samoleczenie: usuwa wszelkie stare/zombie Service Workery (np. z poprzednich
-// wersji strony), zeby nie serwowaly zcache'owanych, nieaktualnych odpowiedzi
-// (w tym bledow 404 zapisanych zanim dany plik zaczal istniec).
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.getRegistrations().then(function(regs){
     regs.forEach(function(reg){
@@ -313,7 +310,7 @@ function refreshPFilters(){
 }
 const ERAS = {
   "POWSTANIE STYCZNIOWE": {label:"1863", hex:"#8B3A32", order:0},
-  "WOJNA 1920":            {label:"1920", hex:"#5B6B73", order:1},
+  "WOJNA 1920":             {label:"1920", hex:"#5B6B73", order:1},
   "II WOJNA SWIATOWA":     {label:"1939–45", hex:"#B4903F", order:2},
   "OKRES POWOJENNY":       {label:"Powojenne", hex:"#6B5D74", order:3},
 };
@@ -419,7 +416,7 @@ function renderPanteon(){
     c.onclick=function(){ openModal(PANTHEON[c.dataset.idx]); };
   });
 }
-renderPanteon();
+document.getElementById('pSearch').addEventListener('input', renderPanteon);
 
 function openModal(p){
   document.getElementById('mBadge').textContent=p.group;
@@ -444,7 +441,6 @@ document.getElementById('modal-overlay').addEventListener('click',function(e){if
 
 let map, mapMarkers={}, mapActiveEra=null, clusterGroup=null, userLocMarker=null;
 
-// Prosty przycisk "Lokalizuj mnie" - wlasna kontrolka Leaflet (bez dodatkowej biblioteki)
 const LocateControl = L.Control.extend({
   options: {position:'bottomright'},
   onAdd: function(){
@@ -463,13 +459,17 @@ const LocateControl = L.Control.extend({
 
 function initMap(){
   map = L.map('map', {zoomControl:false}).setView([51.38, 22.70], 9);
-  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
-    maxZoom:16,
-    attribution:'Kafle: Esri, HERE, Garmin, &copy; OpenStreetMap contributors, GIS User Community'
+  
+  // Aktywny Token Mapbox
+  const MAPBOX_TOKEN = 'pk.eyJ1Ijoic3psYWtwYW1pZWNpIiwiYSI6ImNtc2Q2ajQzbTFuYm8yenF5NzlxMm94NmIifQ.onRsmrhonmqffC3GfOnYFg';
+  
+  L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/{z}/{x}/{y}?access_token=' + MAPBOX_TOKEN, {
+    tileSize: 512,
+    zoomOffset: -1,
+    maxZoom: 19,
+    attribution: '© Mapbox © OpenStreetMap'
   }).addTo(map);
-  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}', {
-    maxZoom:16
-  }).addTo(map);
+
   L.control.zoom({position:'bottomright'}).addTo(map);
   new LocateControl().addTo(map);
 
@@ -493,7 +493,8 @@ function initMap(){
   });
 
   POINTS.forEach(function(p){
-    const icon = L.divIcon({className:'', html:'<div class="pin" style="background:'+ERAS[p.era].hex+'"></div>', iconSize:[24,24], iconAnchor:[12,24]});
+    const eraConfig = ERAS[p.era] || { hex: '#8A6B26' };
+    const icon = L.divIcon({className:'', html:'<div class="pin" style="background:'+eraConfig.hex+'"></div>', iconSize:[24,24], iconAnchor:[12,24]});
     const m = L.marker([p.lat, p.lng], {icon});
 
     const photoHtml = p.photo
@@ -519,7 +520,6 @@ function initMap(){
   });
   map.addLayer(clusterGroup);
 
-  // Delegacja klikniecia w link "Zobacz pelna historie" wewnatrz popupu
   map.on('popupopen', function(e){
     const link = e.popup.getElement().querySelector('.popup-link');
     if(link){
@@ -543,6 +543,7 @@ function initMap(){
     chipsEl.appendChild(c);
   });
 }
+
 function refreshMapChips(){
   const chipsEl = document.getElementById('mapChips');
   const keys = Object.keys(ERAS).sort(function(a,b){return ERAS[a].order-ERAS[b].order;});
@@ -551,15 +552,19 @@ function refreshMapChips(){
     c.setAttribute('aria-pressed', era===mapActiveEra?'true':'false');
   });
 }
+
 function applyMapFilter(){
   POINTS.forEach(function(p){
     const show = !mapActiveEra || p.era===mapActiveEra;
     const m = mapMarkers[p.id];
-    const has = clusterGroup.hasLayer(m);
-    if(show && !has) clusterGroup.addLayer(m);
-    if(!show && has) clusterGroup.removeLayer(m);
+    if(m) {
+      const has = clusterGroup.hasLayer(m);
+      if(show && !has) clusterGroup.addLayer(m);
+      if(!show && has) clusterGroup.removeLayer(m);
+    }
   });
 }
+
 function openMapSheet(p){
   document.getElementById('msTitle').textContent = p.id+'. '+p.name;
   document.getElementById('msType').textContent = p.type;
@@ -569,12 +574,6 @@ function openMapSheet(p){
 }
 document.getElementById('mapSheetClose').onclick=function(){document.getElementById('mapSheet').classList.remove('open');};
 
-
-
-
-// ============================================================
-// REJESTRACJA SERVICE WORKERA — dzialanie offline
-// ============================================================
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js').catch((err) => {
@@ -582,7 +581,6 @@ if ('serviceWorker' in navigator) {
     });
   });
 }
-
 </script>
 </body>
 </html>
