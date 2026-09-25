@@ -58,11 +58,12 @@ nav{position:sticky;top:0;z-index:50;background:rgba(237,227,208,.96);backdrop-f
 .prose h3{font-size:17px;color:var(--brass);margin:26px 0 10px;}
 .navgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:30px;}
 .navcard{background:var(--surface);border:1px solid var(--hairline);border-radius:14px;padding:20px;
-  cursor:pointer;transition:border-color .15s, transform .15s;}
+  cursor:pointer;transition:border-color .15s, transform .15s;display:block;text-decoration:none;color:inherit;}
 .navcard:hover{border-color:var(--brass);transform:translateY(-2px);}
 .navcard .ic{font-size:22px;color:var(--brass);margin-bottom:8px;}
 .navcard h3{font-size:16px;margin-bottom:4px;}
 .navcard p{font-size:12.5px;color:var(--muted);margin:0;}
+.navcard-external{border-style:dashed;}
 
 .sec-head{margin-bottom:22px;}
 .sec-head h2{font-size:26px;}
@@ -243,6 +244,9 @@ if ('serviceWorker' in navigator) {
     <div class="navcard" data-view="mapa"><div class="ic">&#128506;</div><h3>Mapa Szlaku</h3><p>44 punkty — od Lubartowa po Zamek Lubelski i Piaski</p></div>
     <div class="navcard" data-view="nekropolia"><div class="ic">&#128367;</div><h3>Nekropolia</h3><p>Groby i mogiły na Cmentarzu Parafialnym</p></div>
     <div class="navcard" data-view="hold"><div class="ic">&#128214;</div><h3>Księga Hołdu</h3><p>Wpisy odwiedzających składających hołd bohaterom</p></div>
+    <a class="navcard navcard-external" href="https://lubartowskiszlakpamieci.github.io/bastion-pamieci/" target="_blank" rel="noopener">
+      <div class="ic">&#128737;</div><h3>Bastion Pamięci ↗</h3><p>Projekt towarzyszący — Szlakiem Uskoka i Wiktora (1944–1953)</p>
+    </a>
   </div>
 </section>
 
