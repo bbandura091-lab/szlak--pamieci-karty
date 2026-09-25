@@ -99,23 +99,24 @@ collections:
   - name: "nekropolia"
     label: "Nekropolia"
     files:
-      - name: "graves"
-        label: "Lista Grobów"
+      - name: "plots"
+        label: "Lista Obiektów (PLOTS)"
         file: "content/nekropolia.json"
         fields:
-          - label: "Groby / kwatery"
-            name: "graves"
+          - label: "Obiekty"
+            name: "plots"
             widget: "list"
-            summary: "{{fields.name}}"
+            summary: "{{fields.nazwa_obiektu}}"
             fields:
-              - {label: "Nazwa", name: "name", widget: "string"}
-              - {label: "Adres / lokalizacja na cmentarzu", name: "addr", widget: "string"}
-              - {label: "Opis", name: "desc", widget: "text"}
-              - {label: "Powiązany bohater (opcjonalnie)", name: "hero", widget: "string", required: false}
+              - {label: "ID mogiły", name: "id_mogily", widget: "string"}
+              - {label: "Kwatera", name: "kwatera", widget: "string", required: false}
+              - {label: "Sektor", name: "sektor", widget: "string", required: false}
+              - {label: "Nazwa obiektu", name: "nazwa_obiektu", widget: "string"}
+              - {label: "Kompletny profil / opis historyczny", name: "kompletny_profil", widget: "text", required: false}
               - {label: "Szerokość geogr. (lat) - do wyswietlenia na mapie", name: "lat", widget: "number", value_type: "float", required: false}
               - {label: "Długość geogr. (lng) - do wyswietlenia na mapie", name: "lng", widget: "number", value_type: "float", required: false}
-              - label: "Lista nazwisk (opcjonalnie, np. mogiła zbiorowa)"
-                name: "names"
+              - label: "Pochowani (lista nazwisk, jeśli znani)"
+                name: "pochowani"
                 widget: "list"
                 field: {label: "Nazwisko", name: "value", widget: "string"}
                 required: false
