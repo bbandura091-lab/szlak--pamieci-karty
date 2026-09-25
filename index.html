@@ -507,13 +507,26 @@ const LocateControl = L.Control.extend({
 
 function initMap(){
   map = L.map('map', {zoomControl:false}).setView([51.38, 22.70], 9);
-  const MAPBOX_TOKEN = 'pk.eyJ1Ijoic3psYWtwYW1pZWNpIiwiYSI6ImNtc2Q2ajQzbTFuYm8yenF5NzlxMm94NmIifQ.onRsmrhonmqffC3GfOnYFg';
-  L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/{z}/{x}/{y}?access_token='+MAPBOX_TOKEN, {
-    tileSize: 512,
-    zoomOffset: -1,
-    maxZoom: 19,
-    attribution: '© Mapbox © OpenStreetMap'
+
+  // --- MAPBOX (docelowe, ale token obecnie nie dziala - "brak mapy" na tescie diagnostycznym) ---
+  // Gdy token zostanie naprawiony w koncie Mapbox (console.mapbox.com/account/access-tokens),
+  // odkomentuj ponizsze 6 linii i zakomentuj/usun blok "FALLBACK: Esri" ponizej.
+  //
+  // const MAPBOX_TOKEN = 'pk.eyJ1Ijoic3psYWtwYW1pZWNpIiwiYSI6ImNtc2Q2ajQzbTFuYm8yenF5NzlxMm94NmIifQ.onRsmrhonmqffC3GfOnYFg';
+  // L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/{z}/{x}/{y}?access_token='+MAPBOX_TOKEN, {
+  //   tileSize: 512, zoomOffset: -1, maxZoom: 19,
+  //   attribution: '© Mapbox © OpenStreetMap'
+  // }).addTo(map);
+
+  // --- FALLBACK: Esri Light Gray Canvas (dziala bez klucza, sprawdzone) ---
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom:16,
+    attribution:'Kafle: Esri, HERE, Garmin, &copy; OpenStreetMap contributors, GIS User Community'
   }).addTo(map);
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom:16
+  }).addTo(map);
+
   L.control.zoom({position:'bottomright'}).addTo(map);
   new LocateControl().addTo(map);
 
