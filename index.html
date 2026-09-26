@@ -190,9 +190,6 @@ footer{text-align:center;padding:26px 18px 40px;color:var(--muted);font-size:12p
   <div class="loader-text">Ładowanie danych szlaku…</div>
 </div>
 <script>
-// Samoleczenie: usuwa wszelkie stare/zombie Service Workery (np. z poprzednich
-// wersji strony), zeby nie serwowaly zcache'owanych, nieaktualnych odpowiedzi
-// (w tym bledow 404 zapisanych zanim dany plik zaczal istniec).
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.getRegistrations().then(function(regs){
     regs.forEach(function(reg){
@@ -322,12 +319,14 @@ if ('serviceWorker' in navigator) {
 let PANTHEON = [], POINTS = [], PLOTS = [], HOLD = [];
 let groups = [], activeGroup = null;
 const pFiltersEl = document.getElementById('pFilters');
+
 function refreshPFilters(){
   Array.prototype.forEach.call(pFiltersEl.children, function(b,i){
     const g = i===0?null:groups[i-1];
     b.setAttribute('aria-pressed', g===activeGroup?'true':'false');
   });
 }
+
 let activePlotSector = null;
 function renderPlots(){
   const sectors = [...new Set(PLOTS.map(function(p){return p.sektor;}).filter(Boolean))];
@@ -367,20 +366,27 @@ function renderPlots(){
   document.getElementById('plotStats').textContent =
     PLOTS.length+' obiektów zmapowanych · '+PLOTS.filter(function(p){return p.kompletny_profil;}).length+' z pełnym profilem';
 }
+
 const ERAS = {
   "POWSTANIE STYCZNIOWE": {label:"1863", hex:"#8B3A32", order:0},
   "WOJNA 1920":            {label:"1920", hex:"#5B6B73", order:1},
   "II WOJNA SWIATOWA":     {label:"1939–45", hex:"#B4903F", order:2},
   "OKRES POWOJENNY":       {label:"Powojenne", hex:"#6B5D74", order:3},
 };
+
 const views=['home','panteon','mapa','nekropolia','hold'];
 let mapInited=false;
+
 function showView(v){
   views.forEach(x=>document.getElementById('view-'+x).classList.toggle('active', x===v));
   document.querySelectorAll('.navlink').forEach(b=>b.classList.toggle('active', b.dataset.view===v));
-  if(v==='mapa'){ if(!mapInited){initMap(); mapInited=true;} setTimeout(()=>map.invalidateSize(),50); }
+  if(v==='mapa'){ 
+    if(!mapInited){initMap(); mapInited=true;} 
+    setTimeout(()=>map.invalidateSize(),50); 
+  }
   window.scrollTo({top:0});
 }
+
 document.querySelectorAll('[data-view]').forEach(el=>el.addEventListener('click',()=>showView(el.dataset.view)));
 
 async function boot(){
@@ -467,7 +473,6 @@ function renderPanteon(){
     c.onclick=function(){ openModal(PANTHEON[c.dataset.idx]); };
   });
 }
-renderPanteon();
 
 function openModal(p){
   document.getElementById('mBadge').textContent=p.group;
@@ -492,14 +497,13 @@ document.getElementById('modal-overlay').addEventListener('click',function(e){if
 
 let map, mapMarkers={}, mapActiveEra=null, clusterGroup=null, userLocMarker=null;
 
-// Prosty przycisk "Lokalizuj mnie" - wlasna kontrolka Leaflet (bez dodatkowej biblioteki)
 const LocateControl = L.Control.extend({
   options: {position:'bottomright'},
   onAdd: function(){
     const btn = L.DomUtil.create('button', 'locate-btn');
     btn.innerHTML = '&#8982;';
-    btn.title = 'Pokaz moja lokalizacje';
-    btn.setAttribute('aria-label','Pokaz moja lokalizacje');
+    btn.title = 'Pokaż moją lokalizację';
+    btn.setAttribute('aria-label','Pokaż moją lokalizację');
     L.DomEvent.disableClickPropagation(btn);
     L.DomEvent.on(btn, 'click', function(){
       btn.classList.add('loading');
@@ -512,17 +516,6 @@ const LocateControl = L.Control.extend({
 function initMap(){
   map = L.map('map', {zoomControl:false}).setView([51.38, 22.70], 9);
 
-  // --- MAPBOX (docelowe, ale token obecnie nie dziala - "brak mapy" na tescie diagnostycznym) ---
-  // Gdy token zostanie naprawiony w koncie Mapbox (console.mapbox.com/account/access-tokens),
-  // odkomentuj ponizsze 6 linii i zakomentuj/usun blok "FALLBACK: Esri" ponizej.
-  //
-  // const MAPBOX_TOKEN = 'pk.eyJ1Ijoic3psYWtwYW1pZWNpIiwiYSI6ImNtc2Q2ajQzbTFuYm8yenF5NzlxMm94NmIifQ.onRsmrhonmqffC3GfOnYFg';
-  // L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/{z}/{x}/{y}?access_token='+MAPBOX_TOKEN, {
-  //   tileSize: 512, zoomOffset: -1, maxZoom: 19,
-  //   attribution: '© Mapbox © OpenStreetMap'
-  // }).addTo(map);
-
-  // --- FALLBACK: Esri Light Gray Canvas (dziala bez klucza, sprawdzone) ---
   L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
     maxZoom:16,
     attribution:'Kafle: Esri, HERE, Garmin, &copy; OpenStreetMap contributors, GIS User Community'
@@ -539,11 +532,11 @@ function initMap(){
     if(userLocMarker) map.removeLayer(userLocMarker);
     userLocMarker = L.circleMarker(e.latlng, {
       radius:8, color:'#fff', weight:2, fillColor:'#2E7CD6', fillOpacity:1
-    }).addTo(map).bindTooltip('Jestes tutaj', {direction:'top', offset:[0,-10]});
+    }).addTo(map).bindTooltip('Jesteś tutaj', {direction:'top', offset:[0,-10]});
   });
   map.on('locationerror', function(){
     document.querySelector('.locate-btn').classList.remove('loading');
-    alert('Nie udalo sie ustalic lokalizacji. Sprawdz uprawnienia lokalizacji w przegladarce.');
+    alert('Nie udało się ustalić lokalizacji. Sprawdź uprawnienia w przeglądarce.');
   });
 
   clusterGroup = L.markerClusterGroup({
@@ -554,7 +547,8 @@ function initMap(){
   });
 
   POINTS.forEach(function(p){
-    const icon = L.divIcon({className:'', html:'<div class="pin" style="background:'+ERAS[p.era].hex+'"></div>', iconSize:[24,24], iconAnchor:[12,24]});
+    const eraInfo = ERAS[p.era] || {hex: '#8A6B26'};
+    const icon = L.divIcon({className:'', html:'<div class="pin" style="background:'+eraInfo.hex+'"></div>', iconSize:[24,24], iconAnchor:[12,24]});
     const m = L.marker([p.lat, p.lng], {icon});
 
     const photoHtml = p.photo
@@ -578,6 +572,7 @@ function initMap(){
     clusterGroup.addLayer(m);
     mapMarkers[p.id]=m;
   });
+
   PLOTS.forEach(function(p){
     if(typeof p.lat!=='number' || typeof p.lng!=='number') return;
     const icon = L.divIcon({className:'', html:'<div class="pin pin-grave"></div>', iconSize:[24,24], iconAnchor:[12,24]});
@@ -604,72 +599,78 @@ function initMap(){
     m.bindTooltip(p.nazwa_obiektu, {direction:'top', offset:[0,-22], className:'pin-tip'});
     clusterGroup.addLayer(m);
   });
+
   map.addLayer(clusterGroup);
 
-  // Delegacja klikniecia w link "Zobacz pelna historie" wewnatrz popupu
   map.on('popupopen', function(e){
     const link = e.popup.getElement().querySelector('.popup-link');
     if(link){
       link.addEventListener('click', function(ev){
         ev.preventDefault();
-        const pid = parseInt(link.getAttribute('data-pid'),10);
-        const p = POINTS.find(function(pt){return pt.id===pid;});
-        if(p){ map.closePopup(); openMapSheet(p); }
+        const pid = link.getAttribute('data-pid');
+        const p = POINTS.find(function(pt){ return String(pt.id) === String(pid); });
+        if(p){ 
+          map.closePopup(); 
+          openMapSheet(p); 
+        }
       });
     }
   });
 
+  renderMapChips();
+}
+
+function renderMapChips(){
   const chipsEl = document.getElementById('mapChips');
-  const allC = document.createElement('button'); allC.className='filterchip'; allC.textContent='Wszystkie'; allC.setAttribute('aria-pressed','true');
-  allC.onclick=function(){mapActiveEra=null; refreshMapChips(); applyMapFilter();};
-  chipsEl.appendChild(allC);
-  Object.keys(ERAS).sort(function(a,b){return ERAS[a].order-ERAS[b].order;}).forEach(function(era){
-    const c=document.createElement('button'); c.className='filterchip'; c.setAttribute('aria-pressed','false');
-    c.innerHTML='<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:'+ERAS[era].hex+';margin-right:5px;"></span>'+ERAS[era].label;
-    c.onclick=function(){mapActiveEra=era; refreshMapChips(); applyMapFilter();};
-    chipsEl.appendChild(c);
+  if(!chipsEl) return;
+  chipsEl.innerHTML = '';
+  
+  const allBtn = document.createElement('button');
+  allBtn.className = 'filterchip';
+  allBtn.textContent = 'Wszystkie';
+  allBtn.setAttribute('aria-pressed', mapActiveEra === null ? 'true' : 'false');
+  allBtn.onclick = function(){ mapActiveEra = null; filterMapPoints(); };
+  chipsEl.appendChild(allBtn);
+
+  Object.keys(ERAS).sort(function(a,b){ return ERAS[a].order - ERAS[b].order; }).forEach(function(key){
+    const b = document.createElement('button');
+    b.className = 'filterchip';
+    b.innerHTML = '<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:'+ERAS[key].hex+';margin-right:5px;"></span>'+ERAS[key].label;
+    b.setAttribute('aria-pressed', mapActiveEra === key ? 'true' : 'false');
+    b.onclick = function(){ mapActiveEra = key; filterMapPoints(); };
+    chipsEl.appendChild(b);
   });
 }
-function refreshMapChips(){
-  const chipsEl = document.getElementById('mapChips');
-  const keys = Object.keys(ERAS).sort(function(a,b){return ERAS[a].order-ERAS[b].order;});
-  Array.prototype.forEach.call(chipsEl.children, function(c,i){
-    const era = i===0?null:keys[i-1];
-    c.setAttribute('aria-pressed', era===mapActiveEra?'true':'false');
-  });
-}
-function applyMapFilter(){
+
+function filterMapPoints(){
+  renderMapChips();
+  clusterGroup.clearLayers();
   POINTS.forEach(function(p){
-    const show = !mapActiveEra || p.era===mapActiveEra;
-    const m = mapMarkers[p.id];
-    const has = clusterGroup.hasLayer(m);
-    if(show && !has) clusterGroup.addLayer(m);
-    if(!show && has) clusterGroup.removeLayer(m);
+    if(!mapActiveEra || p.era === mapActiveEra){
+      if(mapMarkers[p.id]) clusterGroup.addLayer(mapMarkers[p.id]);
+    }
   });
 }
+
 function openMapSheet(p){
-  document.getElementById('msTitle').textContent = p.id+'. '+p.name;
-  document.getElementById('msType').textContent = p.type;
-  document.getElementById('msAddr').textContent = p.addr;
-  document.getElementById('msDescWrap').innerHTML = p.desc? '<div class="desc">'+p.desc+'</div>':'';
+  document.getElementById('msTitle').textContent = p.name;
+  document.getElementById('msType').textContent = p.era ? (ERAS[p.era]?.label || p.era) : (p.type || '');
+  document.getElementById('msAddr').textContent = p.address || p.addr || '';
+  document.getElementById('msDescWrap').innerHTML = p.desc ? '<div class="desc">'+p.desc+'</div>' : '';
   document.getElementById('mapSheet').classList.add('open');
 }
-document.getElementById('mapSheetClose').onclick=function(){document.getElementById('mapSheet').classList.remove('open');};
 
+document.getElementById('mapSheetClose').onclick = function(){
+  document.getElementById('mapSheet').classList.remove('open');
+};
 
-
-
-// ============================================================
-// REJESTRACJA SERVICE WORKERA — dzialanie offline
-// ============================================================
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js').catch((err) => {
-      console.warn('Service Worker nie zostal zarejestrowany:', err);
+      console.warn('Service Worker nie został zarejestrowany:', err);
     });
   });
 }
-
 </script>
 </body>
 </html>
